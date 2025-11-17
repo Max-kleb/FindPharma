@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='une_cle_secrete_par_defaut_moins_securisee')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'core',
     'pharmacies',
+    'medicines',
     'users',
+    'stocks',
     'django_filters',
     'drf_spectacular',
     'leaflet',
@@ -89,8 +91,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',  # ← Changez ceci
         'NAME': config('DATABASE_NAME', default='findpharma'),
-        'USER': config('DATABASE_USER', default='postgres'),
-        'PASSWORD': config('DATABASE_PASSWORD', default='password'),
+        'USER': config('DATABASE_USER', default='findpharmauser'),
+        'PASSWORD': config('DATABASE_PASSWORD', default='root'),
         'HOST': config('DATABASE_HOST', default='localhost'),
         'PORT': config('DATABASE_PORT', default='5432'),
     }

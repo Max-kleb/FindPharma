@@ -1,0 +1,323 @@
+{
+  "pharmacies": [
+    {
+      "name": "Pharmacie Centrale de Yaoundé",
+      "address": "Avenue Kennedy, Centre-ville",
+      "phone": "+237 222 23 45 67",
+      "email": "centrale@pharmacm.com",
+      "latitude": 3.8480,
+      "longitude": 11.5021,
+      "opening_hours": {
+        "lundi": "07:00-20:00",
+        "mardi": "07:00-20:00",
+        "mercredi": "07:00-20:00",
+        "jeudi": "07:00-20:00",
+        "vendredi": "07:00-20:00",
+        "samedi": "08:00-18:00",
+        "dimanche": "09:00-14:00"
+      },
+      "is_active": true
+    },
+    {
+      "name": "Pharmacie du Marché Central",
+      "address": "Marché Central, Quartier du Centre",
+      "phone": "+237 222 34 56 78",
+      "email": "marche@pharmacm.com",
+      "latitude": 3.8650,
+      "longitude": 11.5180,
+      "opening_hours": {
+        "lundi": "06:30-21:00",
+        "mardi": "06:30-21:00",
+        "mercredi": "06:30-21:00",
+        "jeudi": "06:30-21:00",
+        "vendredi": "06:30-21:00",
+        "samedi": "06:30-21:00",
+        "dimanche": "08:00-18:00"
+      },
+      "is_active": true
+    },
+    {
+      "name": "Pharmacie de la Gare",
+      "address": "Quartier de la Gare Routière",
+      "phone": "+237 222 45 67 89",
+      "email": "gare@pharmacm.com",
+      "latitude": 3.8520,
+      "longitude": 11.5100,
+      "opening_hours": {
+        "tous_les_jours": "24h/24"
+      },
+      "is_active": true
+    },
+    {
+      "name": "Pharmacie Mvog-Ada",
+      "address": "Carrefour Mvog-Ada",
+      "phone": "+237 222 56 78 90",
+      "email": "mvogada@pharmacm.com",
+      "latitude": 3.8380,
+      "longitude": 11.5220,
+      "opening_hours": {
+        "lundi": "08:00-19:00",
+        "mardi": "08:00-19:00",
+        "mercredi": "08:00-19:00",
+        "jeudi": "08:00-19:00",
+        "vendredi": "08:00-19:00",
+        "samedi": "09:00-17:00",
+        "dimanche": "Fermé"
+      },
+      "is_active": true
+    },
+    {
+      "name": "Pharmacie Bastos",
+      "address": "Quartier Bastos, près de l'Ambassade",
+      "phone": "+237 222 67 89 01",
+      "email": "bastos@pharmacm.com",
+      "latitude": 3.8760,
+      "longitude": 11.5050,
+      "opening_hours": {
+        "lundi": "08:00-20:00",
+        "mardi": "08:00-20:00",
+        "mercredi": "08:00-20:00",
+        "jeudi": "08:00-20:00",
+        "vendredi": "08:00-20:00",
+        "samedi": "09:00-18:00",
+        "dimanche": "10:00-16:00"
+      },
+      "is_active": true
+    },
+    {
+      "name": "Pharmacie Essos",
+      "address": "Carrefour Essos",
+      "phone": "+237 222 78 90 12",
+      "email": "essos@pharmacm.com",
+      "latitude": 3.8590,
+      "longitude": 11.5310,
+      "opening_hours": {
+        "lundi": "07:30-20:30",
+        "mardi": "07:30-20:30",
+        "mercredi": "07:30-20:30",
+        "jeudi": "07:30-20:30",
+        "vendredi": "07:30-20:30",
+        "samedi": "08:00-19:00",
+        "dimanche": "09:00-15:00"
+      },
+      "is_active": true
+    },
+    {
+      "name": "Pharmacie Nlongkak",
+      "address": "Quartier Nlongkak",
+      "phone": "+237 222 89 01 23",
+      "email": "nlongkak@pharmacm.com",
+      "latitude": 3.8420,
+      "longitude": 11.4980,
+      "opening_hours": {
+        "lundi": "08:00-19:00",
+        "mardi": "08:00-19:00",
+        "mercredi": "08:00-19:00",
+        "jeudi": "08:00-19:00",
+        "vendredi": "08:00-19:00",
+        "samedi": "09:00-17:00",
+        "dimanche": "Fermé"
+      },
+      "is_active": true
+    },
+    {
+      "name": "Pharmacie Mimboman",
+      "address": "Carrefour Mimboman",
+      "phone": "+237 222 90 12 34",
+      "email": "mimboman@pharmacm.com",
+      "latitude": 3.8280,
+      "longitude": 11.5450,
+      "opening_hours": {
+        "lundi": "07:00-20:00",
+        "mardi": "07:00-20:00",
+        "mercredi": "07:00-20:00",
+        "jeudi": "07:00-20:00",
+        "vendredi": "07:00-20:00",
+        "samedi": "08:00-18:00",
+        "dimanche": "09:00-14:00"
+      },
+      "is_active": true
+    }
+  ],
+  "medicaments": [
+    {
+      "name": "Doliprane",
+      "description": "Antalgique et antipyrétique. Traitement symptomatique de la douleur et de la fièvre.",
+      "dosage": "1000mg",
+      "form": "Comprimé",
+      "average_price": 2500,
+      "requires_prescription": false
+    },
+    {
+      "name": "Paracétamol",
+      "description": "Antalgique et antipyrétique à usage courant.",
+      "dosage": "500mg",
+      "form": "Comprimé",
+      "average_price": 1500,
+      "requires_prescription": false
+    },
+    {
+      "name": "Amoxicilline",
+      "description": "Antibiotique de la famille des pénicillines.",
+      "dosage": "500mg",
+      "form": "Gélule",
+      "average_price": 5000,
+      "requires_prescription": true
+    },
+    {
+      "name": "Ibuprofène",
+      "description": "Anti-inflammatoire non stéroïdien (AINS).",
+      "dosage": "400mg",
+      "form": "Comprimé",
+      "average_price": 3000,
+      "requires_prescription": false
+    },
+    {
+      "name": "Aspirine",
+      "description": "Antalgique, antipyrétique et anti-inflammatoire.",
+      "dosage": "500mg",
+      "form": "Comprimé effervescent",
+      "average_price": 1800,
+      "requires_prescription": false
+    },
+    {
+      "name": "Augmentin",
+      "description": "Antibiotique - Association amoxicilline et acide clavulanique.",
+      "dosage": "1g",
+      "form": "Comprimé",
+      "average_price": 8500,
+      "requires_prescription": true
+    },
+    {
+      "name": "Cetirizine",
+      "description": "Antihistaminique pour les allergies.",
+      "dosage": "10mg",
+      "form": "Comprimé",
+      "average_price": 2200,
+      "requires_prescription": false
+    },
+    {
+      "name": "Oméprazole",
+      "description": "Inhibiteur de la pompe à protons. Traitement de l'ulcère gastrique.",
+      "dosage": "20mg",
+      "form": "Gélule",
+      "average_price": 3500,
+      "requires_prescription": false
+    },
+    {
+      "name": "Metronidazole",
+      "description": "Antibiotique et antiparasitaire.",
+      "dosage": "500mg",
+      "form": "Comprimé",
+      "average_price": 2800,
+      "requires_prescription": true
+    },
+    {
+      "name": "Ciprofloxacine",
+      "description": "Antibiotique de la famille des fluoroquinolones.",
+      "dosage": "500mg",
+      "form": "Comprimé",
+      "average_price": 4500,
+      "requires_prescription": true
+    },
+    {
+      "name": "Ventoline",
+      "description": "Bronchodilatateur pour l'asthme.",
+      "dosage": "100mcg",
+      "form": "Inhalateur",
+      "average_price": 6500,
+      "requires_prescription": false
+    },
+    {
+      "name": "Hydrocortisone",
+      "description": "Corticoïde à usage topique.",
+      "dosage": "1%",
+      "form": "Crème",
+      "average_price": 3200,
+      "requires_prescription": false
+    },
+    {
+      "name": "Artesunate",
+      "description": "Antipaludique injectable d'urgence.",
+      "dosage": "60mg",
+      "form": "Injectable",
+      "average_price": 12000,
+      "requires_prescription": true
+    },
+    {
+      "name": "Coartem",
+      "description": "Antipaludique - Combinaison artéméther-luméfantrine.",
+      "dosage": "20/120mg",
+      "form": "Comprimé",
+      "average_price": 8000,
+      "requires_prescription": false
+    },
+    {
+      "name": "Vitamine C",
+      "description": "Supplément vitaminique.",
+      "dosage": "1000mg",
+      "form": "Comprimé effervescent",
+      "average_price": 2000,
+      "requires_prescription": false
+    }
+  ],
+  "stocks": [
+    {"pharmacy_index": 0, "medicament_index": 0, "quantity": 150, "price": 2500},
+    {"pharmacy_index": 0, "medicament_index": 1, "quantity": 200, "price": 1500},
+    {"pharmacy_index": 0, "medicament_index": 2, "quantity": 60, "price": 5000},
+    {"pharmacy_index": 0, "medicament_index": 3, "quantity": 120, "price": 3000},
+    {"pharmacy_index": 0, "medicament_index": 7, "quantity": 45, "price": 3500},
+    {"pharmacy_index": 0, "medicament_index": 10, "quantity": 30, "price": 6500},
+    {"pharmacy_index": 0, "medicament_index": 14, "quantity": 180, "price": 2000},
+    
+    {"pharmacy_index": 1, "medicament_index": 0, "quantity": 80, "price": 2600},
+    {"pharmacy_index": 1, "medicament_index": 2, "quantity": 45, "price": 4800},
+    {"pharmacy_index": 1, "medicament_index": 3, "quantity": 100, "price": 3000},
+    {"pharmacy_index": 1, "medicament_index": 4, "quantity": 90, "price": 1800},
+    {"pharmacy_index": 1, "medicament_index": 6, "quantity": 70, "price": 2200},
+    {"pharmacy_index": 1, "medicament_index": 8, "quantity": 55, "price": 2800},
+    {"pharmacy_index": 1, "medicament_index": 13, "quantity": 40, "price": 8000},
+    
+    {"pharmacy_index": 2, "medicament_index": 0, "quantity": 120, "price": 2450},
+    {"pharmacy_index": 2, "medicament_index": 1, "quantity": 90, "price": 1450},
+    {"pharmacy_index": 2, "medicament_index": 5, "quantity": 35, "price": 8500},
+    {"pharmacy_index": 2, "medicament_index": 9, "quantity": 50, "price": 4500},
+    {"pharmacy_index": 2, "medicament_index": 11, "quantity": 65, "price": 3200},
+    {"pharmacy_index": 2, "medicament_index": 12, "quantity": 25, "price": 12000},
+    
+    {"pharmacy_index": 3, "medicament_index": 0, "quantity": 95, "price": 2550},
+    {"pharmacy_index": 3, "medicament_index": 1, "quantity": 110, "price": 1480},
+    {"pharmacy_index": 3, "medicament_index": 3, "quantity": 85, "price": 2950},
+    {"pharmacy_index": 3, "medicament_index": 4, "quantity": 75, "price": 1850},
+    {"pharmacy_index": 3, "medicament_index": 7, "quantity": 50, "price": 3450},
+    {"pharmacy_index": 3, "medicament_index": 14, "quantity": 140, "price": 1950},
+    
+    {"pharmacy_index": 4, "medicament_index": 0, "quantity": 160, "price": 2700},
+    {"pharmacy_index": 4, "medicament_index": 2, "quantity": 70, "price": 5200},
+    {"pharmacy_index": 4, "medicament_index": 5, "quantity": 40, "price": 8800},
+    {"pharmacy_index": 4, "medicament_index": 6, "quantity": 80, "price": 2300},
+    {"pharmacy_index": 4, "medicament_index": 10, "quantity": 35, "price": 6800},
+    {"pharmacy_index": 4, "medicament_index": 11, "quantity": 55, "price": 3300},
+    
+    {"pharmacy_index": 5, "medicament_index": 0, "quantity": 105, "price": 2480},
+    {"pharmacy_index": 5, "medicament_index": 1, "quantity": 130, "price": 1520},
+    {"pharmacy_index": 5, "medicament_index": 3, "quantity": 95, "price": 3100},
+    {"pharmacy_index": 5, "medicament_index": 8, "quantity": 60, "price": 2750},
+    {"pharmacy_index": 5, "medicament_index": 9, "quantity": 45, "price": 4600},
+    {"pharmacy_index": 5, "medicament_index": 13, "quantity": 50, "price": 7800},
+    
+    {"pharmacy_index": 6, "medicament_index": 0, "quantity": 140, "price": 2520},
+    {"pharmacy_index": 6, "medicament_index": 1, "quantity": 170, "price": 1490},
+    {"pharmacy_index": 6, "medicament_index": 4, "quantity": 100, "price": 1780},
+    {"pharmacy_index": 6, "medicament_index": 6, "quantity": 85, "price": 2150},
+    {"pharmacy_index": 6, "medicament_index": 7, "quantity": 60, "price": 3550},
+    {"pharmacy_index": 6, "medicament_index": 14, "quantity": 160, "price": 2050},
+    
+    {"pharmacy_index": 7, "medicament_index": 0, "quantity": 115, "price": 2580},
+    {"pharmacy_index": 7, "medicament_index": 2, "quantity": 55, "price": 4900},
+    {"pharmacy_index": 7, "medicament_index": 3, "quantity": 110, "price": 3050},
+    {"pharmacy_index": 7, "medicament_index": 8, "quantity": 65, "price": 2850},
+    {"pharmacy_index": 7, "medicament_index": 12, "quantity": 20, "price": 11800},
+    {"pharmacy_index": 7, "medicament_index": 13, "quantity": 45, "price": 8200}
+  ]
+}
