@@ -1,12 +1,12 @@
-# 🏥 FindPharma - Plateforme de Localisation de Médicaments# 🏥 FindPharma - API de Gestion des Pharmacies# FindPharma - Backend
+# 🏥 FindPharma# 🏥 FindPharma - Plateforme de Localisation de Médicaments# 🏥 FindPharma - API de Gestion des Pharmacies# FindPharma - Backend
 
 
 
-**Système de géolocalisation de pharmacies et recherche de médicaments en temps réel**
+**Plateforme de Localisation de Pharmacies et Recherche de Médicaments au Cameroun**
 
 
 
-[![Django](https://img.shields.io/badge/Django-5.2.7-green)](https://www.djangoproject.com/)## 📋 DescriptionApplication web permettant de trouver rapidement une pharmacie proche disposant d'un médicament recherché.
+[![Django](https://img.shields.io/badge/Django-5.2.7-green)](https://www.djangoproject.com/)**Système de géolocalisation de pharmacies et recherche de médicaments en temps réel**
 
 [![React](https://img.shields.io/badge/React-19.2.0-blue)](https://react.dev/)
 
@@ -14,401 +14,813 @@
 
 [![PostGIS](https://img.shields.io/badge/PostGIS-3.4-orange)](https://postgis.net/)
 
-FindPharma est une plateforme API REST complète permettant de gérer un réseau de pharmacies au Cameroun. Le système offre des fonctionnalités de recherche de médicaments, localisation de pharmacies, gestion des stocks et interface d'administration pour les pharmacies.## Technologies
+[![Django](https://img.shields.io/badge/Django-5.2.7-green)](https://www.djangoproject.com/)## 📋 DescriptionApplication web permettant de trouver rapidement une pharmacie proche disposant d'un médicament recherché.
 
 ---
 
+[![React](https://img.shields.io/badge/React-19.2.0-blue)](https://react.dev/)
 
+## 📋 Description
+
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)](https://www.postgresql.org/)
+
+FindPharma est une application web complète permettant aux utilisateurs de:
+
+- 🔍 **Rechercher des médicaments** et trouver les pharmacies qui les ont en stock[![PostGIS](https://img.shields.io/badge/PostGIS-3.4-orange)](https://postgis.net/)
+
+- 📍 **Localiser les pharmacies proches** avec géolocalisation et rayon personnalisable (1-20 km)
+
+- 💊 **Consulter les prix et disponibilités** en temps réelFindPharma est une plateforme API REST complète permettant de gérer un réseau de pharmacies au Cameroun. Le système offre des fonctionnalités de recherche de médicaments, localisation de pharmacies, gestion des stocks et interface d'administration pour les pharmacies.## Technologies
+
+- 🗺️ **Visualiser sur une carte interactive** avec marqueurs colorés
+
+---
+
+Application développée pour le Cameroun avec un réseau de pharmacies à Yaoundé et environs.
+
+
+
+---
 
 ## 📁 Structure du Projet
 
+## ✨ Fonctionnalités
+
 ## 🚀 Fonctionnalités- **Backend** : Django REST Framework
 
-```
+### ✅ User Story 1 : Géolocalisation des Pharmacies
 
-FindPharma/- **Base de données** : PostgreSQL
+- Localisation automatique de l'utilisateur (GPS)```
 
-├── backend/                    # 🐍 Backend Django REST Framework
+- Recherche de pharmacies dans un rayon configurable (1-20 km)
+
+- Affichage sur carte interactive LeafletFindPharma/- **Base de données** : PostgreSQL
+
+- Calcul de distance précis avec PostGIS
+
+- Tri automatique par proximité├── backend/                    # 🐍 Backend Django REST Framework
+
+- Affichage des adresses et téléphones
 
 │   ├── manage.py              # Script principal Django### User Story 1 : Recherche de Médicaments- **Documentation API** : Swagger (drf-spectacular)
 
-│   ├── FindPharma/            # Configuration projet
+### ✅ User Story 2 : Recherche de Médicaments
 
-│   ├── core/                  # App core (models, utils)- ✅ Recherche de médicaments par nom- **Cartographie** : Leaflet (pour l'admin)
+- Recherche par nom de médicament│   ├── FindPharma/            # Configuration projet
 
-│   ├── pharmacies/            # Gestion pharmacies
+- Affichage des pharmacies disposant du médicament
+
+- Informations détaillées : prix (XAF), stock, dosage, forme│   ├── core/                  # App core (models, utils)- ✅ Recherche de médicaments par nom- **Cartographie** : Leaflet (pour l'admin)
+
+- Indicateur de stock visuel (En Stock / Stock Limité / Épuisé)
+
+- Localisation des pharmacies sur carte│   ├── pharmacies/            # Gestion pharmacies
+
+- Marqueurs colorés (vert pour pharmacies, bleu pour utilisateur)
 
 │   ├── medicines/             # Gestion médicaments- ✅ Filtrage par disponibilité
 
-│   ├── stocks/                # Gestion stocks (User Story 3)
+### ✅ User Story 3 : Gestion des Stocks (Backend)
 
-│   ├── users/                 # Authentification custom- ✅ Recherche dans les descriptions et dosages## User Stories Complétées
+- Interface d'administration pour pharmacies│   ├── stocks/                # Gestion stocks (User Story 3)
 
-│   └── requirements.txt       # Dépendances Python
+- CRUD complet pour gérer les stocks
 
-│- ✅ Affichage des pharmacies disposant du médicament
+- Dashboard avec statistiques en temps réel│   ├── users/                 # Authentification custom- ✅ Recherche dans les descriptions et dosages## User Stories Complétées
 
-├── frontend/                   # ⚛️ Frontend React
+- Authentification sécurisée par token
 
-│   ├── src/                   # Code source React### ✅ User Story 1 : Géolocalisation des pharmacies
+- Permissions et contrôle d'accès│   └── requirements.txt       # Dépendances Python
 
-│   │   ├── App.js            # Composant principal
 
-│   │   ├── SearchSection.js  # Interface recherche### User Story 2 : Localisation des Pharmacies- Localisation des pharmacies
 
-│   │   ├── ResultsDisplay.js # Affichage carte/résultats
+### 🎨 Interface Utilisateur│- ✅ Affichage des pharmacies disposant du médicament
 
-│   │   └── services/         # API calls (à créer)- ✅ Recherche de pharmacies à proximité (rayon configurable)- Recherche par proximité (rayon en km)
+- **Thème médical** complet (couleurs vertes, icône croix médicale)
 
-│   ├── public/               # Assets statiques
+- **Responsive** (mobile, tablette, desktop)├── frontend/                   # ⚛️ Frontend React
 
-│   └── package.json          # Dépendances Node- ✅ Intégration PostGIS pour calculs géospatiaux- Calcul de distance avec formule Haversine
+- **Animations** et effets hover
 
-│
+- **Design moderne** avec gradients et ombres│   ├── src/                   # Code source React### ✅ User Story 1 : Géolocalisation des pharmacies
 
-├── docs/                       # 📚 Documentation- ✅ Filtrage par statut (ouvert/fermé)- API REST complète
 
-│   ├── API_TESTING_GUIDE.md           # Guide tests API
+
+---│   │   ├── App.js            # Composant principal
+
+
+
+## 🛠️ Technologies│   │   ├── SearchSection.js  # Interface recherche### User Story 2 : Localisation des Pharmacies- Localisation des pharmacies
+
+
+
+### Backend│   │   ├── ResultsDisplay.js # Affichage carte/résultats
+
+- **Django 5.2.7** - Framework web Python
+
+- **Django REST Framework 3.16.1** - API REST│   │   └── services/         # API calls (à créer)- ✅ Recherche de pharmacies à proximité (rayon configurable)- Recherche par proximité (rayon en km)
+
+- **PostgreSQL 16 + PostGIS 3.4** - Base de données géospatiale
+
+- **django-cors-headers 4.9.0** - CORS pour communication frontend│   ├── public/               # Assets statiques
+
+- **Token Authentication** - Authentification sécurisée
+
+- **drf-spectacular** - Documentation API (Swagger/ReDoc)│   └── package.json          # Dépendances Node- ✅ Intégration PostGIS pour calculs géospatiaux- Calcul de distance avec formule Haversine
+
+
+
+### Frontend│
+
+- **React 19.2.0** - Framework JavaScript UI
+
+- **React Leaflet** - Cartographie interactive├── docs/                       # 📚 Documentation- ✅ Filtrage par statut (ouvert/fermé)- API REST complète
+
+- **Leaflet 1.9.4** - Bibliothèque de cartes
+
+- **Font Awesome 6.0** - Icônes médicales│   ├── API_TESTING_GUIDE.md           # Guide tests API
+
+- **CSS3** - Thème médical personnalisé avec gradients
 
 │   ├── TEST_REPORT.md                 # Rapports de tests- ✅ Tri par distance
 
-│   ├── FRONTEND_ANALYSIS.md           # Analyse frontend
+### Base de Données
+
+- **PostgreSQL 16** - Base de données relationnelle│   ├── FRONTEND_ANALYSIS.md           # Analyse frontend
+
+- **PostGIS 3.4** - Extension géospatiale pour calculs de distance
 
 │   ├── FRONTEND_INTEGRATION_GUIDE.md  # Guide intégration## Installation
 
-│   └── DOCUMENTATION_INDEX.md         # Index documentation
+### Outils
 
-│### User Story 3 : Gestion des Stocks (Backend)
+- **Git & GitHub** - Contrôle de version│   └── DOCUMENTATION_INDEX.md         # Index documentation
+
+- **npm** - Gestionnaire de paquets JavaScript
+
+- **pip** - Gestionnaire de paquets Python│### User Story 3 : Gestion des Stocks (Backend)
+
+- **Postman** - Tests API
 
 ├── scripts/                    # 🔧 Scripts utilitaires
 
+---
+
 │   ├── migrate_complete.sh    # Migration complète DB- ✅ Authentification par token### Prérequis
+
+## 📁 Structure du Projet
 
 │   ├── start_server.sh        # Démarrage serveur Django
 
-│   ├── populate_postgres.sh   # Peuplement DB- ✅ Modèle utilisateur personnalisé (admin/pharmacy/customer)- Python 3.11+
-
-│   └── test_auth.sh          # Tests authentification
-
-│- ✅ CRUD complet pour la gestion des stocks- PostgreSQL 14+
-
-├── environments/               # 🌍 Environnements virtuels
-
-│   ├── venv_system/          # Python venv principal- ✅ Interface d'administration pharmacie- PostGIS extension
-
-│   └── env/                  # Env alternatif
-
-│  - Dashboard avec statistiques en temps réel
-
-├── .gitignore                  # Fichiers ignorés Git
-
-└── README.md                   # Ce fichier  - Gestion du profil pharmacie### Installation
-
 ```
 
-  - Statistiques de stock détaillées
+FindPharma/│   ├── populate_postgres.sh   # Peuplement DB- ✅ Modèle utilisateur personnalisé (admin/pharmacy/customer)- Python 3.11+
 
----
+├── FindPharma/              # 🐍 Backend Django
 
-  - Historique des modifications1. **Cloner le repository**
+│   ├── manage.py           # Script principal Django│   └── test_auth.sh          # Tests authentification
 
-## 🚀 Démarrage Rapide
+│   ├── FindPharma/         # Configuration projet
 
-- ✅ Permissions et sécurité (une pharmacie ne peut gérer que ses propres stocks)```bash
+│   │   ├── settings.py    # Configuration (CORS, DB, etc.)│- ✅ CRUD complet pour la gestion des stocks- PostgreSQL 14+
 
-### Prérequis
+│   │   ├── urls.py        # Routes principales
 
-git clone <url-du-repo>
+│   │   └── wsgi.py        # Déploiement├── environments/               # 🌍 Environnements virtuels
 
-- **Python** 3.13+
+│   ├── core/               # App core (utils, permissions)
 
-- **Node.js** 18+ et npm## 🛠️ Technologies Utiliséescd FindPharma
+│   ├── pharmacies/         # Gestion pharmacies│   ├── venv_system/          # Python venv principal- ✅ Interface d'administration pharmacie- PostGIS extension
 
-- **PostgreSQL** 16+ avec **PostGIS** 3.4+
+│   │   ├── models.py      # Modèle Pharmacy
 
-- **Git**```
+│   │   ├── views.py       # Vue nearby│   └── env/                  # Env alternatif
 
+│   │   └── serializers.py
 
+│   ├── medicines/          # Gestion médicaments│  - Dashboard avec statistiques en temps réel
 
-### Installation Complète### Backend
+│   │   ├── models.py      # Modèle Medicine
 
+│   │   └── serializers.py├── .gitignore                  # Fichiers ignorés Git
 
+│   ├── stocks/             # Gestion stocks
 
-#### 1. Cloner le Repository- **Django 5.2.7** - Framework web Python2. **Créer un environnement virtuel**
+│   │   ├── models.py      # Modèle Stock└── README.md                   # Ce fichier  - Gestion du profil pharmacie### Installation
 
+│   │   └── views.py       # Dashboard
 
+│   ├── users/              # Authentification```
 
-```bash- **Django REST Framework 3.16.1** - API REST```bash
+│   │   └── models.py      # Utilisateur personnalisé
+
+│   └── requirements.txt    # Dépendances Python  - Statistiques de stock détaillées
+
+│
+
+├── frontend/               # ⚛️ Frontend React---
+
+│   ├── src/
+
+│   │   ├── App.js         # Composant principal  - Historique des modifications1. **Cloner le repository**
+
+│   │   ├── App.css        # Thème médical
+
+│   │   ├── Header.js      # En-tête avec logo## 🚀 Démarrage Rapide
+
+│   │   ├── Header.css     # Styles header
+
+│   │   ├── SearchSection.js    # Recherche + géolocalisation- ✅ Permissions et sécurité (une pharmacie ne peut gérer que ses propres stocks)```bash
+
+│   │   ├── ResultsDisplay.js   # Carte Leaflet
+
+│   │   ├── PharmaciesList.js   # Liste résultats### Prérequis
+
+│   │   └── services/
+
+│   │       └── api.js     # Service API centraliségit clone <url-du-repo>
+
+│   ├── public/
+
+│   │   └── index.html     # Template HTML- **Python** 3.13+
+
+│   ├── package.json        # Dépendances Node
+
+│   └── .env               # Variables d'environnement- **Node.js** 18+ et npm## 🛠️ Technologies Utiliséescd FindPharma
+
+│
+
+├── docs/                   # 📚 Documentation- **PostgreSQL** 16+ avec **PostGIS** 3.4+
+
+│   ├── GUIDE_TEST_INTEGRATION.md
+
+│   ├── INTEGRATION_API_REPORT.md- **Git**```
+
+│   └── DOCUMENTATION_INDEX.md
+
+│
+
+├── scripts/                # 🔧 Scripts utilitaires
+
+│   ├── populate_pharmacies.py### Installation Complète### Backend
+
+│   └── init_db.py
+
+│
+
+├── venv/                   # 🌍 Environnement virtuel Python
+
+│#### 1. Cloner le Repository- **Django 5.2.7** - Framework web Python2. **Créer un environnement virtuel**
+
+├── INSTALLATION.md         # 📦 Guide d'installation COMPLET
+
+├── TESTING_GUIDE.md        # 🧪 Guide de test COMPLET
+
+├── README.md              # Ce fichier
+
+└── requirements.txt        # Dépendances Python```bash- **Django REST Framework 3.16.1** - API REST```bash
+
+```
 
 git clone https://github.com/Max-kleb/FindPharma.git
 
+---
+
 cd FindPharma- **PostgreSQL + PostGIS** - Base de données avec support géospatialpython -m venv venv
 
+## 🚀 Installation
+
 ```
+
+> **📚 Pour une installation détaillée étape par étape, consultez [INSTALLATION.md](INSTALLATION.md)**
 
 - **Token Authentication** - Système d'authentification sécurisésource venv/bin/activate  # Linux/Mac
 
-#### 2. Configuration Backend
+### Prérequis
 
-- **drf-spectacular** - Documentation API automatique (Swagger/ReDoc)# ou
+- Python 3.11+ (recommandé: 3.13)#### 2. Configuration Backend
+
+- Node.js 18+ et npm
+
+- PostgreSQL 16+ avec PostGIS 3.4+- **drf-spectacular** - Documentation API automatique (Swagger/ReDoc)# ou
+
+- Git
 
 ```bash
+
+### Installation Rapide
 
 # Activer l'environnement virtuelvenv\Scripts\activate  # Windows
 
-source environments/venv_system/bin/activate
+#### 1. Cloner le Repository
 
-### Outils```
+```bashsource environments/venv_system/bin/activate
 
-# Installer les dépendances
+git clone https://github.com/Max-kleb/FindPharma.git
 
-cd backend- **Python 3.13** - Langage de programmation
+cd FindPharma### Outils```
 
-pip install -r requirements.txt
+git checkout restructure-project  # Branche de développement
 
-- **psycopg2** - Adaptateur PostgreSQL3. **Installer les dépendances**
+```# Installer les dépendances
+
+
+
+#### 2. Backend Django (Terminal 1)cd backend- **Python 3.13** - Langage de programmation
+
+```bash
+
+# Créer environnement virtuelpip install -r requirements.txt
+
+python -m venv venv
+
+source venv/bin/activate  # Linux/macOS- **psycopg2** - Adaptateur PostgreSQL3. **Installer les dépendances**
+
+# ou venv\Scripts\activate  # Windows
 
 # Configurer la base de données
 
-cd ../scripts- **python-decouple** - Gestion de la configuration```bash
+# Installer dépendances
 
-chmod +x migrate_complete.sh
+pip install -r requirements.txtcd ../scripts- **python-decouple** - Gestion de la configuration```bash
 
-./migrate_complete.shpip install -r requirements.txt
 
 
-
-# Revenir au backend et démarrer le serveur## 📦 Installation```
-
-cd ../backend
-
-python manage.py runserver
-
-```
-
-### Prérequis4. **Configurer PostgreSQL**
-
-Le backend sera accessible sur : **http://127.0.0.1:8000/**
-
-- Python 3.13+```bash
-
-#### 3. Configuration Frontend
-
-- PostgreSQL 12+ avec extension PostGISsudo -u postgres psql
-
-```bash
-
-# Dans un nouveau terminal- GDAL/GEOS (pour les fonctionnalités géospatiales)CREATE DATABASE findpharma;
-
-cd frontend
-
-\c findpharma
-
-# Installer les dépendances
-
-npm install### Étapes d'installationCREATE EXTENSION postgis;
-
-
-
-# Démarrer le serveur de développement\q
-
-npm start
-
-```1. **Cloner le repository**```
-
-
-
-Le frontend sera accessible sur : **http://localhost:3000/**```bash
-
-
-
----git clone https://github.com/Max-kleb/FindPharma.git5. **Configurer les variables d'environnement**
-
-
-
-## 📖 User Stories Implémentéescd FindPharma```bash
-
-
-
-### ✅ User Story 1 : Pharmacies à Proximité```cp .env.example .env
-
-
-
-**En tant qu'utilisateur**, je veux voir les pharmacies proches de ma position.# Modifiez .env avec vos paramètres
-
-
-
-**Endpoints** :2. **Créer et activer l'environnement virtuel**```
-
-- `GET /api/nearby/?lat={lat}&lon={lon}&radius={radius}`
-
-```bash
-
-**Status** : Implémentée (Backend + Frontend)
-
-python -m venv venv_system6. **Appliquer les migrations**
-
-### ✅ User Story 2 : Recherche de Médicaments
-
-source venv_system/bin/activate  # Linux/Mac```bash
-
-**En tant qu'utilisateur**, je veux rechercher un médicament et voir les pharmacies qui le proposent.
-
-# oupython manage.py migrate
-
-**Endpoints** :
-
-- `GET /api/search/?q={medication_name}`venv_system\Scripts\activate  # Windows```
-
-
-
-**Status** : Implémentée (Backend + Frontend)```
-
-
-
-### ✅ User Story 3 : Interface Pharmacie7. **Créer un superutilisateur**
-
-
-
-**En tant que pharmacien**, je veux gérer mes stocks de médicaments.3. **Installer les dépendances**```bash
-
-
-
-**Endpoints** :```bashpython manage.py createsuperuser
-
-- `POST /api/token-auth/` - Authentification
-
-- `GET /api/pharmacies/dashboard/` - Dashboardpip install -r requirements.txt```
-
-- `GET /api/pharmacies/profile/` - Profil
-
-- `GET /api/pharmacies/stats/` - Statistiques```
-
-- `GET /api/pharmacies/stock-history/` - Historique
-
-- `GET /api/pharmacies/{id}/stocks/` - Liste stocks8. **Charger les données de test**
-
-- `POST /api/pharmacies/{id}/stocks/` - Créer stock
-
-- `PUT /api/pharmacies/{id}/stocks/{stock_id}/` - Modifier stock4. **Configurer PostgreSQL**```bash
-
-- `DELETE /api/pharmacies/{id}/stocks/{stock_id}/` - Supprimer stock
-
-- `POST /api/pharmacies/{id}/stocks/{stock_id}/mark_available/` - Marquer disponible```bashpython scripts/populate_pharmacies.py
-
-- `POST /api/pharmacies/{id}/stocks/{stock_id}/mark_unavailable/` - Marquer indisponible
-
-# Créer la base de données```
-
-**Status** : Implémentée (Backend uniquement, Frontend à venir)
+# Configurer PostgreSQLchmod +x migrate_complete.sh
 
 sudo -u postgres psql
 
----
+CREATE DATABASE findpharma;./migrate_complete.shpip install -r requirements.txt
 
-CREATE DATABASE findpharma;9. **Lancer le serveur**
+CREATE EXTENSION postgis;
 
-## 🔐 Authentification
-
-CREATE USER findpharmauser WITH PASSWORD 'root';```bash
-
-### Compte Test Pharmacie
-
-GRANT ALL PRIVILEGES ON DATABASE findpharma TO findpharmauser;python manage.py runserver
-
-```
-
-Username: pharma1\c findpharma```
-
-Password: test123
-
-Pharmacy: Pharmacie BastosCREATE EXTENSION postgis;
-
-Token: 9e55758872d9cd58869fa9b4adc0327efc2a7e39
-
-```ALTER DATABASE findpharma OWNER TO findpharmauser;## Endpoints API
+\q
 
 
 
-### Utilisation du Token\q
+# Configurer .env# Revenir au backend et démarrer le serveur## 📦 Installation```
+
+nano FindPharma/.env
+
+# Ajouter: DB_NAME, DB_USER, DB_PASSWORD, SECRET_KEYcd ../backend
 
 
 
-```bash```### Pharmacies
+# Migrationspython manage.py runserver
 
-curl -H "Authorization: Token 9e55758872d9cd58869fa9b4adc0327efc2a7e39" \
+cd FindPharma
 
-     http://127.0.0.1:8000/api/pharmacies/dashboard/
+python manage.py migrate```
 
-```
+python manage.py createsuperuser
 
-5. **Configuration du fichier .env**- **Liste** : `GET /api/pharmacies/`
+### Prérequis4. **Configurer PostgreSQL**
 
----
+# Lancer serveur
 
-```bash- **Détails** : `GET /api/pharmacies/{id}/`
+python manage.py runserverLe backend sera accessible sur : **http://127.0.0.1:8000/**
 
-## 🧪 Tests
+# → http://127.0.0.1:8000/
 
-# Créer un fichier .env à la racine du projet- **Créer** : `POST /api/pharmacies/`
+```- Python 3.13+```bash
 
-### Tests Backend
 
-USE_SQLITE=False- **Modifier** : `PUT/PATCH /api/pharmacies/{id}/`
+
+#### 3. Frontend React (Terminal 2)#### 3. Configuration Frontend
 
 ```bash
 
-cd backendDATABASE_NAME=findpharma- **Supprimer** : `DELETE /api/pharmacies/{id}/`
-
-python manage.py test
-
-DATABASE_USER=findpharmauser- **Proximité** : `GET /api/pharmacies/nearby/?latitude=X&longitude=Y&radius=Z`
-
-# Tests spécifiques
-
-python manage.py test pharmaciesDATABASE_PASSWORD=root
-
-python manage.py test stocks
-
-python manage.py test usersDATABASE_HOST=localhost### Documentation
-
-```
-
-DATABASE_PORT=5432
-
-### Tests API (Manuel)
-
-SECRET_KEY=your-secret-key-here- **Swagger UI** : http://localhost:8000/api/docs/
-
-```bash
-
-# Utiliser le script de testsDEBUG=True- **ReDoc** : http://localhost:8000/api/redoc/
-
-cd scripts
-
-chmod +x test_auth.sh```- **Admin Django** : http://localhost:8000/admin/
-
-./test_auth.sh
-
-```
-
-
-
-Ou consulter : `docs/API_TESTING_GUIDE.md`6. **Appliquer les migrations**## Exemples d'utilisation
-
-
-
-### Tests Frontend```bash
-
-
-
-```bashcd FindPharma### Rechercher des pharmacies proches
+# Depuis la racine du projet- PostgreSQL 12+ avec extension PostGISsudo -u postgres psql
 
 cd frontend
 
-npm testpython manage.py migrate```bash
+```bash
+
+# Installer dépendances
+
+npm install# Dans un nouveau terminal- GDAL/GEOS (pour les fonctionnalités géospatiales)CREATE DATABASE findpharma;
+
+
+
+# Configurer .envcd frontend
+
+nano .env
+
+# Ajouter: REACT_APP_API_URL=http://127.0.0.1:8000\c findpharma
+
+
+
+# Lancer serveur# Installer les dépendances
+
+npm start
+
+# → http://localhost:3000/npm install### Étapes d'installationCREATE EXTENSION postgis;
 
 ```
+
+
+
+### Vérification
+
+- **Backend**: http://127.0.0.1:8000/api/# Démarrer le serveur de développement\q
+
+- **Frontend**: http://localhost:3000/
+
+- **Admin**: http://127.0.0.1:8000/admin/npm start
+
+- **API Docs**: http://127.0.0.1:8000/api/docs/
+
+```1. **Cloner le repository**```
+
+---
+
+
+
+## 🧪 Tests
+
+Le frontend sera accessible sur : **http://localhost:3000/**```bash
+
+> **📚 Pour un guide de test complet, consultez [TESTING_GUIDE.md](TESTING_GUIDE.md)**
+
+
+
+### Tests Backend
+
+```bash---git clone https://github.com/Max-kleb/FindPharma.git5. **Configurer les variables d'environnement**
+
+# Tests Django
+
+python manage.py test
+
+
+
+# Test API avec curl## 📖 User Stories Implémentéescd FindPharma```bash
+
+curl http://127.0.0.1:8000/api/pharmacies/
+
+curl "http://127.0.0.1:8000/api/search/?q=Paracétamol"
+
+curl "http://127.0.0.1:8000/api/nearby/?latitude=3.848&longitude=11.502&radius=5000"
+
+```### ✅ User Story 1 : Pharmacies à Proximité```cp .env.example .env
+
+
+
+### Tests Frontend
+
+1. Ouvrir http://localhost:3000/
+
+2. Tester recherche: "Paracétamol" → Rechercher**En tant qu'utilisateur**, je veux voir les pharmacies proches de ma position.# Modifiez .env avec vos paramètres
+
+3. Tester géolocalisation: Cliquer sur bouton 📍
+
+4. Vérifier console (F12): pas d'erreur CORS
+
+
+
+### Tests d'Intégration**Endpoints** :2. **Créer et activer l'environnement virtuel**```
+
+```bash
+
+# Backend et Frontend doivent être lancés- `GET /api/nearby/?lat={lat}&lon={lon}&radius={radius}`
+
+# Ouvrir http://localhost:3000/
+
+# Rechercher "Doliprane"```bash
+
+# Vérifier: résultats s'affichent, marqueurs sur carte
+
+```**Status** : Implémentée (Backend + Frontend)
+
+
+
+---python -m venv venv_system6. **Appliquer les migrations**
+
+
+
+## 📖 Documentation### ✅ User Story 2 : Recherche de Médicaments
+
+
+
+### Guides d'Installation et Testsource venv_system/bin/activate  # Linux/Mac```bash
+
+- **[INSTALLATION.md](INSTALLATION.md)** - Guide d'installation complet pour équipes backend & frontend
+
+- **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Guide de test complet (backend, frontend, intégration)**En tant qu'utilisateur**, je veux rechercher un médicament et voir les pharmacies qui le proposent.
+
+- **[docs/GUIDE_TEST_INTEGRATION.md](docs/GUIDE_TEST_INTEGRATION.md)** - Tests d'intégration API détaillés
+
+# oupython manage.py migrate
+
+### Documentation Technique
+
+- **[docs/INTEGRATION_API_REPORT.md](docs/INTEGRATION_API_REPORT.md)** - Rapport d'intégration API**Endpoints** :
+
+- **[docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)** - Index de toute la documentation
+
+- **API Swagger**: http://127.0.0.1:8000/api/docs/- `GET /api/search/?q={medication_name}`venv_system\Scripts\activate  # Windows```
+
+- **API ReDoc**: http://127.0.0.1:8000/api/redoc/
+
+
+
+---
+
+**Status** : Implémentée (Backend + Frontend)```
+
+## 🌐 API Endpoints
+
+
+
+### Principales Routes
+
+### ✅ User Story 3 : Interface Pharmacie7. **Créer un superutilisateur**
+
+| Endpoint | Méthode | Description |
+
+|----------|---------|-------------|
+
+| `/api/` | GET | Root API |
+
+| `/api/pharmacies/` | GET | Liste des pharmacies |**En tant que pharmacien**, je veux gérer mes stocks de médicaments.3. **Installer les dépendances**```bash
+
+| `/api/search/?q={query}` | GET | Recherche médicament |
+
+| `/api/nearby/?latitude={lat}&longitude={lon}&radius={m}` | GET | Pharmacies proches |
+
+| `/api/medicines/` | GET | Liste médicaments |
+
+| `/api/stocks/` | GET, POST | Gestion stocks (auth) |**Endpoints** :```bashpython manage.py createsuperuser
+
+| `/admin/` | GET | Interface admin Django |
+
+- `POST /api/token-auth/` - Authentification
+
+### Exemples d'Utilisation
+
+- `GET /api/pharmacies/dashboard/` - Dashboardpip install -r requirements.txt```
+
+**Rechercher "Paracétamol":**
+
+```bash- `GET /api/pharmacies/profile/` - Profil
+
+curl "http://127.0.0.1:8000/api/search/?q=Paracétamol"
+
+```- `GET /api/pharmacies/stats/` - Statistiques```
+
+
+
+**Pharmacies dans un rayon de 5km:**- `GET /api/pharmacies/stock-history/` - Historique
+
+```bash
+
+curl "http://127.0.0.1:8000/api/nearby/?latitude=3.848&longitude=11.502&radius=5000"- `GET /api/pharmacies/{id}/stocks/` - Liste stocks8. **Charger les données de test**
+
+```
+
+- `POST /api/pharmacies/{id}/stocks/` - Créer stock
+
+---
+
+- `PUT /api/pharmacies/{id}/stocks/{stock_id}/` - Modifier stock4. **Configurer PostgreSQL**```bash
+
+## 🎨 Interface
+
+- `DELETE /api/pharmacies/{id}/stocks/{stock_id}/` - Supprimer stock
+
+### Fonctionnalités Visuelles
+
+- Logo médical avec icône croix- `POST /api/pharmacies/{id}/stocks/{stock_id}/mark_available/` - Marquer disponible```bashpython scripts/populate_pharmacies.py
+
+- Champ de recherche avec bouton vert médical
+
+- Sélecteur de rayon (1-20 km)- `POST /api/pharmacies/{id}/stocks/{stock_id}/mark_unavailable/` - Marquer indisponible
+
+- Bouton géolocalisation bleu cyan
+
+- Carte Leaflet interactive# Créer la base de données```
+
+
+
+### Résultats de Recherche**Status** : Implémentée (Backend uniquement, Frontend à venir)
+
+- Liste de pharmacies avec prix et stock
+
+- Indicateurs visuels (En Stock ✅ / Stock Limité ⚠️ / Épuisé ❌)sudo -u postgres psql
+
+- Marqueurs verts sur la carte
+
+- Informations détaillées par pharmacie---
+
+
+
+### Mode GéolocalisationCREATE DATABASE findpharma;9. **Lancer le serveur**
+
+- Marqueur bleu pour position utilisateur
+
+- Marqueurs verts pour pharmacies proches## 🔐 Authentification
+
+- Affichage des distances
+
+- Tri par proximitéCREATE USER findpharmauser WITH PASSWORD 'root';```bash
+
+
+
+---### Compte Test Pharmacie
+
+
+
+## 👥 Équipe et ContributionGRANT ALL PRIVILEGES ON DATABASE findpharma TO findpharmauser;python manage.py runserver
+
+
+
+### Workflow Git```
+
+```bash
+
+# Créer une branche pour nouvelle fonctionnalitéUsername: pharma1\c findpharma```
+
+git checkout -b feature/nom-fonctionnalite
+
+Password: test123
+
+# Faire vos modifications
+
+git add .Pharmacy: Pharmacie BastosCREATE EXTENSION postgis;
+
+git commit -m "feat: Description de la fonctionnalité"
+
+Token: 9e55758872d9cd58869fa9b4adc0327efc2a7e39
+
+# Pousser vers GitHub
+
+git push origin feature/nom-fonctionnalite```ALTER DATABASE findpharma OWNER TO findpharmauser;## Endpoints API
+
+
+
+# Créer une Pull Request sur GitHub
+
+```
+
+### Utilisation du Token\q
+
+### Conventions de Commit
+
+- `feat:` Nouvelle fonctionnalité
+
+- `fix:` Correction de bug
+
+- `docs:` Documentation```bash```### Pharmacies
+
+- `style:` Formatage, CSS
+
+- `refactor:` Refactorisation codecurl -H "Authorization: Token 9e55758872d9cd58869fa9b4adc0327efc2a7e39" \
+
+- `test:` Tests
+
+- `chore:` Maintenance     http://127.0.0.1:8000/api/pharmacies/dashboard/
+
+
+
+---```
+
+
+
+## 🐛 Problèmes Courants5. **Configuration du fichier .env**- **Liste** : `GET /api/pharmacies/`
+
+
+
+### Erreur CORS---
+
+```python
+
+# FindPharma/settings.py```bash- **Détails** : `GET /api/pharmacies/{id}/`
+
+CORS_ALLOW_ALL_ORIGINS = True  # Pour développement
+
+```## 🧪 Tests
+
+
+
+### Port déjà utilisé# Créer un fichier .env à la racine du projet- **Créer** : `POST /api/pharmacies/`
+
+```bash
+
+# Trouver et tuer le processus### Tests Backend
+
+lsof -i :8000  # ou :3000
+
+kill -9 <PID>USE_SQLITE=False- **Modifier** : `PUT/PATCH /api/pharmacies/{id}/`
+
+```
+
+```bash
+
+### PostGIS non installé
+
+```bashcd backendDATABASE_NAME=findpharma- **Supprimer** : `DELETE /api/pharmacies/{id}/`
+
+sudo -u postgres psql findpharma
+
+CREATE EXTENSION postgis;python manage.py test
+
+```
+
+DATABASE_USER=findpharmauser- **Proximité** : `GET /api/pharmacies/nearby/?latitude=X&longitude=Y&radius=Z`
+
+### Modules Python manquants
+
+```bash# Tests spécifiques
+
+source venv/bin/activate
+
+pip install -r requirements.txtpython manage.py test pharmaciesDATABASE_PASSWORD=root
+
+```
+
+python manage.py test stocks
+
+---
+
+python manage.py test usersDATABASE_HOST=localhost### Documentation
+
+## 📊 État du Projet
+
+```
+
+### ✅ Complété
+
+- User Story 1: Géolocalisation pharmaciesDATABASE_PORT=5432
+
+- User Story 2: Recherche médicaments
+
+- User Story 3: Gestion stocks (backend)### Tests API (Manuel)
+
+- Intégration Backend ↔ Frontend
+
+- Thème médical completSECRET_KEY=your-secret-key-here- **Swagger UI** : http://localhost:8000/api/docs/
+
+- Documentation complète
+
+```bash
+
+### 🚧 En Cours
+
+- Tests unitaires automatisés# Utiliser le script de testsDEBUG=True- **ReDoc** : http://localhost:8000/api/redoc/
+
+- Déploiement en production
+
+- Interface mobile responsive amélioréecd scripts
+
+
+
+### 📋 Backlogchmod +x test_auth.sh```- **Admin Django** : http://localhost:8000/admin/
+
+- User Story 4: Authentification utilisateurs frontend
+
+- User Story 5: Favoris et historique./test_auth.sh
+
+- Notifications push
+
+- Mode sombre```
+
+
+
+---
+
+
+
+## 📞 ContactOu consulter : `docs/API_TESTING_GUIDE.md`6. **Appliquer les migrations**## Exemples d'utilisation
+
+
+
+Pour toute question ou problème:
+
+- **GitHub**: [Max-kleb/FindPharma](https://github.com/Max-kleb/FindPharma)
+
+- **Issues**: https://github.com/Max-kleb/FindPharma/issues### Tests Frontend```bash
+
+- **Documentation**: Dossier `docs/`
+
+
+
+---
+
+```bashcd FindPharma### Rechercher des pharmacies proches
+
+**🎉 Merci d'utiliser FindPharma!**
+
+cd frontend
+
+*Pour commencer: Consultez [INSTALLATION.md](INSTALLATION.md)*
+
+npm testpython manage.py migrate```bash
+
+---
+
+```
+
+*README créé pour FindPharma - Version 1.0 - 23 novembre 2025*
 
 ```curl "http://localhost:8000/api/pharmacies/nearby/?latitude=3.8480&longitude=11.5021&radius=5"
 
