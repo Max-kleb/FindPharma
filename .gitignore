@@ -1,2 +1,61 @@
-venv/
-.venv/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+environments/env/
+environments/venv/
+environments/venv_system/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+*.pot
+*.pyc
+
+# Backup files
+*.json.backup
+backup_*.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.~lock.*
+
+# Environment
+.env
+.env.local
+
+# Database dumps
+*.sql
+*.dump
+
+# Documentation temporaire
+DOCS_SUMMARY.txt
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+frontend/.env.local
+
+# Scripts (now tracked in scripts/)
+# migrate_*.sh
+# populate_*.sh
+# start_server.sh
+# test_auth.sh
+
+# Fichiers Office temporaires
+*.docx
+*.pdf
+
+# Test files
+test_*.html
