@@ -20,6 +20,7 @@ urlpatterns = [
     # API endpoints
     path('api/', include('pharmacies.urls')),
     path('api/', include('stocks.urls')),
+    path('api/cart/', include('cart.urls', namespace='cart')),
     
     # Swagger/OpenAPI URLs (Documentation interactive)
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
