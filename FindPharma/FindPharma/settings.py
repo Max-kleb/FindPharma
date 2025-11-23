@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import sys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,6 +33,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# Base installed apps. We conditionally include the GIS contrib app
+# when not running tests AND when not using SQLite to avoid importing
+# system-level GIS libs (GDAL) during tests or local dev.
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,9 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'core',
     'pharmacies',
     'medicines',
@@ -49,9 +53,14 @@ INSTALLED_APPS = [
     'stocks',
     'django_filters',
     'drf_spectacular',
-    'leaflet',
-    
 ]
+
+# Add GIS contrib app only when not running tests and not using SQLite.
+# This needs to be checked BEFORE we set USE_SQLITE below.
+USE_SQLITE_CHECK = config('USE_SQLITE', default=False, cast=bool)
+if 'test' not in sys.argv and not USE_SQLITE_CHECK:
+    INSTALLED_APPS.insert(6, 'django.contrib.gis')
+    INSTALLED_APPS.append('leaflet')
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', 
@@ -86,17 +95,28 @@ WSGI_APPLICATION = 'FindPharma.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+DATABASES = {}
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',  # ← Changez ceci
+# Use a lightweight SQLite DB when running tests OR when USE_SQLITE
+# environment variable is set to avoid system-level GIS/PostGIS
+# dependencies (GDAL) which may not be available locally.
+import sys
+USE_SQLITE = config('USE_SQLITE', default=False, cast=bool)
+
+if 'test' in sys.argv or USE_SQLITE:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+else:
+    DATABASES['default'] = {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': config('DATABASE_NAME', default='findpharma'),
         'USER': config('DATABASE_USER', default='findpharmauser'),
         'PASSWORD': config('DATABASE_PASSWORD', default='root'),
         'HOST': config('DATABASE_HOST', default='localhost'),
         'PORT': config('DATABASE_PORT', default='5432'),
     }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -144,6 +164,13 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
 }
 
 # Configuration Swagger/OpenAPI
@@ -164,6 +191,10 @@ LEAFLET_CONFIG = {
     'TILES': 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     'ATTRIBUTION_PREFIX': 'FindPharma',
 }
+
+# Custom User Model
+# ========================================
+AUTH_USER_MODEL = 'users.User'
 
 # Configuration CORS pour développement
 # ========================================

@@ -340,3 +340,219 @@ def pharmacy_detail(request, pharmacy_id):
     pharmacy_data['total_medicines'] = len(medicines_list)
     
     return Response(pharmacy_data)
+
+
+# ============================================
+# ENDPOINTS D'ADMINISTRATION POUR PHARMACIES
+# ============================================
+
+@extend_schema(
+    summary="Dashboard de la pharmacie",
+    description="Retourne les statistiques et informations complètes de la pharmacie connectée",
+    responses={200: 'PharmacyDashboardSerializer'}
+)
+@api_view(['GET'])
+def pharmacy_dashboard(request):
+    """
+    Endpoint pour le dashboard de la pharmacie.
+    Nécessite authentification et que l'utilisateur soit lié à une pharmacie.
+    """
+    # Vérifier que l'utilisateur est authentifié
+    if not request.user.is_authenticated:
+        return Response(
+            {'detail': 'Authentification requise'},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+    
+    # Vérifier que l'utilisateur est une pharmacie
+    if not hasattr(request.user, 'pharmacy') or not request.user.pharmacy:
+        return Response(
+            {'detail': 'Cet utilisateur n\'est pas associé à une pharmacie'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
+    pharmacy = request.user.pharmacy
+    
+    # Calculer les statistiques
+    from django.db.models import Count, Sum, Q, F
+    from decimal import Decimal
+    
+    stocks = Stock.objects.filter(pharmacy=pharmacy)
+    
+    stats = stocks.aggregate(
+        total_stocks=Count('id'),
+        total_medicines=Count('medicine', distinct=True),
+        available_medicines=Count('medicine', filter=Q(is_available=True, quantity__gt=0), distinct=True),
+        unavailable_medicines=Count('medicine', filter=Q(is_available=False) | Q(quantity=0), distinct=True),
+        total_quantity=Sum('quantity'),
+        estimated_value=Sum(F('quantity') * F('price'))
+    )
+    
+    # Préparer les données
+    from .serializers import PharmacyDashboardSerializer
+    
+    pharmacy_data = {
+        'id': pharmacy.id,
+        'name': pharmacy.name,
+        'address': pharmacy.address,
+        'phone': pharmacy.phone,
+        'email': pharmacy.email,
+        'latitude': pharmacy.latitude,
+        'longitude': pharmacy.longitude,
+        'opening_hours': pharmacy.opening_hours,
+        'is_active': pharmacy.is_active,
+        'created_at': pharmacy.created_at,
+        'updated_at': pharmacy.updated_at,
+        'total_stocks': stats['total_stocks'] or 0,
+        'total_medicines': stats['total_medicines'] or 0,
+        'available_medicines': stats['available_medicines'] or 0,
+        'unavailable_medicines': stats['unavailable_medicines'] or 0,
+        'total_quantity': stats['total_quantity'] or 0,
+        'estimated_value': stats['estimated_value'] or Decimal('0.00')
+    }
+    
+    serializer = PharmacyDashboardSerializer(pharmacy_data)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    summary="Profil de la pharmacie",
+    description="Retourne ou modifie le profil de la pharmacie connectée",
+    responses={200: 'PharmacyUpdateSerializer'}
+)
+@api_view(['GET', 'PUT', 'PATCH'])
+def pharmacy_profile(request):
+    """
+    GET: Récupère le profil de la pharmacie
+    PUT/PATCH: Modifie le profil de la pharmacie
+    """
+    # Vérifier l'authentification
+    if not request.user.is_authenticated:
+        return Response(
+            {'detail': 'Authentification requise'},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+    
+    if not hasattr(request.user, 'pharmacy') or not request.user.pharmacy:
+        return Response(
+            {'detail': 'Cet utilisateur n\'est pas associé à une pharmacie'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
+    pharmacy = request.user.pharmacy
+    
+    if request.method == 'GET':
+        from .serializers import PharmacySerializer
+        serializer = PharmacySerializer(pharmacy)
+        return Response(serializer.data)
+    
+    elif request.method in ['PUT', 'PATCH']:
+        from .serializers import PharmacyUpdateSerializer
+        serializer = PharmacyUpdateSerializer(
+            pharmacy,
+            data=request.data,
+            partial=(request.method == 'PATCH')
+        )
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@extend_schema(
+    summary="Statistiques de stocks par catégorie",
+    description="Retourne les statistiques détaillées des stocks groupées par catégorie de médicament",
+)
+@api_view(['GET'])
+def pharmacy_stock_stats(request):
+    """
+    Statistiques détaillées des stocks de la pharmacie.
+    """
+    if not request.user.is_authenticated:
+        return Response(
+            {'detail': 'Authentification requise'},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+    
+    if not hasattr(request.user, 'pharmacy') or not request.user.pharmacy:
+        return Response(
+            {'detail': 'Cet utilisateur n\'est pas associé à une pharmacie'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
+    pharmacy = request.user.pharmacy
+    
+    # Récupérer tous les stocks avec médicaments
+    stocks = Stock.objects.filter(pharmacy=pharmacy).select_related('medicine')
+    
+    # Statistiques globales
+    from django.db.models import Sum, Avg, Count, Q, F
+    
+    global_stats = stocks.aggregate(
+        total_stocks=Count('id'),
+        total_quantity=Sum('quantity'),
+        avg_price=Avg('price'),
+        total_value=Sum(F('quantity') * F('price')),
+        available_count=Count('id', filter=Q(is_available=True, quantity__gt=0)),
+        out_of_stock_count=Count('id', filter=Q(quantity=0)),
+    )
+    
+    # Stocks à faible quantité (< 10 unités)
+    low_stock = stocks.filter(quantity__lt=10, quantity__gt=0).values(
+        'medicine__name', 'quantity', 'is_available'
+    )
+    
+    # Top 10 médicaments par quantité
+    top_stocks = stocks.filter(quantity__gt=0).order_by('-quantity')[:10].values(
+        'medicine__name', 'quantity', 'price'
+    )
+    
+    # Médicaments en rupture de stock
+    out_of_stock = stocks.filter(quantity=0).values(
+        'medicine__name', 'last_updated'
+    )
+    
+    return Response({
+        'global_stats': global_stats,
+        'low_stock_items': list(low_stock),
+        'top_stocks': list(top_stocks),
+        'out_of_stock': list(out_of_stock),
+    })
+
+
+@extend_schema(
+    summary="Historique récent des modifications de stocks",
+    description="Retourne les dernières modifications de stocks de la pharmacie",
+)
+@api_view(['GET'])
+def pharmacy_stock_history(request):
+    """
+    Historique des 50 dernières modifications de stocks.
+    """
+    if not request.user.is_authenticated:
+        return Response(
+            {'detail': 'Authentification requise'},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+    
+    if not hasattr(request.user, 'pharmacy') or not request.user.pharmacy:
+        return Response(
+            {'detail': 'Cet utilisateur n\'est pas associé à une pharmacie'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
+    pharmacy = request.user.pharmacy
+    
+    # Récupérer les 50 derniers stocks modifiés
+    recent_stocks = Stock.objects.filter(
+        pharmacy=pharmacy
+    ).select_related('medicine').order_by('-last_updated')[:50]
+    
+    from stocks.serializers import StockListSerializer
+    serializer = StockListSerializer(recent_stocks, many=True)
+    
+    return Response({
+        'count': recent_stocks.count(),
+        'results': serializer.data
+    })

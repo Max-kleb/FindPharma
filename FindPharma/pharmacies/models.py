@@ -1,5 +1,15 @@
-from django.contrib.gis.db import models as gis_models
+try:
+    from django.contrib.gis.db import models as gis_models
+    GIS_AVAILABLE = True
+except Exception:
+    # Fallback when GDAL/PostGIS isn't available (e.g. on CI or dev
+    # machines without system libs). In that case we use regular
+    # django models for the fields we need for tests.
+    from django.db import models as gis_models
+    GIS_AVAILABLE = False
+
 from django.db import models
+
 
 class Pharmacy(models.Model):
     name = models.CharField(max_length=255)
@@ -10,7 +20,11 @@ class Pharmacy(models.Model):
     # Champs de géolocalisation
     latitude = models.FloatField()
     longitude = models.FloatField()
-    location = gis_models.PointField(geography=True, null=True, blank=True)
+    if GIS_AVAILABLE:
+        location = gis_models.PointField(geography=True, null=True, blank=True)
+    else:
+        # Fallback storage for tests: simple JSONField to hold [lat, lon]
+        location = models.JSONField(null=True, blank=True)
     
     # Horaires et infos
     opening_hours = models.JSONField(default=dict, blank=True)

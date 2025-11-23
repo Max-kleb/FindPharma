@@ -1,6 +1,11 @@
 from django.contrib import admin
 from .models import Pharmacy
-from leaflet.admin import LeafletGeoAdmin
+try:
+    from leaflet.admin import LeafletGeoAdmin
+except Exception:
+    # Fallback to regular ModelAdmin when django-leaflet or GIS
+    # dependencies are not available (e.g. during tests)
+    LeafletGeoAdmin = admin.ModelAdmin
 
 
 @admin.register(Pharmacy)
