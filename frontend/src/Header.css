@@ -1,0 +1,33 @@
+/* src/Header.css */
+
+.logo {
+    display: flex; 
+    align-items: center; 
+}
+
+.logo-image {
+    height: 100px; 
+    margin-right: 30px; 
+}
+
+/* Dans src/Header.css ou src/App.css */
+
+/* Conteneur principal du texte du logo pour s'assurer qu'il est bien aligné */
+.logo-text {
+    font-weight: bold;
+    font-size: 40px; /* Taille du texte du logo (ajustez si besoin) */
+    display: flex;
+}
+
+/* Couleur du mot 'Find' (Bleu Nuit / Gris foncé) */
+.logo-find {
+    color: #343a40; /* Correspond au var(--text-color) */
+    margin-right: 0; /* Pas d'espace entre les deux mots */
+}
+
+/* Couleur du mot 'Pharma' (Vert vif) */
+.logo-pharma {
+    color: var(--primary-green); /* var(--primary-green) = #28a745 */
+}
+
+/* Augmentons un peu le margin-right de l'image pour que le texte ait de la place */

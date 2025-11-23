@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindPharma - Test API avec React</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const API_URL = 'http://localhost:8000/api';
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('pharmacies');
+            const [pharmacies, setPharmacies] = useState([]);
+            const [medicines, setMedicines] = useState([]);
+            const [searchResults, setSearchResults] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState(null);
+
+            // Formulaire recherche proximité
+            const [latitude, setLatitude] = useState('3.8480');
+            const [longitude, setLongitude] = useState('11.5021');
+            const [radius, setRadius] = useState('5');
+
+            // Formulaire recherche médicament
+            const [searchQuery, setSearchQuery] = useState('');
+
+            // Charger toutes les pharmacies
+            const loadPharmacies = async () => {
+                setLoading(true);
+                setError(null);
+                try {
+                    const response = await fetch(`${API_URL}/pharmacies/`);
+                    if (!response.ok) throw new Error('Erreur lors du chargement des pharmacies');
+                    const data = await response.json();
+                    setPharmacies(data);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            // Rechercher pharmacies à proximité
+            const searchNearby = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                setError(null);
+                try {
+                    const response = await fetch(
+                        `${API_URL}/pharmacies/nearby/?latitude=${latitude}&longitude=${longitude}&radius=${radius}`
+                    );
+                    if (!response.ok) throw new Error('Erreur lors de la recherche');
+                    const data = await response.json();
+                    setSearchResults(data);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            // Rechercher médicaments
+            const searchMedicines = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                setError(null);
+                try {
+                    const response = await fetch(`${API_URL}/search/?q=${searchQuery}`);
+                    if (!response.ok) throw new Error('Erreur lors de la recherche');
+                    const data = await response.json();
+                    setSearchResults(data);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            // Charger toutes les pharmacies au démarrage
+            useEffect(() => {
+                if (activeTab === 'pharmacies') {
+                    loadPharmacies();
+                }
+            }, [activeTab]);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+                    <div className="max-w-7xl mx-auto">
+                        {/* Header */}
+                        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                            <h1 className="text-4xl font-bold text-indigo-600 mb-2">
+                                🏥 FindPharma - Test API
+                            </h1>
+                            <p className="text-gray-600">
+                                Interface React pour tester les endpoints de l'API FindPharma
+                            </p>
+                        </div>
+
+                        {/* Tabs Navigation */}
+                        <div className="bg-white rounded-lg shadow-lg mb-6">
+                            <div className="flex border-b">
+                                <button
+                                    onClick={() => setActiveTab('pharmacies')}
+                                    className={`flex-1 py-4 px-6 text-center font-semibold transition-colors ${
+                                        activeTab === 'pharmacies'
+                                            ? 'bg-indigo-600 text-white'
+                                            : 'text-gray-600 hover:bg-gray-100'
+                                    }`}
+                                >
+                                    📍 Toutes les Pharmacies
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('nearby')}
+                                    className={`flex-1 py-4 px-6 text-center font-semibold transition-colors ${
+                                        activeTab === 'nearby'
+                                            ? 'bg-indigo-600 text-white'
+                                            : 'text-gray-600 hover:bg-gray-100'
+                                    }`}
+                                >
+                                    🔍 Recherche à Proximité
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('search')}
+                                    className={`flex-1 py-4 px-6 text-center font-semibold transition-colors ${
+                                        activeTab === 'search'
+                                            ? 'bg-indigo-600 text-white'
+                                            : 'text-gray-600 hover:bg-gray-100'
+                                    }`}
+                                >
+                                    💊 Recherche Médicaments
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Error Message */}
+                        {error && (
+                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+                                <strong>Erreur:</strong> {error}
+                            </div>
+                        )}
+
+                        {/* Content Area */}
+                        <div className="bg-white rounded-lg shadow-lg p-6">
+                            {/* Tab: Toutes les Pharmacies */}
+                            {activeTab === 'pharmacies' && (
+                                <div>
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h2 className="text-2xl font-bold text-gray-800">
+                                            Liste des Pharmacies
+                                        </h2>
+                                        <button
+                                            onClick={loadPharmacies}
+                                            disabled={loading}
+                                            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400"
+                                        >
+                                            {loading ? '⏳ Chargement...' : '🔄 Actualiser'}
+                                        </button>
+                                    </div>
+
+                                    {loading ? (
+                                        <div className="text-center py-12">
+                                            <div className="text-4xl mb-4">⏳</div>
+                                            <p className="text-gray-600">Chargement des données...</p>
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                            {pharmacies.map((pharmacy) => (
+                                                <PharmacyCard key={pharmacy.id} pharmacy={pharmacy} />
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {!loading && pharmacies.length === 0 && (
+                                        <div className="text-center py-12 text-gray-500">
+                                            Aucune pharmacie trouvée
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Tab: Recherche Proximité */}
+                            {activeTab === 'nearby' && (
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                                        Recherche de Pharmacies à Proximité
+                                    </h2>
+
+                                    <form onSubmit={searchNearby} className="bg-gray-50 p-6 rounded-lg mb-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Latitude
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    step="any"
+                                                    value={latitude}
+                                                    onChange={(e) => setLatitude(e.target.value)}
+                                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                    placeholder="3.8480"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Longitude
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    step="any"
+                                                    value={longitude}
+                                                    onChange={(e) => setLongitude(e.target.value)}
+                                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                    placeholder="11.5021"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Rayon (km)
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    step="0.1"
+                                                    value={radius}
+                                                    onChange={(e) => setRadius(e.target.value)}
+                                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                    placeholder="5"
+                                                />
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            disabled={loading}
+                                            className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:bg-gray-400 font-semibold"
+                                        >
+                                            {loading ? '⏳ Recherche...' : '🔍 Rechercher'}
+                                        </button>
+                                    </form>
+
+                                    {searchResults.length > 0 && (
+                                        <div>
+                                            <h3 className="text-xl font-semibold mb-4">
+                                                Résultats ({searchResults.length})
+                                            </h3>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                {searchResults.map((pharmacy) => (
+                                                    <PharmacyCard key={pharmacy.id} pharmacy={pharmacy} showDistance={true} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {!loading && searchResults.length === 0 && (
+                                        <div className="text-center py-12 text-gray-500">
+                                            Aucune pharmacie trouvée dans ce périmètre
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Tab: Recherche Médicaments */}
+                            {activeTab === 'search' && (
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                                        Recherche de Médicaments
+                                    </h2>
+
+                                    <form onSubmit={searchMedicines} className="bg-gray-50 p-6 rounded-lg mb-6">
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Nom du médicament
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                placeholder="Ex: Paracétamol, Amoxicilline..."
+                                            />
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            disabled={loading || !searchQuery.trim()}
+                                            className="w-full bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 disabled:bg-gray-400 font-semibold"
+                                        >
+                                            {loading ? '⏳ Recherche...' : '🔎 Rechercher'}
+                                        </button>
+                                    </form>
+
+                                    {searchResults.length > 0 && (
+                                        <div>
+                                            <h3 className="text-xl font-semibold mb-4">
+                                                Résultats ({searchResults.length})
+                                            </h3>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {searchResults.map((result) => (
+                                                    <MedicineCard key={result.id} medicine={result} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {!loading && searchResults.length === 0 && searchQuery && (
+                                        <div className="text-center py-12 text-gray-500">
+                                            Aucun médicament trouvé pour "{searchQuery}"
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Composant Carte Pharmacie
+        function PharmacyCard({ pharmacy, showDistance }) {
+            return (
+                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <div className="flex items-start justify-between mb-2">
+                        <h3 className="font-bold text-lg text-gray-800">{pharmacy.name}</h3>
+                        <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                            pharmacy.is_open ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                            {pharmacy.is_open ? '✅ Ouvert' : '🔴 Fermé'}
+                        </span>
+                    </div>
+                    
+                    <div className="space-y-2 text-sm text-gray-600">
+                        <p>📍 {pharmacy.address}</p>
+                        <p>📞 {pharmacy.phone}</p>
+                        {pharmacy.email && <p>✉️ {pharmacy.email}</p>}
+                        {showDistance && pharmacy.distance && (
+                            <p className="font-semibold text-indigo-600">
+                                📏 {pharmacy.distance.toFixed(2)} km
+                            </p>
+                        )}
+                        {pharmacy.location && (
+                            <p className="text-xs text-gray-500">
+                                🗺️ {pharmacy.location.coordinates[1]}, {pharmacy.location.coordinates[0]}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Composant Carte Médicament
+        function MedicineCard({ medicine }) {
+            return (
+                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <h3 className="font-bold text-lg text-gray-800 mb-2">{medicine.name}</h3>
+                    
+                    <div className="space-y-2 text-sm">
+                        <div>
+                            <span className="font-semibold text-gray-700">Catégorie:</span>
+                            <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                {medicine.category}
+                            </span>
+                        </div>
+                        
+                        {medicine.description && (
+                            <p className="text-gray-600">{medicine.description}</p>
+                        )}
+                        
+                        {medicine.pharmacies && medicine.pharmacies.length > 0 && (
+                            <div className="mt-3 pt-3 border-t">
+                                <p className="font-semibold text-gray-700 mb-2">
+                                    Disponible dans {medicine.pharmacies.length} pharmacie(s):
+                                </p>
+                                <ul className="space-y-1">
+                                    {medicine.pharmacies.map((pharmacy) => (
+                                        <li key={pharmacy.id} className="text-xs text-gray-600">
+                                            • {pharmacy.name}
+                                            {pharmacy.stock && (
+                                                <span className="ml-2 text-green-600">
+                                                    ({pharmacy.stock.quantity} en stock - {pharmacy.stock.price} FCFA)
+                                                </span>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Render l'application
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+/* src/App.css */
+
+/* Variables de Couleur */
+:root {
+    --primary-blue: #007bff;
+    --primary-green: #28a745;
+    --warning-orange: #ffc107;
+    --danger-red: #dc3545;
+    --gray-light: #f8f9fa;
+    --gray-medium: #dee2e6;
+    --gray-dark: #6c757d;
+    --text-color: #343a40;
+    --white: #ffffff;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --border-radius-base: 8px;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    background-color: var(--gray-light);
+    color: var(--text-color);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 20px;
+}
+
+.app-container {
+    max-width: 450px;
+    margin: 0 auto;
+    background-color: var(--white);
+    box-shadow: 0 5px 15px var(--shadow-light);
+    border-radius: var(--border-radius-base);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 40px);
+}
+
+/* --- HEADER --- */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--gray-medium);
+}
+.logo { font-size: 22px; font-weight: bold; color: var(--text-color); display: flex; align-items: center; }
+.logo-plus { color: var(--primary-green); margin-right: 8px; font-size: 28px; }
+.login-link { font-size: 24px; color: var(--gray-dark); text-decoration: none; }
+.logo-image {
+    height: 30px; /* Ajustez la hauteur selon vos préférences */
+    margin-right: 8px; /* Espace entre le logo et le texte "FindPharma" */
+}
+
+    /* --- MAIN CONTENT LAYOUT --- */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- SEARCH SECTION --- */
+.search-section-container {
+    padding: 20px;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--gray-medium);
+}
+.search-bar-box { display: flex; background-color: var(--gray-light); border-radius: var(--border-radius-base); overflow: hidden; padding: 8px 12px; align-items: center; }
+.search-input { flex-grow: 1; border: none; background: transparent; padding: 5px; font-size: 16px; color: var(--text-color); outline: none; }
+.search-input::placeholder { color: var(--gray-dark); }
+.search-icon, .search-filter-icon { color: var(--gray-dark); font-size: 18px; margin-right: 10px; cursor: pointer; }
+.geolocation-button {
+    margin-top: 15px;
+    background-color: var(--white);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+    padding: 10px 15px;
+    border-radius: var(--border-radius-base);
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.geolocation-button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* --- RESULTS DISPLAY (Carte + Liste) --- */
+.results-display-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.map-area {
+    background-color: var(--gray-light);
+    min-height: 250px; /* HAUTEUR ESSENTIELLE */
+    position: relative;
+}
+
+/* Style de la carte Leaflet */
+.map-canvas {
+    height: 100%; /* HAUTEUR ESSENTIELLE */
+    width: 100%;
+}
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}
+
+/* --- PHARMACIES LIST --- */
+.pharmacies-list-box { padding: 15px 20px; border-top: 1px solid var(--gray-medium); }
+.pharmacies-list-box h3 { font-size: 18px; margin-top: 0; margin-bottom: 15px; }
+.pharmacy-item { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid var(--gray-medium); }
+.pharmacy-item:last-child { border-bottom: none; }
+.pharmacy-main-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.pharmacy-name { font-weight: bold; margin: 0; font-size: 16px; }
+.pharmacy-price { font-weight: bold; color: var(--primary-blue); }
+.pharmacy-details { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--gray-dark); }
+.status-info { display: flex; align-items: center; gap: 5px; }
+.stock-status-icon { font-size: 16px; }
+.status-en-stock .stock-status-icon { color: var(--primary-green); }
+.status-stock-limite .stock-status-icon { color: var(--warning-orange); }
+.status-epuise .stock-status-icon { color: var(--danger-red); }
+.contact-distance { display: flex; align-items: center; gap: 15px; }
+.phone-number a { color: var(--gray-dark); text-decoration: none; display: flex; align-items: center; gap: 5px; }
+.distance { display: flex; align-items: center; gap: 5px; }
+
+/* --- FOOTER --- */
+.app-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 20px;
+    background-color: var(--white);
+    border-top: 1px solid var(--gray-medium);
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+.app-footer a { color: var(--gray-dark); text-decoration: none; margin: 5px 10px; }
+.app-footer a:hover { color: var(--primary-blue); }
+
+/* --- MEDIA QUERIES (Desktop) --- */
+@media (min-width: 768px) {
+    .app-container { max-width: 1000px; }
+    .results-display-container { flex-direction: row; gap: 20px; padding: 20px; }
+    .map-area { flex: 3; min-height: 500px; }
+    .list-area { flex: 2; border-top: none; }
+    .map-canvas, .leaflet-container { border-radius: var(--border-radius-base); }
+}
