@@ -1,52 +1,67 @@
 // src/SearchSection.js
 import React, { useState } from 'react';
 import GeolocationButton from './GeolocationButton';
-// import axios from 'axios'; // Temporairement désactivé pour test interface 
-
-const API_BASE_URL = 'http://localhost:8000'; // 🚨 VÉRIFIEZ VOTRE PORT BACKEND
+import { searchMedication, getNearbyPharmacies } from './services/api';
 
 function SearchSection({ setUserLocation, setPharmacies, setLoading, setError, setLastSearch }) {
   const [searchText, setSearchText] = useState('');
   
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const trimmedText = searchText.trim();
-    if (!trimmedText) return;
+    if (!trimmedText) {
+      setError('Veuillez entrer un nom de médicament');
+      return;
+    }
 
     setLoading(true);
     setError(null);
     setLastSearch(trimmedText);
     
-    // DONNÉES SIMULÉES pour test interface
-    setTimeout(() => {
-      const simulatedResults = [
-        {
-          id: 1,
-          name: "Pharmacie Centrale",
-          address: "Avenue Kennedy, Yaoundé",
-          stock: "En stock",
-          price: "2500 FCFA",
-          distance: "0.8 km",
-          lat: 3.8600,
-          lng: 11.5200
-        },
-        {
-          id: 2,
-          name: "Pharmacie du Marché",
-          address: "Marché Central, Yaoundé",
-          stock: "En stock",
-          price: "2300 FCFA",
-          distance: "1.5 km",
-          lat: 3.8650,
-          lng: 11.5150
-        }
-      ];
+    try {
+      const results = await searchMedication(trimmedText);
       
-      setPharmacies(simulatedResults);
+      if (results.length === 0) {
+        setError(`Aucune pharmacie ne propose "${trimmedText}" actuellement`);
+        setPharmacies([]);
+      } else {
+        setPharmacies(results);
+        setError(null);
+      }
+    } catch (err) {
+      setError('Erreur lors de la recherche. Vérifiez que le serveur backend est lancé.');
+      console.error('Erreur recherche:', err);
+      setPharmacies([]);
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
-  return (
+  const handleGeolocation = async (position) => {
+    const { latitude, longitude } = position.coords;
+    
+    setUserLocation({ lat: latitude, lng: longitude });
+    setLoading(true);
+    setError(null);
+    setLastSearch(''); // Reset search query
+
+    try {
+      const results = await getNearbyPharmacies(latitude, longitude);
+      
+      if (results.length === 0) {
+        setError('Aucune pharmacie trouvée à proximité');
+        setPharmacies([]);
+      } else {
+        setPharmacies(results);
+        setError(null);
+      }
+    } catch (err) {
+      setError('Erreur lors de la récupération des pharmacies proches');
+      console.error('Erreur géolocalisation:', err);
+      setPharmacies([]);
+    } finally {
+      setLoading(false);
+    }
+  };  return (
     <section className="search-section-container">
       <div className="search-bar-box">
         <i className="fas fa-search search-icon" onClick={handleSearch} title="Lancer la recherche"></i>
@@ -65,7 +80,10 @@ function SearchSection({ setUserLocation, setPharmacies, setLoading, setError, s
         <i className="fas fa-sliders-h search-filter-icon"></i>
       </div>
 
-      <GeolocationButton setUserLocation={setUserLocation} />
+      <GeolocationButton 
+        onLocationFound={handleGeolocation}
+        onError={(err) => setError(err.message)}
+      />
     </section>
   );
 }
