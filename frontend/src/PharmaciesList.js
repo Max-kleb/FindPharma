@@ -29,17 +29,27 @@ function PharmaciesList({ results }) {
     }
   };
 
+  // Détecter si c'est une recherche de médicament ou juste des pharmacies proches
+  const isMedicineSearch = results.length > 0 && results[0].medicineName;
+
   return (
     <div className="pharmacies-list-box">
-      <h3>Pharmacies à Proximité</h3>
+      <h3>{isMedicineSearch ? 'Résultats de recherche' : 'Pharmacies à Proximité'}</h3>
       {results.map((pharmacy) => (
         <div key={pharmacy.id} className="pharmacy-item">
           <div className="pharmacy-main-info">
             <p className="pharmacy-name">{pharmacy.name}</p>
-            {pharmacy.price && <p className="pharmacy-price">{pharmacy.price}</p>}
+            {isMedicineSearch && pharmacy.medicineName && (
+              <p className="medicine-name">
+                <i className="fas fa-pills"></i> {pharmacy.medicineName}
+              </p>
+            )}
+            {isMedicineSearch && pharmacy.price && (
+              <p className="pharmacy-price">{pharmacy.price}</p>
+            )}
           </div>
           <div className="pharmacy-details">
-            {getStockDisplay(pharmacy.stock)} 
+            {isMedicineSearch && getStockDisplay(pharmacy.stock)}
             <div className="contact-distance">
               {pharmacy.phone && (
                 <span className="phone-number">
@@ -55,6 +65,11 @@ function PharmaciesList({ results }) {
               >
               )}
             </div>
+            {!isMedicineSearch && pharmacy.address && (
+              <p className="pharmacy-address">
+                <i className="fas fa-map-marker-alt"></i> {pharmacy.address}
+              </p>
+            )}
           </div>
         </div>
       ))}

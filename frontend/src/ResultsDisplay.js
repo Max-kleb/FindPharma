@@ -1,11 +1,31 @@
 // src/ResultsDisplay.js
 import React, { useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 import PharmaciesList from './PharmaciesList';
 
 // Ce composant interne force la carte à se redessiner après le rendu initial
 import { useMap } from 'react-leaflet';
 import { useEffect } from 'react';
+
+// Icônes personnalisées pour les marqueurs
+const userIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const pharmacyIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 function MapResizer() {
   const map = useMap(); // Récupère l'instance de la carte Leaflet
@@ -42,16 +62,17 @@ function ResultsDisplay({ results, center }) {
         />
 
         <MapResizer />
-        {/* Marqueur de l'utilisateur */}
-        <Marker position={mapCenter}>
+        {/* Marqueur de l'utilisateur (bleu) */}
+        <Marker position={mapCenter} icon={userIcon}>
           <Popup>Votre position actuelle</Popup>
         </Marker>
 
-        {/* Marqueurs des pharmacies */}
+        {/* Marqueurs des pharmacies (vert) */}
         {results.map((pharmacy) => (
           <Marker 
             key={pharmacy.id} 
             position={[pharmacy.lat, pharmacy.lng]}
+            icon={pharmacyIcon}
           >
             <Popup>
               <b>{pharmacy.name}</b><br/>

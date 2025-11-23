@@ -2,32 +2,36 @@
 
 .logo {
     display: flex; 
-    align-items: center; 
+    align-items: center;
+    gap: 12px;
 }
 
-.logo-image {
-    height: 100px; 
-    margin-right: 30px; 
+.logo-icon {
+    font-size: 36px;
+    color: var(--primary-medical);
+    background: linear-gradient(135deg, var(--primary-medical) 0%, var(--secondary-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Dans src/Header.css ou src/App.css */
-
-/* Conteneur principal du texte du logo pour s'assurer qu'il est bien aligné */
+/* Conteneur principal du texte du logo */
 .logo-text {
-    font-weight: bold;
-    font-size: 40px; /* Taille du texte du logo (ajustez si besoin) */
+    font-weight: 800;
+    font-size: 38px;
     display: flex;
+    letter-spacing: -0.5px;
 }
 
-/* Couleur du mot 'Find' (Bleu Nuit / Gris foncé) */
+/* Couleur du mot 'Find' - Style médical */
 .logo-find {
-    color: #343a40; /* Correspond au var(--text-color) */
-    margin-right: 0; /* Pas d'espace entre les deux mots */
+    color: var(--primary-blue);
+    margin-right: 0;
 }
 
-/* Couleur du mot 'Pharma' (Vert vif) */
+/* Couleur du mot 'Pharma' - Vert croix pharmacie */
 .logo-pharma {
-    color: var(--primary-green); /* var(--primary-green) = #28a745 */
+    color: var(--primary-medical);
 }
 
 /* Augmentons un peu le margin-right de l'image pour que le texte ait de la place */

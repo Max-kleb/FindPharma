@@ -5,6 +5,7 @@ import { searchMedication, getNearbyPharmacies } from './services/api';
 
 function SearchSection({ setUserLocation, setPharmacies, setLoading, setError, setLastSearch }) {
   const [searchText, setSearchText] = useState('');
+  const [searchRadius, setSearchRadius] = useState(5000); // Rayon par défaut: 5km
   
   const handleSearch = async () => {
     const trimmedText = searchText.trim();
@@ -45,10 +46,10 @@ function SearchSection({ setUserLocation, setPharmacies, setLoading, setError, s
     setLastSearch(''); // Reset search query
 
     try {
-      const results = await getNearbyPharmacies(latitude, longitude);
+      const results = await getNearbyPharmacies(latitude, longitude, searchRadius);
       
       if (results.length === 0) {
-        setError('Aucune pharmacie trouvée à proximité');
+        setError(`Aucune pharmacie trouvée dans un rayon de ${searchRadius / 1000} km`);
         setPharmacies([]);
       } else {
         setPharmacies(results);
@@ -64,7 +65,7 @@ function SearchSection({ setUserLocation, setPharmacies, setLoading, setError, s
   };  return (
     <section className="search-section-container">
       <div className="search-bar-box">
-        <i className="fas fa-search search-icon" onClick={handleSearch} title="Lancer la recherche"></i>
+        <i className="fas fa-search search-icon"></i>
         <input 
           type="text" 
           placeholder="Rechercher un médicament (Ex: Aspirine)" 
@@ -77,7 +78,33 @@ function SearchSection({ setUserLocation, setPharmacies, setLoading, setError, s
               }
           }}
         />
-        <i className="fas fa-sliders-h search-filter-icon"></i>
+        <button 
+          className="search-button" 
+          onClick={handleSearch}
+          title="Lancer la recherche"
+        >
+          Rechercher
+        </button>
+      </div>
+
+      {/* Sélecteur de rayon de recherche */}
+      <div className="radius-selector">
+        <label htmlFor="search-radius">
+          <i className="fas fa-map-marked-alt"></i> Rayon de recherche :
+        </label>
+        <select 
+          id="search-radius"
+          value={searchRadius} 
+          onChange={(e) => setSearchRadius(Number(e.target.value))}
+          className="radius-select"
+        >
+          <option value="1000">1 km</option>
+          <option value="2000">2 km</option>
+          <option value="3000">3 km</option>
+          <option value="5000">5 km</option>
+          <option value="10000">10 km</option>
+          <option value="20000">20 km</option>
+        </select>
       </div>
 
       <GeolocationButton 

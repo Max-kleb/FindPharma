@@ -4,11 +4,12 @@ import './Header.css'; // Assurez-vous que ce fichier existe !
 
 function Header() {
   return (
-   <header className="]app-header">
+   <header className="app-header">
       <div className="logo">
-        <img src="/findpharma-logo.png" alt="FindPharma Logo" className="logo-image" />
+        {/* Icône croix médicale */}
+        <i className="fas fa-plus-circle logo-icon"></i>
         
-        {/* NOUVELLE STRUCTURE POUR LE NOM EN DEUX COULEURS */}
+        {/* STRUCTURE POUR LE NOM EN DEUX COULEURS */}
         <span className="logo-text">
           <span className="logo-find">Find</span>
           <span className="logo-pharma">Pharma</span>

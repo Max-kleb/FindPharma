@@ -100,6 +100,7 @@ function transformSearchResults(apiData) {
         distance: pharmacy.distance ? formatDistance(pharmacy.distance) : null,
         lat: pharmacy.latitude,
         lng: pharmacy.longitude,
+        medicineName: `${medicine.name} ${medicine.dosage}`,  // Identifier une recherche médicament
         medicine: {
           name: medicine.name,
           dosage: medicine.dosage,
@@ -125,8 +126,9 @@ function transformNearbyResults(apiData) {
     id: pharmacy.id,
     name: pharmacy.name,
     address: pharmacy.address,
-    stock: "Disponible",
-    price: null,
+    stock: null,  // Pas de stock car pas de recherche de médicament
+    price: null,  // Pas de prix car pas de recherche de médicament
+    medicineName: null,  // Pas de médicament
     phone: pharmacy.phone,
     distance: formatDistance(pharmacy.distance),
     lat: pharmacy.latitude,
