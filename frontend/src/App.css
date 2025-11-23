@@ -1,134 +1,356 @@
-/* src/App.css */
+/* src/App.css - Thème Pharmaceutique Professionnel */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap');
 
-/* Variables de Couleur - Thème Médical */
+/* Variables de Couleur - Thème Pharmaceutique */
 :root {
-    /* Couleurs principales médicales */
-    --primary-medical: #00a86b; /* Vert médical (croix pharmacie) */
-    --primary-blue: #0066cc; /* Bleu médical plus profond */
-    --primary-green: #00a86b;
-    --secondary-teal: #17a2b8; /* Bleu cyan médical */
+    /* Couleurs principales pharmaceutiques */
+    --primary-medical: #00A86B; /* Vert pharmacie (croix verte) */
+    --primary-green: #00C853; /* Vert médical vif */
+    --secondary-green: #00875A; /* Vert foncé professionnel */
+    --accent-blue: #0288D1; /* Bleu médical pour accents */
+    --accent-teal: #00897B; /* Teal médical */
     
-    /* Couleurs d'alerte médicales */
-    --warning-orange: #ff9800;
-    --danger-red: #e53935;
-    --success-green: #43a047;
+    /* Couleurs d'alerte pharmaceutiques */
+    --warning-orange: #FB8C00;
+    --danger-red: #E53935;
+    --success-green: #00C853;
+    --info-blue: #039BE5;
     
-    /* Couleurs de fond médicales */
-    --bg-light: #f5f9fc; /* Bleu très clair médical */
-    --bg-white: #ffffff;
-    --gray-light: #e8f4f8;
-    --gray-medium: #b0bec5;
-    --gray-dark: #546e7a;
-    --text-color: #263238;
-    --white: #ffffff;
+    /* Couleurs de fond pharmaceutiques */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F0F9F5; /* Légère teinte verte */
+    --bg-tertiary: #E8F5E9;
+    --bg-glass: rgba(255, 255, 255, 0.98);
+    --gray-50: #FAFBFC;
+    --gray-100: #F5F7FA;
+    --gray-200: #E8EDF2;
+    --gray-300: #D1DAE5;
+    --gray-400: #A8B8CC;
+    --gray-500: #7B8CA3;
+    --gray-600: #5A6C84;
+    --gray-700: #3D4F66;
+    --gray-800: #2A3F5F;
+    --gray-900: #1A2332;
+    --text-primary: #1A2332;
+    --text-secondary: #5A6C84;
+    --text-tertiary: #7B8CA3;
+    --white: #FFFFFF;
     
-    /* Effets */
-    --shadow-light: rgba(0, 166, 107, 0.1);
-    --shadow-medical: 0 2px 8px rgba(0, 166, 107, 0.15);
-    --border-radius-base: 12px;
+    /* Ombres pharmaceutiques */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 168, 107, 0.08);
+    --shadow-md: 0 2px 8px 0 rgba(0, 168, 107, 0.12);
+    --shadow-lg: 0 4px 16px 0 rgba(0, 168, 107, 0.15);
+    --shadow-xl: 0 8px 24px 0 rgba(0, 168, 107, 0.18);
+    --shadow-medical: 0 4px 20px rgba(0, 168, 107, 0.12);
+    --shadow-focus: 0 0 0 3px rgba(0, 200, 83, 0.20);
+    
+    /* Bordures professionnelles */
+    --border-light: 1px solid #E8EDF2;
+    --border-medium: 1px solid #D1DAE5;
+    --border-dark: 1px solid #A8B8CC;
+    --border-radius-sm: 6px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+    
+    /* Transitions professionnelles (plus rapides) */
+    --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    background: linear-gradient(135deg, #f5f9fc 0%, #e8f4f8 100%);
-    color: var(--text-color);
+    background: linear-gradient(180deg, #F0F9F5 0%, #E8F5E9 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    padding: 20px;
+    padding: 24px;
+    min-height: 100vh;
+}
+
+/* Motif pharmaceutique en arrière-plan avec croix */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(90deg, rgba(0, 168, 107, 0.03) 1px, transparent 1px),
+        linear-gradient(rgba(0, 168, 107, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
 }
 
 .app-container {
-    max-width: 450px;
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
     margin: 0 auto;
-    background-color: var(--white);
-    box-shadow: var(--shadow-medical);
-    border-radius: var(--border-radius-base);
+    background: var(--bg-primary);
+    border: var(--border-light);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--border-radius-lg);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    border: 2px solid var(--primary-medical);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     min-height: calc(100vh - 40px);
+    transition: all var(--transition-slow);
 }
 
-/* --- HEADER --- */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- HEADER PROFESSIONNEL --- */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    background-color: var(--white);
-    border-bottom: 1px solid var(--gray-medium);
-}
-.logo { font-size: 22px; font-weight: bold; color: var(--text-color); display: flex; align-items: center; }
-.logo-plus { color: var(--primary-green); margin-right: 8px; font-size: 28px; }
-.login-link { font-size: 24px; color: var(--gray-dark); text-decoration: none; }
-.logo-image {
-    height: 30px; /* Ajustez la hauteur selon vos préférences */
-    margin-right: 8px; /* Espace entre le logo et le texte "FindPharma" */
+    padding: 20px 32px;
+    background: var(--white);
+    border-bottom: var(--border-light);
+    position: relative;
 }
 
-    /* --- MAIN CONTENT LAYOUT --- */
+.app-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+}
+
+.logo { 
+    font-size: 22px; 
+    font-weight: 700; 
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-primary);
+    display: flex; 
+    align-items: center;
+    letter-spacing: -0.3px;
+}
+
+.logo-plus { 
+    margin-right: 10px; 
+    font-size: 32px;
+    filter: drop-shadow(0 2px 6px rgba(0, 168, 107, 0.4));
+}
+
+.login-link { 
+    font-size: 20px; 
+    color: var(--text-secondary); 
+    text-decoration: none;
+    transition: all var(--transition-base);
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: var(--border-radius-sm);
+}
+
+.login-link:hover {
+    color: var(--primary-medical);
+    background: var(--gray-50);
+}
+
+.logo-image {
+    height: 36px;
+    margin-right: 10px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* --- MAIN CONTENT LAYOUT --- */
 .main-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    background: var(--bg-secondary);
 }
 
-/* --- SEARCH SECTION - Thème Médical --- */
+/* --- SEARCH SECTION PROFESSIONNELLE --- */
 .search-section-container {
-    padding: 20px;
-    background: linear-gradient(135deg, #ffffff 0%, #f5f9fc 100%);
-    border-bottom: 2px solid var(--primary-medical);
+    padding: 32px;
+    background: var(--white);
+    border-bottom: var(--border-light);
 }
+
 .search-bar-box { 
     display: flex; 
-    background-color: var(--white);
-    border: 2px solid var(--primary-medical); 
-    border-radius: var(--border-radius-base); 
+    background: var(--bg-secondary);
+    border: var(--border-light);
+    border-radius: var(--border-radius-lg);
     overflow: hidden; 
-    padding: 10px 14px; 
+    padding: 14px 18px; 
     align-items: center; 
-    gap: 10px;
-    box-shadow: var(--shadow-medical);
-}
-.search-input { flex-grow: 1; border: none; background: transparent; padding: 5px; font-size: 16px; color: var(--text-color); outline: none; font-weight: 500; }
-.search-input::placeholder { color: var(--gray-dark); }
-.search-icon { color: var(--primary-medical); font-size: 20px; }
-.search-button { 
-    background: linear-gradient(135deg, var(--primary-medical) 0%, var(--success-green) 100%);
-    color: white; 
-    border: none; 
-    padding: 10px 24px; 
-    border-radius: var(--border-radius-base); 
-    cursor: pointer; 
-    font-weight: 700;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0, 166, 107, 0.3);
-}
-.search-button:hover { 
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 166, 107, 0.4);
-}
-.search-button:active { 
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 166, 107, 0.3);
+    gap: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
 }
 
-/* Sélecteur de rayon - Style médical */
+.search-bar-box:focus-within {
+    background: var(--white);
+    border-color: var(--primary-medical);
+    box-shadow: var(--shadow-focus);
+}
+
+.search-input { 
+    flex-grow: 1; 
+    border: none; 
+    background: transparent; 
+    padding: 6px; 
+    font-size: 16px; 
+    color: var(--text-color); 
+    outline: none; 
+    font-weight: 500;
+}
+
+.search-input::placeholder { 
+    color: var(--gray-400);
+    font-weight: 400;
+}
+.search-icon { 
+    color: var(--primary-medical); 
+    font-size: 22px;
+    transition: color var(--transition-base);
+}
+
+.search-bar-box:focus-within .search-icon {
+    color: var(--primary-green);
+}
+
+.search-button { 
+    background: var(--primary-medical);
+    color: white; 
+    border: none; 
+    padding: 12px 28px; 
+    border-radius: var(--border-radius-md); 
+    cursor: pointer; 
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.search-button:hover { 
+    background: var(--secondary-green);
+    box-shadow: var(--shadow-md);
+}
+
+.search-button:active { 
+    background: var(--primary-medical);
+    box-shadow: var(--shadow-sm);
+}
+
+.search-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.search-button:disabled:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Bouton Clear (X) */
+.clear-button {
+    background: transparent;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.clear-button:hover {
+    background: var(--bg-secondary);
+    color: var(--danger-red);
+}
+
+.clear-button:active {
+    background: var(--gray-200);
+}
+
+/* Message informatif de recherche */
+.search-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: rgba(0, 102, 204, 0.08);
+    border-left: 3px solid var(--info-blue);
+    border-radius: var(--border-radius-sm);
+    color: var(--info-blue);
+    font-size: 14px;
+    font-weight: 500;
+    animation: slideDown 0.3s ease-out;
+}
+
+.search-hint i {
+    font-size: 16px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sélecteur de rayon - Style professionnel */
 .radius-selector {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 15px;
-    padding: 12px;
-    background-color: var(--bg-light);
-    border-radius: var(--border-radius-base);
-    border-left: 4px solid var(--primary-medical);
+    gap: 12px;
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-md);
+    border: var(--border-light);
+    transition: all var(--transition-base);
 }
+
+.radius-selector:hover {
+    background: var(--white);
+    border-color: var(--primary-medical);
+}
+
 .radius-selector label {
     font-size: 14px;
     color: var(--text-color);
@@ -137,20 +359,23 @@ body {
     align-items: center;
     gap: 8px;
 }
+
 .radius-selector label i {
     color: var(--primary-medical);
-    font-size: 16px;
+    font-size: 18px;
 }
+
 .radius-select {
-    padding: 8px 12px;
+    padding: 10px 14px;
     border: 2px solid var(--primary-medical);
-    border-radius: var(--border-radius-base);
+    border-radius: var(--border-radius-sm);
     background-color: var(--white);
     color: var(--text-color);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     outline: none;
+    transition: all var(--transition-base);
     transition: all 0.3s ease;
 }
 .radius-select:hover {
@@ -162,35 +387,53 @@ body {
     box-shadow: 0 0 0 3px rgba(0, 166, 107, 0.15);
 }
 
+.radius-info {
+    font-size: 12px;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-style: italic;
+}
+
+.radius-info i {
+    color: var(--accent-blue);
+    font-size: 14px;
+}
+
 .geolocation-button {
-    margin-top: 15px;
-    background: linear-gradient(135deg, var(--secondary-teal) 0%, var(--primary-blue) 100%);
+    margin-top: 16px;
+    background: var(--accent-teal);
     color: var(--white);
     border: none;
-    padding: 12px 15px;
-    border-radius: var(--border-radius-base);
+    padding: 14px 20px;
+    border-radius: var(--border-radius-md);
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
-    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
 }
+
 .geolocation-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(23, 162, 184, 0.4);
+    background: var(--accent-blue);
+    box-shadow: var(--shadow-md);
 }
+
 .geolocation-button:active {
-    transform: translateY(0);
+    background: var(--secondary-green);
 }
+
 .geolocation-button:disabled { 
-    opacity: 0.6; 
+    opacity: 0.5; 
     cursor: not-allowed; 
     transform: none;
+    background: var(--gray-400);
 }
 
 /* --- RESULTS DISPLAY (Carte + Liste) --- */
@@ -202,58 +445,446 @@ body {
 
 .map-area {
     background-color: var(--gray-light);
-    min-height: 250px; /* HAUTEUR ESSENTIELLE */
+    height: 500px; /* Hauteur fixe pour que la carte s'affiche correctement */
+    min-height: 400px; 
     position: relative;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    margin: 16px;
 }
 
 /* Style de la carte Leaflet */
 .map-canvas {
-    height: 100%; /* HAUTEUR ESSENTIELLE */
-    width: 100%;
+    height: 100% !important; /* HAUTEUR ESSENTIELLE */
+    width: 100% !important;
+    border-radius: var(--border-radius-lg);
 }
+
 .leaflet-container {
-    height: 100%;
-    width: 100%;
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: var(--border-radius-lg);
+    z-index: 1;
 }
 
-/* --- PHARMACIES LIST --- */
-.pharmacies-list-box { padding: 15px 20px; border-top: 1px solid var(--gray-medium); }
-.pharmacies-list-box h3 { font-size: 18px; margin-top: 0; margin-bottom: 15px; }
-.pharmacy-item { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid var(--gray-medium); }
-.pharmacy-item:last-child { border-bottom: none; }
-.pharmacy-main-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-.pharmacy-name { font-weight: bold; margin: 0; font-size: 16px; }
-.pharmacy-price { font-weight: bold; color: var(--primary-blue); }
-.medicine-name { color: var(--primary-green); font-size: 14px; margin: 5px 0; }
-.pharmacy-address { color: var(--gray-dark); font-size: 13px; margin: 8px 0 0 0; display: flex; align-items: start; gap: 8px; }
-.pharmacy-details { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--gray-dark); }
-.status-info { display: flex; align-items: center; gap: 5px; }
-.stock-status-icon { font-size: 16px; }
-.status-en-stock .stock-status-icon { color: var(--primary-green); }
-.status-stock-limite .stock-status-icon { color: var(--warning-orange); }
-.status-epuise .stock-status-icon { color: var(--danger-red); }
-.contact-distance { display: flex; align-items: center; gap: 15px; }
-.phone-number a { color: var(--gray-dark); text-decoration: none; display: flex; align-items: center; gap: 5px; }
-.distance { display: flex; align-items: center; gap: 5px; }
+/* --- PHARMACIES LIST PROFESSIONNELLE --- */
+.pharmacies-list-box { 
+    padding: 24px; 
+    background: var(--bg-secondary);
+}
 
-/* --- FOOTER --- */
+.pharmacies-list-box h3 { 
+    font-size: 20px; 
+    font-weight: 700;
+    margin-top: 0; 
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+}
+
+.pharmacy-item { 
+    display: flex; 
+    flex-direction: column; 
+    padding: 20px; 
+    background: var(--white);
+    border-radius: var(--border-radius-md);
+    border: var(--border-light);
+    margin-bottom: 16px;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pharmacy-item:hover { 
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-medical);
+}
+
+.pharmacy-item.pharmacy-selected {
+    border-left: 4px solid var(--primary-medical);
+    background: rgba(0, 102, 204, 0.04);
+    box-shadow: var(--shadow-md);
+}
+
+.pharmacy-item:last-child { 
+    margin-bottom: 0;
+}
+
+.pharmacy-main-info { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 8px; 
+}
+
+.pharmacy-name { 
+    font-weight: 700; 
+    margin: 0; 
+    font-size: 17px;
+    color: var(--gray-900);
+}
+
+.pharmacy-price { 
+    font-weight: 700; 
+    color: var(--secondary-green);
+    font-size: 16px;
+}
+
+.medicine-name { 
+    color: var(--primary-medical); 
+    font-size: 14px; 
+    font-weight: 600;
+    margin: 8px 0;
+    padding: 6px 12px;
+    background: rgba(0, 102, 204, 0.08);
+    border-radius: var(--border-radius-sm);
+    display: inline-block;
+}
+
+.pharmacy-address { 
+    color: var(--gray-600); 
+    font-size: 14px; 
+    margin: 12px 0;
+    display: flex; 
+    align-items: start; 
+    gap: 8px;
+    line-height: 1.5;
+}
+
+.pharmacy-details { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 14px; 
+    color: var(--gray-600);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.status-info { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+}
+
+.stock-status-icon { 
+    font-size: 18px;
+}
+
+.status-en-stock {
+    background: rgba(0, 168, 107, 0.08);
+}
+
+.status-en-stock .stock-status-icon { 
+    color: var(--success-green); 
+}
+
+.status-stock-limite {
+    background: rgba(245, 158, 11, 0.08);
+}
+
+.status-stock-limite .stock-status-icon { 
+    color: var(--warning-orange); 
+}
+
+.status-epuise {
+    background: rgba(229, 62, 62, 0.08);
+}
+
+.status-epuise .stock-status-icon { 
+    color: var(--danger-red); 
+}
+
+.contact-distance { 
+    display: flex; 
+    align-items: center; 
+    gap: 16px;
+}
+.phone-number a { 
+    color: var(--primary-blue); 
+    text-decoration: none; 
+    display: flex; 
+    align-items: center; 
+    gap: 6px;
+    font-weight: 500;
+    transition: all var(--transition-base);
+}
+
+.phone-number a:hover {
+    color: var(--primary-medical);
+    transform: translateX(2px);
+}
+
+.distance { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px;
+    font-weight: 500;
+}
+
+/* --- MESSAGES DE FEEDBACK MODERNES --- */
+.feedback-message {
+    padding: 16px 24px;
+    margin: 20px 24px;
+    border-radius: var(--border-radius-md);
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideIn 0.3s ease-out;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.feedback-message:not(.error-api) {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: var(--info-blue);
+}
+
+.error-api {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: var(--danger-red);
+}
+
+/* --- FOOTER MODERNE --- */
 .app-footer {
     display: flex;
     justify-content: space-around;
-    padding: 15px 20px;
-    background-color: var(--white);
-    border-top: 1px solid var(--gray-medium);
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 14px;
     flex-wrap: wrap;
 }
-.app-footer a { color: var(--gray-dark); text-decoration: none; margin: 5px 10px; }
-.app-footer a:hover { color: var(--primary-blue); }
+
+.app-footer a { 
+    color: var(--gray-600); 
+    text-decoration: none; 
+    margin: 5px 10px;
+    font-weight: 500;
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.app-footer a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+    transition: width var(--transition-base);
+}
+
+.app-footer a:hover { 
+    color: var(--primary-green);
+}
+
+.app-footer a:hover::after {
+    width: 100%;
+}
+
+/* --- LOADING SPINNER MODERNE --- */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- BADGES ET TAGS MODERNES --- */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-success {
+    background: linear-gradient(135deg, var(--success-green) 0%, var(--primary-medical) 100%);
+    color: white;
+}
+
+.badge-warning {
+    background: linear-gradient(135deg, var(--warning-orange) 0%, #f59e0b 100%);
+    color: white;
+}
+
+.badge-danger {
+    background: linear-gradient(135deg, var(--danger-red) 0%, #dc2626 100%);
+    color: white;
+}
+
+/* --- SCROLL BAR PERSONNALISÉE --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-green);
+}
+
+/* --- EFFETS DE HOVER UNIVERSELS --- */
+button, a, .interactive {
+    position: relative;
+    overflow: hidden;
+}
+
+button:not(:disabled):active, .interactive:active {
+    transform: scale(0.98);
+}
 
 /* --- MEDIA QUERIES (Desktop) --- */
 @media (min-width: 768px) {
-    .app-container { max-width: 1000px; }
-    .results-display-container { flex-direction: row; gap: 20px; padding: 20px; }
-    .map-area { flex: 3; min-height: 500px; }
-    .list-area { flex: 2; border-top: none; }
-    .map-canvas, .leaflet-container { border-radius: var(--border-radius-base); }
+    body {
+        padding: 40px;
+    }
+    
+    .app-container { 
+        max-width: 1100px;
+        border-radius: var(--border-radius-xl);
+    }
+    
+    .results-display-container { 
+        flex-direction: row; 
+        gap: 24px; 
+        padding: 24px;
+    }
+    
+    .map-area { 
+        flex: 3; 
+        min-height: 600px;
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+    }
+    
+    .list-area { 
+        flex: 2; 
+        border-top: none;
+    }
+    
+    .map-canvas, .leaflet-container { 
+        border-radius: var(--border-radius-lg);
+    }
+    
+    .pharmacy-item {
+        padding: 24px;
+    }
+    
+    .search-section-container {
+        padding: 32px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .app-container {
+        max-width: 1200px;
+    }
+}
+
+/* --- ANIMATIONS AU DÉFILEMENT --- */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.logo-plus {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* --- EFFETS DE FOCUS PROFESSIONNELS --- */
+input:focus, select:focus, button:focus {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+}
+
+/* --- TRANSITIONS FLUIDES GLOBALES --- */
+* {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+}
+
+/* --- ICÔNES PHARMACEUTIQUES PERSONNALISÉES LEAFLET --- */
+.custom-pharmacy-icon {
+    background: transparent !important;
+    border: none !important;
+}
+
+.custom-user-icon {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Effet de pulsation sur l'icône utilisateur */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.custom-user-icon {
+    animation: pulse 2s ease-in-out infinite;
 }

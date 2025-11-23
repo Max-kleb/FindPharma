@@ -158,9 +158,9 @@ def search_medicine(request):
             'error': 'Le paramètre "q" (recherche) est obligatoire'
         }, status=status.HTTP_400_BAD_REQUEST)
     
-    if len(query) < 2:
+    if len(query) < 1:
         return Response({
-            'error': 'La recherche doit contenir au moins 2 caractères'
+            'error': 'La recherche doit contenir au moins 1 caractère'
         }, status=status.HTTP_400_BAD_REQUEST)
     
     # 3. Convertir les coordonnées
@@ -173,11 +173,16 @@ def search_medicine(request):
                 'error': 'Les coordonnées doivent être des nombres valides'
             }, status=status.HTTP_400_BAD_REQUEST)
     
-    # 4. Rechercher les médicaments (recherche floue)
-    medicines = Medicine.objects.filter(
-        Q(name__icontains=query) |
-        Q(description__icontains=query)
-    )
+    # 4. Rechercher les médicaments (recherche floue et flexible)
+    # Split query into words for better partial matching
+    query_words = query.lower().split()
+    
+    # Build query for each word
+    medicine_query = Q()
+    for word in query_words:
+        medicine_query |= Q(name__icontains=word) | Q(description__icontains=word)
+    
+    medicines = Medicine.objects.filter(medicine_query).distinct()
     
     if not medicines.exists():
         return Response({

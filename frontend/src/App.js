@@ -15,6 +15,11 @@ function App() {
   // 1. État de localisation (Centrage de la carte)
   const [userLocation, setUserLocation] = useState(DEFAULT_CENTER);
   
+  // Debug: Logger userLocation à chaque changement
+  React.useEffect(() => {
+    console.log('🌍 App.js - userLocation:', userLocation);
+  }, [userLocation]);
+  
   // 2. US 2: États pour la RECHERCHE DE MÉDICAMENTS
   const [medicationPharmacies, setMedicationPharmacies] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); 
@@ -49,6 +54,7 @@ function App() {
         
         {/* Passer les fonctions de mise à jour à SearchSection */}
         <SearchSection 
+          userLocation={userLocation}
           setUserLocation={setUserLocation} 
           setPharmacies={setMedicationPharmacies}
           setLoading={setLoading}
@@ -64,7 +70,8 @@ function App() {
         {!loading && !error && (
             <ResultsDisplay 
               results={resultsToDisplay} 
-              center={userLocation} 
+              center={userLocation}
+              userLocation={userLocation}
             />
         )}
         

@@ -6,22 +6,43 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
 /**
  * Recherche de médicaments
  * @param {string} query - Nom du médicament à rechercher
+ * @param {Object} userLocation - Position de l'utilisateur {lat, lng} (optionnel)
  * @returns {Promise<Array>} Liste des pharmacies avec le médicament
  */
-export const searchMedication = async (query) => {
+export const searchMedication = async (query, userLocation = null) => {
   try {
-    const response = await fetch(`${API_URL}/api/search/?q=${encodeURIComponent(query)}`);
+    let url = `${API_URL}/api/search/?q=${encodeURIComponent(query)}`;
+    
+    // Ajouter les coordonnées de l'utilisateur si disponibles
+    if (userLocation && userLocation.lat && userLocation.lng) {
+      url += `&latitude=${userLocation.lat}&longitude=${userLocation.lng}`;
+      console.log(`📍 Position utilisateur envoyée: ${userLocation.lat}, ${userLocation.lng}`);
+    } else {
+      console.warn('⚠️ Aucune position utilisateur fournie - distances non calculées par le backend');
+    }
+    
+    const response = await fetch(url);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
     const data = await response.json();
+    console.log('🔍 API Search Response:', data);
     
     // Transformer les données pour le frontend
-    return transformSearchResults(data);
+    const transformed = transformSearchResults(data);
+    console.log('✨ Transformed Results:', transformed);
+    console.log(`📊 ${transformed.length} pharmacies avec coordonnées`);
+    
+    // Vérifier les coordonnées
+    transformed.forEach((p, index) => {
+      console.log(`  ${index + 1}. ${p.name}: lat=${p.lat}, lng=${p.lng}, distance=${p.distance || 'non calculée'}`);
+    });
+    
+    return transformed;
   } catch (error) {
-    console.error('Erreur recherche médicament:', error);
+    console.error('❌ Erreur recherche médicament:', error);
     throw error;
   }
 };
@@ -30,13 +51,17 @@ export const searchMedication = async (query) => {
  * Récupérer les pharmacies à proximité
  * @param {number} lat - Latitude de l'utilisateur
  * @param {number} lon - Longitude de l'utilisateur
- * @param {number} radius - Rayon de recherche en mètres (défaut: 5000)
+ * @param {number} radiusMeters - Rayon de recherche en mètres (défaut: 5000)
  * @returns {Promise<Array>} Liste des pharmacies proches
  */
-export const getNearbyPharmacies = async (lat, lon, radius = 5000) => {
+export const getNearbyPharmacies = async (lat, lon, radiusMeters = 5000) => {
   try {
+    // Convertir mètres → kilomètres pour l'API backend
+    const radiusKm = radiusMeters / 1000;
+    console.log(`📍 Recherche pharmacies proches: rayon ${radiusKm} km (${radiusMeters} m)`);
+    
     const response = await fetch(
-      `${API_URL}/api/nearby/?latitude=${lat}&longitude=${lon}&radius=${radius}`
+      `${API_URL}/api/nearby/?latitude=${lat}&longitude=${lon}&radius=${radiusKm}`
     );
     
     if (!response.ok) {

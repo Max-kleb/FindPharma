@@ -1,7 +1,7 @@
 // src/PharmaciesList.js
 import React from 'react';
 
-function PharmaciesList({ results }) {
+function PharmaciesList({ results, onPharmacyClick, selectedPharmacy }) {
     
   // La fonction est DÉFINIE ici, à l'intérieur du composant.
   const getStockDisplay = (stock) => {
@@ -36,7 +36,12 @@ function PharmaciesList({ results }) {
     <div className="pharmacies-list-box">
       <h3>{isMedicineSearch ? 'Résultats de recherche' : 'Pharmacies à Proximité'}</h3>
       {results.map((pharmacy) => (
-        <div key={pharmacy.id} className="pharmacy-item">
+        <div 
+          key={pharmacy.id} 
+          className={`pharmacy-item ${selectedPharmacy?.id === pharmacy.id ? 'pharmacy-selected' : ''}`}
+          onClick={() => onPharmacyClick && onPharmacyClick(pharmacy)}
+          style={{ cursor: onPharmacyClick ? 'pointer' : 'default' }}
+        >
           <div className="pharmacy-main-info">
             <p className="pharmacy-name">{pharmacy.name}</p>
             {isMedicineSearch && pharmacy.medicineName && (

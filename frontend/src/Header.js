@@ -6,8 +6,8 @@ function Header() {
   return (
    <header className="app-header">
       <div className="logo">
-        {/* Icône croix médicale */}
-        <i className="fas fa-plus-circle logo-icon"></i>
+        {/* Icône croix verte pharmaceutique */}
+        <span className="logo-plus">⚕️</span>
         
         {/* STRUCTURE POUR LE NOM EN DEUX COULEURS */}
         <span className="logo-text">
