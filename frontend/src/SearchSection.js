@@ -1,45 +1,49 @@
 // src/SearchSection.js
 import React, { useState } from 'react';
 import GeolocationButton from './GeolocationButton';
-import axios from 'axios'; 
+// import axios from 'axios'; // Temporairement désactivé pour test interface 
 
 const API_BASE_URL = 'http://localhost:8000'; // 🚨 VÉRIFIEZ VOTRE PORT BACKEND
 
 function SearchSection({ setUserLocation, setPharmacies, setLoading, setError, setLastSearch }) {
   const [searchText, setSearchText] = useState('');
   
-  const handleSearch = async () => {
+  const handleSearch = () => {
     const trimmedText = searchText.trim();
     if (!trimmedText) return;
 
     setLoading(true);
     setError(null);
-    setPharmacies([]); // Réinitialisation des résultats précédents
-    setLastSearch(trimmedText); // Enregistre le terme pour l'affichage du titre
+    setLastSearch(trimmedText);
     
-    try {
-        const response = await axios.get(`${API_BASE_URL}/api/recherche_medicament/`, {
-            params: {
-                nom: trimmedText 
-            }
-        });
-        
-        // ATTENTION : Adaptation des noms de champs du backend aux noms du frontend (lat/lng)
-        const adaptedData = response.data.map(p => ({
-            ...p,
-            lat: p.latitude, // Renomme 'latitude' en 'lat'
-            lng: p.longitude // Renomme 'longitude' en 'lng'
-        }));
-
-        setPharmacies(adaptedData); // Met à jour l'état central avec les résultats adaptés
-
-    } catch (err) {
-        console.error("Erreur API de recherche :", err);
-        const message = err.response?.data?.error || "Erreur de connexion ou API non disponible.";
-        setError(message);
-    } finally {
-        setLoading(false);
-    }
+    // DONNÉES SIMULÉES pour test interface
+    setTimeout(() => {
+      const simulatedResults = [
+        {
+          id: 1,
+          name: "Pharmacie Centrale",
+          address: "Avenue Kennedy, Yaoundé",
+          stock: "En stock",
+          price: "2500 FCFA",
+          distance: "0.8 km",
+          lat: 3.8600,
+          lng: 11.5200
+        },
+        {
+          id: 2,
+          name: "Pharmacie du Marché",
+          address: "Marché Central, Yaoundé",
+          stock: "En stock",
+          price: "2300 FCFA",
+          distance: "1.5 km",
+          lat: 3.8650,
+          lng: 11.5150
+        }
+      ];
+      
+      setPharmacies(simulatedResults);
+      setLoading(false);
+    }, 800);
   };
 
   return (
