@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User
+from .models import User, SearchHistory
 
 
 @admin.register(User)
@@ -22,3 +22,18 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('user_type', 'pharmacy', 'phone')
         }),
     )
+
+
+@admin.register(SearchHistory)
+class SearchHistoryAdmin(admin.ModelAdmin):
+    """Configuration de l'admin pour l'historique des recherches"""
+    
+    list_display = ['user', 'query', 'search_type', 'results_count', 'created_at']
+    list_filter = ['search_type', 'created_at']
+    search_fields = ['user__username', 'user__email', 'query']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
+    
+    def has_add_permission(self, request):
+        """Empêcher l'ajout manuel d'historiques de recherche"""
+        return False

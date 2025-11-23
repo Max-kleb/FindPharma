@@ -11,8 +11,11 @@ urlpatterns = [
     # Admin Django
     path('admin/', admin.site.urls),
     
-    # Authentification
+    # Authentification (Legacy Token - deprecated)
     path('api/token-auth/', obtain_auth_token, name='api_token_auth'),
+    
+    # Authentification JWT (User Story 4)
+    path('api/auth/', include('users.urls', namespace='users')),
     
     # API endpoints
     path('api/', include('pharmacies.urls')),

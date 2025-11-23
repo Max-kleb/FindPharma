@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'core',
     'pharmacies',
     'medicines',
@@ -58,7 +60,8 @@ INSTALLED_APPS = [
 # Add GIS contrib app only when not running tests and not using SQLite.
 # This needs to be checked BEFORE we set USE_SQLITE below.
 USE_SQLITE_CHECK = config('USE_SQLITE', default=False, cast=bool)
-if 'test' not in sys.argv and not USE_SQLITE_CHECK:
+USE_POSTGRES_FOR_TESTS_CHECK = config('USE_POSTGRES_FOR_TESTS', default=False, cast=bool)
+if (('test' not in sys.argv or USE_POSTGRES_FOR_TESTS_CHECK) and not USE_SQLITE_CHECK):
     INSTALLED_APPS.insert(6, 'django.contrib.gis')
     INSTALLED_APPS.append('leaflet')
 
@@ -102,8 +105,10 @@ DATABASES = {}
 # dependencies (GDAL) which may not be available locally.
 import sys
 USE_SQLITE = config('USE_SQLITE', default=False, cast=bool)
+# Allow forcing PostgreSQL for tests with USE_POSTGRES_FOR_TESTS=True
+USE_POSTGRES_FOR_TESTS = config('USE_POSTGRES_FOR_TESTS', default=False, cast=bool)
 
-if 'test' in sys.argv or USE_SQLITE:
+if (('test' in sys.argv and not USE_POSTGRES_FOR_TESTS) or USE_SQLITE):
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -165,12 +170,43 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
+}
+
+# Configuration JWT (Simple JWT)
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
+    
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': 'FindPharma',
+    
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    
+    'JTI_CLAIM': 'jti',
+    
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
 # Configuration Swagger/OpenAPI
