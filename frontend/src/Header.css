@@ -151,14 +151,43 @@
     gap: 12px;
 }
 
+.profile-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 25px;
+    border: 2px solid var(--primary-medical);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.profile-link:hover {
+    background: linear-gradient(135deg, var(--primary-medical) 0%, #0056b3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.profile-link:hover .user-name {
+    color: white;
+}
+
+.profile-link:hover i {
+    color: white;
+}
+
+.profile-link i {
+    font-size: 20px;
+    color: var(--primary-medical);
+    transition: all 0.3s ease;
+}
+
 .user-name {
     font-weight: 600;
     color: var(--gray-800);
     font-size: 15px;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 25px;
-    border: 2px solid var(--primary-medical);
+    transition: all 0.3s ease;
 }
 
 .login-button,

@@ -704,3 +704,109 @@ export const refreshAccessToken = async (refreshToken) => {
     throw error;
   }
 };
+
+// ============================================================
+// ✉️ VÉRIFICATION EMAIL (Sécurisation inscription)
+// ============================================================
+
+/**
+ * Envoie un code de vérification par email
+ * POST /api/auth/send-verification-code/
+ * @param {string} email - Email du destinataire
+ * @param {string} username - Nom d'utilisateur (optionnel)
+ * @returns {Promise<Object>} {message, email, expires_in}
+ */
+export const sendVerificationCode = async (email, username = '') => {
+  try {
+    console.log(`📧 Envoi code de vérification à: ${email}`);
+    
+    const response = await fetch(`${API_URL}/api/auth/send-verification-code/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, username })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Erreur lors de l\'envoi du code');
+    }
+
+    const data = await response.json();
+    console.log('✅ Code de vérification envoyé (stocké dans cache backend)');
+    
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur envoi code:', error.message);
+    throw error;
+  }
+};
+
+/**
+ * Vérifie le code de vérification
+ * POST /api/auth/verify-code/
+ * @param {string} email - Email
+ * @param {string} code - Code à vérifier
+ * @returns {Promise<Object>} {message, verified}
+ */
+export const verifyEmailCode = async (email, code) => {
+  try {
+    console.log(`🔐 Vérification du code pour: ${email}`);
+    console.log(`   Code: ${code}`);
+    
+    const response = await fetch(`${API_URL}/api/auth/verify-code/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, code })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Erreur:', data.error);
+      throw new Error(data.error || 'Code invalide');
+    }
+
+    console.log('✅ Email vérifié avec succès !');
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur vérification:', error.message);
+    throw error;
+  }
+};
+
+/**
+ * Renvoie un nouveau code de vérification
+ * POST /api/auth/resend-verification-code/
+ * @param {string} email - Email
+ * @returns {Promise<Object>} {message, email}
+ */
+export const resendVerificationCode = async (email) => {
+  try {
+    console.log(`🔄 Renvoi du code à: ${email}`);
+    
+    const response = await fetch(`${API_URL}/api/auth/resend-verification-code/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Erreur lors du renvoi du code');
+    }
+
+    const data = await response.json();
+    console.log('✅ Nouveau code envoyé');
+    
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur renvoi code:', error.message);
+    throw error;
+  }
+};

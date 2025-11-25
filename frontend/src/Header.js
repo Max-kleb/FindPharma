@@ -73,7 +73,10 @@ function Header({ isLoggedIn, onLogout }) {
       <div className="header-auth">
         {isLoggedIn ? (
           <>
-            <span className="user-name">👋 {userName}</span>
+            <Link to="/profile" className="profile-link" title="Mon profil">
+              <i className="fas fa-user-circle"></i>
+              <span className="user-name">{userName}</span>
+            </Link>
             <button onClick={onLogout} className="logout-button">
               🚪 Déconnexion
             </button>

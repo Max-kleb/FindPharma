@@ -10,6 +10,11 @@ from .views import (
     ChangePasswordView,
     UserListView,
 )
+from .verification_views import (
+    send_verification_code,
+    verify_email_code,
+    resend_verification_code,
+)
 
 app_name = 'users'
 
@@ -19,6 +24,11 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    # Email verification endpoints
+    path('send-verification-code/', send_verification_code, name='send-verification-code'),
+    path('verify-code/', verify_email_code, name='verify-code'),
+    path('resend-verification-code/', resend_verification_code, name='resend-verification-code'),
     
     # User profile endpoints
     path('profile/', UserProfileView.as_view(), name='profile'),

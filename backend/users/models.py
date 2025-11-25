@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
+from datetime import timedelta
 
 
 class User(AbstractUser):
@@ -100,3 +102,66 @@ class SearchHistory(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.query} ({self.get_search_type_display()})"
+
+
+class EmailVerification(models.Model):
+    """
+    Modèle pour stocker les codes de vérification email
+    """
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='email_verifications',
+        help_text="Utilisateur à vérifier"
+    )
+    
+    code = models.CharField(
+        max_length=6,
+        help_text="Code de vérification à 6 caractères"
+    )
+    
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Date de création du code"
+    )
+    
+    expires_at = models.DateTimeField(
+        help_text="Date d'expiration du code"
+    )
+    
+    is_used = models.BooleanField(
+        default=False,
+        help_text="Le code a-t-il été utilisé ?"
+    )
+    
+    attempts = models.IntegerField(
+        default=0,
+        help_text="Nombre de tentatives de vérification"
+    )
+    
+    class Meta:
+        verbose_name = 'Vérification Email'
+        verbose_name_plural = 'Vérifications Email'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', '-created_at']),
+            models.Index(fields=['code', 'is_used']),
+        ]
+    
+    def save(self, *args, **kwargs):
+        # Définir l'expiration à 15 minutes si non définie
+        if not self.expires_at:
+            self.expires_at = timezone.now() + timedelta(minutes=15)
+        super().save(*args, **kwargs)
+    
+    def is_expired(self):
+        """Vérifie si le code a expiré"""
+        return timezone.now() > self.expires_at
+    
+    def is_valid(self):
+        """Vérifie si le code est valide (non utilisé et non expiré)"""
+        return not self.is_used and not self.is_expired() and self.attempts < 5
+    
+    def __str__(self):
+        status = "✅ Valide" if self.is_valid() else "❌ Invalide"
+        return f"{self.user.username} - {self.code} ({status})"

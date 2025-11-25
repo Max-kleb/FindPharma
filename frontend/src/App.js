@@ -15,6 +15,7 @@ import MedicineManager from './MedicineManager';
 import FaqPage from './pages/FaqPage';
 import AboutPage from './pages/AboutPage';
 import LegalPage from './pages/LegalPage';
+import ProfilePage from './pages/ProfilePage';
 
 // 💡 IMPORTS US 5, US 6, US 8
 import ReservationModal from './ReservationModal';
@@ -224,6 +225,9 @@ function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/legal" element={<LegalPage />} />
+          
+          {/* Page de profil utilisateur */}
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
 
         {/* US 6 : Le Modal de Réservation */}

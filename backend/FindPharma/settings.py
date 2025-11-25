@@ -256,3 +256,39 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# Configuration des sessions pour fonctionner avec React
+# ========================================
+# SESSION_COOKIE_DOMAIN laissé à None pour accepter 127.0.0.1 (les IP ne fonctionnent pas comme domaine)
+SESSION_COOKIE_SAMESITE = 'Lax'  # ✅ 'Lax' pour dev HTTP (None nécessite HTTPS avec Secure=True)
+SESSION_COOKIE_SECURE = False  # False en dev (HTTP), True en prod (HTTPS)
+SESSION_COOKIE_HTTPONLY = True  # Protection XSS
+SESSION_COOKIE_AGE = 1209600  # 2 semaines
+# CSRF_COOKIE_DOMAIN laissé à None également
+CSRF_COOKIE_SAMESITE = 'Lax'  # ✅ Même config que SESSION
+CSRF_COOKIE_SECURE = False  # False en dev
+
+# ============================================================
+# CONFIGURATION EMAIL
+# ============================================================
+
+# Pour le développement : utiliser la console (mettre False pour tester les vrais emails)
+if False:  # Mode SMTP activé - Les emails sont envoyés par Gmail
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # Pour la production : utiliser un vrai serveur SMTP
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+    EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='FindPharma <noreply@findpharma.cm>')
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+# Durée de validité du code de vérification (en minutes)
+EMAIL_VERIFICATION_CODE_EXPIRY = 3
+
+# Nombre maximum de tentatives de vérification
+MAX_VERIFICATION_ATTEMPTS = 5

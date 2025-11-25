@@ -198,6 +198,55 @@
   to { transform: rotate(360deg); }
 }
 
+/* Badge de vérification email */
+.verification-badge {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  animation: slideDown 0.4s ease;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.verification-badge i {
+  font-size: 18px;
+}
+
+/* Notice de vérification */
+.verification-notice {
+  text-align: center;
+  margin-top: 12px;
+  color: #718096;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  animation: fadeIn 0.3s ease;
+}
+
+.verification-notice i {
+  color: #4a90e2;
+}
+
 .register-footer {
   margin-top: 30px;
   text-align: center;

@@ -1,7 +1,8 @@
 // src/pages/RegisterPage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { register, getAllPharmacies } from '../services/api';
+import { register, getAllPharmacies, sendVerificationCode } from '../services/api';
+import EmailVerificationModal from '../EmailVerificationModal'; // Correct path
 import './RegisterPage.css';
 
 function RegisterPage() {
@@ -16,6 +17,10 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  
+  // États pour la vérification email
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
 
   // Charger la liste des pharmacies au chargement du composant
   useEffect(() => {
@@ -30,30 +35,51 @@ function RegisterPage() {
     fetchPharmacies();
   }, []);
 
+  // Étape 1 : Vérifier l'email d'abord
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
     // Validation du mot de passe
     if (password.length < 8) {
       setError('Le mot de passe doit contenir au moins 8 caractères');
-      setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
       setError('Les mots de passe ne correspondent pas');
-      setLoading(false);
       return;
     }
 
     // Validation pour les pharmacies
     if (userType === 'pharmacy' && !pharmacyId) {
       setError('Veuillez sélectionner une pharmacie');
-      setLoading(false);
       return;
     }
+
+    // Si l'email n'est pas encore vérifié, envoyer le code de vérification
+    if (!emailVerified) {
+      setLoading(true);
+      try {
+        await sendVerificationCode(email, username);
+        setShowVerificationModal(true);
+      } catch (err) {
+        console.error('❌ Erreur envoi code:', err);
+        setError(err.message || 'Erreur lors de l\'envoi du code de vérification');
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // Si l'email est vérifié, procéder à l'inscription
+    await proceedWithRegistration();
+  };
+
+  // Étape 2 : Inscription après vérification de l'email
+  const proceedWithRegistration = async () => {
+    setLoading(true);
+    setError(null);
 
     try {
       // Préparer les données supplémentaires
@@ -80,6 +106,14 @@ function RegisterPage() {
       setError(err.message || 'Erreur lors de l\'inscription');
       setLoading(false);
     }
+  };
+
+  // Callback appelé quand l'email est vérifié
+  const handleEmailVerified = () => {
+    setEmailVerified(true);
+    setShowVerificationModal(false);
+    // Procéder automatiquement à l'inscription
+    proceedWithRegistration();
   };
 
   if (success) {
@@ -113,6 +147,14 @@ function RegisterPage() {
           <h1>Créer un Compte</h1>
           <p>Rejoignez FindPharma dès maintenant</p>
         </div>
+
+        {/* Badge de vérification email */}
+        {emailVerified && (
+          <div className="verification-badge">
+            <i className="fas fa-check-circle"></i>
+            <span>Email vérifié avec succès</span>
+          </div>
+        )}
 
         {error && (
           <div className="error-message">
@@ -249,15 +291,27 @@ function RegisterPage() {
             {loading ? (
               <>
                 <span className="spinner">⏳</span>
-                Création en cours...
+                {emailVerified ? 'Création en cours...' : 'Envoi du code...'}
+              </>
+            ) : emailVerified ? (
+              <>
+                <span className="button-icon">✅</span>
+                Finaliser l'inscription
               </>
             ) : (
               <>
-                <span className="button-icon">📝</span>
-                Créer mon compte
+                <span className="button-icon">�</span>
+                Vérifier mon email
               </>
             )}
           </button>
+
+          {!emailVerified && (
+            <p className="verification-notice">
+              <i className="fas fa-info-circle"></i>
+              Un code de vérification sera envoyé à votre email
+            </p>
+          )}
         </form>
 
         <div className="register-footer">
@@ -272,6 +326,16 @@ function RegisterPage() {
           </Link>
         </div>
       </div>
+
+      {/* Modal de vérification email */}
+      {showVerificationModal && (
+        <EmailVerificationModal
+          email={email}
+          username={username}
+          onVerified={handleEmailVerified}
+          onClose={() => setShowVerificationModal(false)}
+        />
+      )}
     </div>
   );
 }
