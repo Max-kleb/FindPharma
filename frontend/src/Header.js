@@ -26,20 +26,15 @@ function Header({ isLoggedIn, onLogout }) {
 
   return (
     <header className="app-header">
-      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+      <Link to="/" className="logo" title="Retour à l'accueil">
         <img src="/logo.svg" alt="FindPharma Logo" className="logo-image" />
         <span className="logo-text">
           <span className="logo-find">Find</span>
           <span className="logo-pharma">Pharma</span>
         </span>
-      </div>
+      </Link>
 
       <nav className="header-nav">
-        <Link to="/" className="nav-link nav-link-home">
-          <i className="fas fa-home"></i>
-          <span>Accueil</span>
-        </Link>
-        
         {isLoggedIn && userType === 'customer' && (
           <Link to="/dashboard" className="nav-link nav-link-dashboard">
             <i className="fas fa-search"></i>

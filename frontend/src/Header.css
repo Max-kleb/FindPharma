@@ -9,10 +9,16 @@
     align-items: center;
     gap: 12px;
     transition: transform 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: transparent;
 }
 
 .logo:hover {
     transform: scale(1.05);
+    background: rgba(0, 168, 107, 0.05);
 }
 
 .logo-image {
