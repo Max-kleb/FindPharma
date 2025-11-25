@@ -20,6 +20,7 @@ urlpatterns = [
     # API endpoints
     path('api/', include('pharmacies.urls')),
     path('api/', include('stocks.urls')),
+    path('api/', include('medicines.urls')),  # Medicines endpoint
     path('api/cart/', include('cart.urls', namespace='cart')),
     
     # Swagger/OpenAPI URLs (Documentation interactive)

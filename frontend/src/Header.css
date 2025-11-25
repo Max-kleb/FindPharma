@@ -1,37 +1,338 @@
 /* src/Header.css */
 
+/* ======================================== */
+/* LOGO SECTION                             */
+/* ======================================== */
+
 .logo {
     display: flex; 
     align-items: center;
     gap: 12px;
+    transition: transform 0.3s ease;
 }
 
-.logo-icon {
-    font-size: 36px;
-    color: var(--primary-medical);
-    background: linear-gradient(135deg, var(--primary-medical) 0%, var(--secondary-teal) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-image {
+    width: 48px;
+    height: 48px;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 2px 8px rgba(0, 168, 107, 0.3));
+}
+
+.logo:hover .logo-image {
+    transform: rotate(360deg);
+    filter: drop-shadow(0 4px 12px rgba(0, 168, 107, 0.5));
 }
 
 /* Conteneur principal du texte du logo */
 .logo-text {
     font-weight: 800;
-    font-size: 38px;
+    font-size: 32px;
     display: flex;
     letter-spacing: -0.5px;
+    font-family: 'Poppins', 'Inter', sans-serif;
 }
 
 /* Couleur du mot 'Find' - Style médical */
 .logo-find {
-    color: var(--primary-blue);
+    background: linear-gradient(135deg, #1A73E8 0%, #4285F4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-right: 0;
 }
 
 /* Couleur du mot 'Pharma' - Vert croix pharmacie */
 .logo-pharma {
-    color: var(--primary-medical);
+    background: linear-gradient(135deg, #00C853 0%, #00A86B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Augmentons un peu le margin-right de l'image pour que le texte ait de la place */
+/* ======================================== */
+/* NAVIGATION                               */
+/* ======================================== */
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--gray-700);
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover i {
+    transform: scale(1.2);
+}
+
+/* Lien Accueil */
+.nav-link-home {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid transparent;
+}
+
+.nav-link-home:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-color: var(--primary-medical);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 168, 107, 0.15);
+}
+
+/* Lien Dashboard Client - Rechercher */
+.nav-link-dashboard {
+    background: linear-gradient(135deg, #00C853 0%, #00A86B 100%);
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(0, 200, 83, 0.3);
+}
+
+.nav-link-dashboard:hover {
+    background: linear-gradient(135deg, #00A86B 0%, #008C54 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 200, 83, 0.4);
+}
+
+/* Liens Pharmacie */
+.nav-link-primary {
+    background: linear-gradient(135deg, #1A73E8 0%, #4285F4 100%);
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.nav-link-primary:hover {
+    background: linear-gradient(135deg, #1557B0 0%, #1A73E8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(26, 115, 232, 0.4);
+}
+
+/* Liens Admin */
+.nav-link-admin {
+    background: linear-gradient(135deg, #E53935 0%, #C62828 100%);
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.3);
+}
+
+.nav-link-admin:hover {
+    background: linear-gradient(135deg, #C62828 0%, #B71C1C 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(229, 57, 53, 0.4);
+}
+
+/* ======================================== */
+/* AUTHENTIFICATION                         */
+/* ======================================== */
+
+.header-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 15px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 25px;
+    border: 2px solid var(--primary-medical);
+}
+
+.login-button,
+.register-button,
+.logout-button {
+    padding: 11px 24px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.login-button i,
+.register-button i,
+.logout-button i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.login-button:hover i,
+.register-button:hover i,
+.logout-button:hover i {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* Bouton Connexion - Vert médical */
+.login-button {
+    background: linear-gradient(135deg, #00C853 0%, #00A86B 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 200, 83, 0.3);
+    border: 2px solid transparent;
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, #00A86B 0%, #008C54 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 200, 83, 0.4);
+}
+
+.login-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 200, 83, 0.3);
+}
+
+/* Bouton Inscription - Bleu gradient */
+.register-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    border: 2px solid transparent;
+}
+
+.register-button:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #633a8f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.register-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Bouton Déconnexion - Gris élégant */
+.logout-button {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    border: 2px solid transparent;
+}
+
+.logout-button:hover {
+    background: linear-gradient(135deg, #5a6268 0%, #343a40 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.logout-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+}
+
+/* Animation de brillance sur les boutons */
+.login-button::before,
+.register-button::before,
+.logout-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.login-button:hover::before,
+.register-button:hover::before,
+.logout-button:hover::before {
+    left: 100%;
+}
+
+/* ======================================== */
+/* RESPONSIVE DESIGN                        */
+/* ======================================== */
+
+@media (max-width: 768px) {
+    .logo-text {
+        font-size: 24px;
+    }
+
+    .logo-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .header-nav {
+        gap: 8px;
+    }
+
+    .nav-link {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .nav-link span {
+        display: none; /* Masquer le texte sur mobile */
+    }
+
+    .nav-link i {
+        font-size: 18px;
+    }
+
+    .login-button,
+    .register-button,
+    .logout-button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .login-button span,
+    .register-button span,
+    .logout-button span {
+        display: none; /* Masquer le texte, garder l'icône */
+    }
+
+    .user-name {
+        display: none; /* Masquer le nom d'utilisateur sur mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 20px;
+    }
+
+    .logo-image {
+        width: 36px;
+        height: 36px;
+    }
+
+    .header-auth {
+        gap: 6px;
+    }
+
+    .nav-link {
+        padding: 6px 10px;
+    }
+}

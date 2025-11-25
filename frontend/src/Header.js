@@ -1,57 +1,93 @@
 // src/Header.js
-import React from 'react';
-import './Header.css'; 
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Header.css';
 
-/**
- * Composant Header. 
- * 💡 US 4: Accepte les props pour gérer l'état d'authentification et les actions.
- */
-function Header({ isLoggedIn, onLogin, onRegister, onLogout }) {
-  
-  // Fonction pour gérer le clic sur le lien de connexion/inscription
-  const handleAuthClick = (mode) => (e) => {
-      e.preventDefault(); // Empêche la navigation
-      if (mode === 'login') {
-          onLogin();
-      } else if (mode === 'register') {
-          onRegister();
+function Header({ isLoggedIn, onLogout }) {
+  const navigate = useNavigate();
+  const [userType, setUserType] = useState(null);
+  const [userName, setUserName] = useState('');
+
+  // Vérifier le type d'utilisateur au montage
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        setUserType(user.user_type);
+        setUserName(user.username || user.pharmacy_name || user.email);
+      } catch (err) {
+        console.error('Erreur parsing user:', err);
       }
-  };
-  
-  // Fonction pour gérer la déconnexion
-  const handleLogoutClick = (e) => {
-      e.preventDefault();
-      onLogout();
-  };
+    }
+  }, [isLoggedIn]);
+
+  const isAdmin = isLoggedIn && localStorage.getItem('token')?.includes('admin');
 
   return (
-   <header className="app-header">
-      <div className="logo">
-        {/* Icône croix verte pharmaceutique */}
-        <span className="logo-plus">⚕️</span>
-        
-        {/* STRUCTURE POUR LE NOM EN DEUX COULEURS */}
+    <header className="app-header">
+      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+        <img src="/logo.svg" alt="FindPharma Logo" className="logo-image" />
         <span className="logo-text">
           <span className="logo-find">Find</span>
           <span className="logo-pharma">Pharma</span>
         </span>
       </div>
-      
-      <div className="auth-controls">
-        {isLoggedIn ? (
-          // 💡 État Connecté
-          <a href="#" onClick={handleLogoutClick} className="logout-link" title="Se déconnecter">
-            <i className="fas fa-sign-out-alt"></i> Déconnexion
-          </a>
-        ) : (
-          // 💡 État Déconnecté
+
+      <nav className="header-nav">
+        <Link to="/" className="nav-link nav-link-home">
+          <i className="fas fa-home"></i>
+          <span>Accueil</span>
+        </Link>
+        
+        {isLoggedIn && userType === 'customer' && (
+          <Link to="/dashboard" className="nav-link nav-link-dashboard">
+            <i className="fas fa-search"></i>
+            <span>Rechercher</span>
+          </Link>
+        )}
+        
+        {isLoggedIn && userType === 'pharmacy' && (
           <>
-            <a href="#" onClick={handleAuthClick('register')} className="register-link" title="Créer un compte">
-                <i className="fas fa-user-plus"></i> S'inscrire
-            </a>
-            <a href="#" onClick={handleAuthClick('login')} className="login-link" title="Se connecter">
-                <i className="fas fa-sign-in-alt"></i> Connexion
-            </a>
+            <Link to="/stocks" className="nav-link nav-link-primary">
+              📦 Gérer mes Stocks
+            </Link>
+            <Link to="/medicines" className="nav-link nav-link-primary">
+              💊 Gérer les Médicaments
+            </Link>
+          </>
+        )}
+        
+        {isLoggedIn && isAdmin && (
+          <>
+            <Link to="/admin" className="nav-link nav-link-admin">
+              👨‍💼 Dashboard Admin
+            </Link>
+            <Link to="/medicines" className="nav-link nav-link-admin">
+              💊 Médicaments
+            </Link>
+          </>
+        )}
+      </nav>
+
+      <div className="header-auth">
+        {isLoggedIn ? (
+          <>
+            <span className="user-name">👋 {userName}</span>
+            <button onClick={onLogout} className="logout-button">
+              🚪 Déconnexion
+            </button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => navigate('/login')} className="login-button">
+              <i className="fas fa-sign-in-alt"></i>
+              <span>Connexion</span>
+            </button>
+            <button onClick={() => navigate('/register')} className="register-button">
+              <i className="fas fa-user-plus"></i>
+              <span>Inscription</span>
+            </button>
           </>
         )}
       </div>

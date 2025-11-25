@@ -53,6 +53,7 @@ pharmacies_data = [
         'email': 'mfoundi@pharma.cm',
         'latitude': 3.8667,
         'longitude': 11.5167,
+        'city': 'Yaoundé',
         'is_active': True,
     },
     {
@@ -62,6 +63,7 @@ pharmacies_data = [
         'email': 'bastos@pharma.cm',
         'latitude': 3.8850,
         'longitude': 11.5180,
+        'city': 'Yaoundé',
         'is_active': True,
     },
     {
@@ -71,6 +73,7 @@ pharmacies_data = [
         'email': 'mokolo@pharma.cm',
         'latitude': 3.8700,
         'longitude': 11.4900,
+        'city': 'Yaoundé',
         'is_active': True,
     },
     {
@@ -80,6 +83,7 @@ pharmacies_data = [
         'email': 'essos@pharma.cm',
         'latitude': 3.8300,
         'longitude': 11.5300,
+        'city': 'Yaoundé',
         'is_active': True,
     },
     {
@@ -89,6 +93,7 @@ pharmacies_data = [
         'email': 'mvogada@pharma.cm',
         'latitude': 3.8400,
         'longitude': 11.5100,
+        'city': 'Yaoundé',
         'is_active': True,
     },
     {
@@ -98,6 +103,7 @@ pharmacies_data = [
         'email': 'omnisport@pharma.cm',
         'latitude': 3.8580,
         'longitude': 11.5250,
+        'city': 'Yaoundé',
         'is_active': True,
     },
     {
@@ -107,6 +113,7 @@ pharmacies_data = [
         'email': 'melen@pharma.cm',
         'latitude': 3.8200,
         'longitude': 11.4800,
+        'city': 'Yaoundé',
         'is_active': True,
     },
     
@@ -118,6 +125,7 @@ pharmacies_data = [
         'email': 'centrale.dla@pharma.cm',
         'latitude': 4.0511,
         'longitude': 9.7679,
+        'city': 'Douala',
         'is_active': True,
     },
     {
@@ -127,6 +135,7 @@ pharmacies_data = [
         'email': 'akwa@pharma.cm',
         'latitude': 4.0500,
         'longitude': 9.7700,
+        'city': 'Douala',
         'is_active': True,
     },
     {
@@ -136,6 +145,7 @@ pharmacies_data = [
         'email': 'bonanjo@pharma.cm',
         'latitude': 4.0600,
         'longitude': 9.7100,
+        'city': 'Douala',
         'is_active': True,
     },
     {
@@ -145,6 +155,7 @@ pharmacies_data = [
         'email': 'bonaberi@pharma.cm',
         'latitude': 4.0800,
         'longitude': 9.6900,
+        'city': 'Douala',
         'is_active': True,
     },
     {
@@ -154,6 +165,7 @@ pharmacies_data = [
         'email': 'newbell@pharma.cm',
         'latitude': 4.0400,
         'longitude': 9.7200,
+        'city': 'Douala',
         'is_active': True,
     },
     
@@ -165,6 +177,7 @@ pharmacies_data = [
         'email': 'centrale.baf@pharma.cm',
         'latitude': 5.4781,
         'longitude': 10.4178,
+        'city': 'Bafoussam',
         'is_active': True,
     },
     {
@@ -174,6 +187,7 @@ pharmacies_data = [
         'email': 'marchea@pharma.cm',
         'latitude': 5.4800,
         'longitude': 10.4200,
+        'city': 'Bafoussam',
         'is_active': True,
     },
     
@@ -185,6 +199,7 @@ pharmacies_data = [
         'email': 'centrale.gar@pharma.cm',
         'latitude': 9.3012,
         'longitude': 13.3976,
+        'city': 'Garoua',
         'is_active': True,
     },
     
@@ -196,6 +211,7 @@ pharmacies_data = [
         'email': 'central.bda@pharma.cm',
         'latitude': 5.9597,
         'longitude': 10.1453,
+        'city': 'Bamenda',
         'is_active': True,
     },
     
@@ -207,6 +223,7 @@ pharmacies_data = [
         'email': 'mountcam@pharma.cm',
         'latitude': 4.1560,
         'longitude': 9.2320,
+        'city': 'Buea',
         'is_active': True,
     },
     
@@ -218,6 +235,7 @@ pharmacies_data = [
         'email': 'littoral.kbi@pharma.cm',
         'latitude': 2.9387,
         'longitude': 9.9087,
+        'city': 'Kribi',
         'is_active': True,
     },
 ]
@@ -231,9 +249,9 @@ for data in pharmacies_data:
     )
     pharmacies_dict[pharmacy.name] = pharmacy
     if created:
-        print(f"   ✅ {pharmacy.name} ")
+        print(f"   ✅ {pharmacy.name} ({pharmacy.city})")
     else:
-        print(f"   ℹ️  {pharmacy.name}  - existe déjà")
+        print(f"   ℹ️  {pharmacy.name} ({pharmacy.city}) - existe déjà")
 
 print(f"\n✅ Total: {Pharmacy.objects.count()} pharmacies créées")
 
@@ -336,7 +354,8 @@ for pharmacy in Pharmacy.objects.all():
     
     for medicine in selected_medicines:
         # Prix en FCFA (Franc CFA)
-        if 'paludisme' in (medicine.description or "").lower() or 'Artésunate' in medicine.name or 'Coartem' in medicine.name:
+        description = medicine.description or ""
+        if 'paludisme' in description.lower() or 'Artésunate' in medicine.name or 'Coartem' in medicine.name:
             # Antipaludiques plus chers
             price = Decimal(random.randint(3000, 8000))
         else:
@@ -365,8 +384,11 @@ print("="*70)
 print(f"📍 Pharmacies: {Pharmacy.objects.count()}")
 print(f"💊 Médicaments: {Medicine.objects.count()}")
 print(f"📦 Stocks: {Stock.objects.count()}")
-print("\n🇨🇲 Villes couvertes:")
-
+print("\n🇨🇲 Pharmacies créées:")
+print("   • Yaoundé: 8 pharmacies")
+print("   • Douala: 5 pharmacies")
+print("   • Bafoussam: 2 pharmacies")
+print("   • Garoua, Bamenda, Buea, Kribi: 1 pharmacie chacune")
 
 print("\n💡 Médicaments importants pour le Cameroun:")
 important = ['Artésunate', 'Coartem', 'Nivaquine']

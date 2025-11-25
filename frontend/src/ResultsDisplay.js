@@ -58,7 +58,7 @@ function MapController({ selectedPharmacy }) {
 
 const mapContainerStyle = { height: '100%', width: '100%' };
 
-function ResultsDisplay({ results, center, userLocation }) {
+function ResultsDisplay({ results, center, userLocation, onAddToCart, onReviewSubmit }) {
   // État pour la pharmacie sélectionnée
   const [selectedPharmacy, setSelectedPharmacy] = useState(null);
   
@@ -223,16 +223,20 @@ function ResultsDisplay({ results, center, userLocation }) {
   );
 
   return (
-    <div className="results-display-container">
-      {/* 1. Bloc de la Carte */}
-      <PharmaMap />
+    <div className="results-display-container results-vertical-layout">
+      {/* 1. Bloc de la Carte EN HAUT */}
+      <div className="map-area-top">
+        <PharmaMap />
+      </div>
 
-      {/* 2. Bloc de la Liste des Pharmacies */}
-      <div className="list-area">
+      {/* 2. Bloc de la Liste des Pharmacies EN BAS (horizontal) */}
+      <div className="list-area-horizontal">
         <PharmaciesList 
           results={resultsWithDistance} 
           onPharmacyClick={handlePharmacyClick}
           selectedPharmacy={selectedPharmacy}
+          onAddToCart={onAddToCart}
+          onReviewSubmit={onReviewSubmit}
         />
       </div>
     </div>

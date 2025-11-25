@@ -17,6 +17,34 @@ class MedicineSerializer(serializers.ModelSerializer):
         model = Medicine
         fields = ['id', 'name', 'description', 'dosage', 'form', 
                   'average_price', 'requires_prescription']
+        read_only_fields = ['id']
+    
+    def validate_name(self, value):
+        """Validation du nom du médicament"""
+        if not value or len(value.strip()) < 2:
+            raise serializers.ValidationError("Le nom doit contenir au moins 2 caractères")
+        return value.strip()
+    
+    def validate_dosage(self, value):
+        """Validation du dosage"""
+        if not value or len(value.strip()) < 1:
+            raise serializers.ValidationError("Le dosage est requis")
+        return value.strip()
+    
+    def validate_form(self, value):
+        """Validation de la forme"""
+        valid_forms = ['comprimé', 'gélule', 'sirop', 'injection', 'crème', 'pommade', 'autre']
+        if value and value.lower() not in valid_forms:
+            raise serializers.ValidationError(
+                f"Forme invalide. Choisissez parmi: {', '.join(valid_forms)}"
+            )
+        return value.lower() if value else 'autre'
+    
+    def validate_average_price(self, value):
+        """Validation du prix"""
+        if value is not None and value < 0:
+            raise serializers.ValidationError("Le prix ne peut pas être négatif")
+        return value
 
 
 
