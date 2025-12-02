@@ -1,5 +1,6 @@
 // src/pages/DashboardClient.js
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import SearchSection from '../SearchSection';
 import ResultsDisplay from '../ResultsDisplay';
 import Cart from '../Cart';
@@ -22,6 +23,7 @@ function DashboardClient({
   onReviewSubmit,
   onAddToCart
 }) {
+  const { t } = useTranslation();
   const [userName, setUserName] = useState('');
   const [stats, setStats] = useState({
     searchCount: 0,
@@ -95,10 +97,10 @@ function DashboardClient({
         <div className="welcome-section">
           <h1 className="dashboard-title">
             <i className="fas fa-user-circle"></i>
-            Bienvenue, {userName}
+            {t('admin.welcome').replace('Admin', userName)}
           </h1>
           <p className="dashboard-subtitle">
-            Recherchez vos médicaments et gérez vos commandes facilement
+            {t('reservations.subtitle')}
           </p>
         </div>
 
@@ -110,7 +112,7 @@ function DashboardClient({
             </div>
             <div className="stat-info">
               <span className="stat-value">{stats.searchCount}</span>
-              <span className="stat-label">Recherches</span>
+              <span className="stat-label">{t('common.search')}</span>
             </div>
           </div>
 
@@ -120,7 +122,7 @@ function DashboardClient({
             </div>
             <div className="stat-info">
               <span className="stat-value">{cartItems.length}</span>
-              <span className="stat-label">Articles au panier</span>
+              <span className="stat-label">{t('cart.title')}</span>
             </div>
           </div>
 
@@ -129,8 +131,8 @@ function DashboardClient({
               <i className="fas fa-coins"></i>
             </div>
             <div className="stat-info">
-              <span className="stat-value">{stats.cartTotal.toLocaleString()} XAF</span>
-              <span className="stat-label">Total panier</span>
+              <span className="stat-value">{stats.cartTotal.toLocaleString()} {t('units.xaf')}</span>
+              <span className="stat-label">{t('cart.total')}</span>
             </div>
           </div>
 
@@ -140,7 +142,7 @@ function DashboardClient({
             </div>
             <div className="stat-info">
               <span className="stat-value">{stats.reservations}</span>
-              <span className="stat-label">Réservations</span>
+              <span className="stat-label">{t('reservations.title')}</span>
             </div>
           </div>
         </div>
@@ -150,7 +152,7 @@ function DashboardClient({
       <div className="dashboard-search-section">
         <h2 className="section-title">
           <i className="fas fa-pills"></i>
-          Rechercher des Médicaments
+          {t('reservations.searchMedicines')}
         </h2>
         <SearchSection 
           userLocation={userLocation}
@@ -166,7 +168,7 @@ function DashboardClient({
       {loading && (
         <div className="feedback-message loading-message">
           <i className="fas fa-spinner fa-spin"></i>
-          Recherche en cours...
+          {t('search.searching')}
         </div>
       )}
       {error && (
@@ -182,7 +184,7 @@ function DashboardClient({
           <div className="results-container">
             <h2 className="section-title">
               <i className="fas fa-map-marked-alt"></i>
-              Résultats de Recherche
+              {t('results.title')}
             </h2>
             <ResultsDisplay 
               results={resultsToDisplay} 
@@ -208,8 +210,8 @@ function DashboardClient({
       {!loading && !error && resultsToDisplay.length === 0 && (
         <div className="no-results-message">
           <i className="fas fa-search-location"></i>
-          <h3>Commencez une recherche</h3>
-          <p>Utilisez le formulaire ci-dessus pour trouver des médicaments près de chez vous</p>
+          <h3>{t('home.searchPlaceholder')}</h3>
+          <p>{t('hero.features.smartSearchDesc')}</p>
         </div>
       )}
     </div>

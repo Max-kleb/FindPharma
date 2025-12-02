@@ -18,6 +18,9 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
         medicineName: pharmacy.medicineName || pharmacy.medicine?.name || 'Médicament',
         pharmacyName: pharmacy.name,
         pharmacyId: pharmacy.id,
+        // 💡 IDs nécessaires pour les réservations (US 6)
+        medicineId: pharmacy.medicineId || pharmacy.medicine?.id,
+        stockId: pharmacy.stockId,
         price: pharmacy.price,
         stock: pharmacy.stock,
         quantity: 1
@@ -79,6 +82,19 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
           </div>
           <div className="pharmacy-details">
             {isMedicineSearch && getStockDisplay(pharmacy.stock)}
+            
+            {/* ⭐ US 7 : Affichage de la note */}
+            {pharmacy.average_rating && (
+              <div className="pharmacy-rating">
+                <span className="stars">
+                  {'★'.repeat(Math.round(pharmacy.average_rating))}
+                  {'☆'.repeat(5 - Math.round(pharmacy.average_rating))}
+                </span>
+                <span className="rating-value">{pharmacy.average_rating}</span>
+                <span className="reviews-count">({pharmacy.reviews_count} avis)</span>
+              </div>
+            )}
+            
             <div className="contact-distance">
               {pharmacy.phone && (
                 <span className="phone-number">
@@ -90,8 +106,7 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
               {pharmacy.distance && (
                 <span className="distance">
                   <i className="fas fa-walking"></i> {pharmacy.distance}
-                </span
-              >
+                </span>
               )}
             </div>
             {!isMedicineSearch && pharmacy.address && (
@@ -101,32 +116,48 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
             )}
           </div>
           
-          {/* 🛒 US 5 : Bouton Ajouter au Panier */}
-          {isMedicineSearch && pharmacy.price && pharmacy.stock !== "Épuisé" && (
-            <div className="pharmacy-actions">
-              {onAddToCart ? (
-                <button 
-                  className="add-to-cart-button"
-                  onClick={(e) => handleAddToCart(e, pharmacy)}
-                  title="Ajouter au panier"
-                >
-                  <i className="fas fa-shopping-cart"></i> Ajouter au panier
-                </button>
-              ) : (
-                <button 
-                  className="add-to-cart-button login-required"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    alert('Veuillez vous connecter pour ajouter des articles au panier');
-                    window.location.href = '/login';
-                  }}
-                  title="Connexion requise"
-                >
-                  <i className="fas fa-lock"></i> Se connecter pour commander
-                </button>
-              )}
-            </div>
-          )}
+          {/* 🛒 US 5 : Bouton Ajouter au Panier + ⭐ US 7 : Bouton Noter */}
+          <div className="pharmacy-actions">
+            {isMedicineSearch && pharmacy.price && pharmacy.stock !== "Épuisé" && (
+              <>
+                {onAddToCart ? (
+                  <button 
+                    className="add-to-cart-button"
+                    onClick={(e) => handleAddToCart(e, pharmacy)}
+                    title="Ajouter au panier"
+                  >
+                    <i className="fas fa-shopping-cart"></i> Ajouter
+                  </button>
+                ) : (
+                  <button 
+                    className="add-to-cart-button login-required"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      alert('Veuillez vous connecter pour ajouter des articles au panier');
+                      window.location.href = '/login';
+                    }}
+                    title="Connexion requise"
+                  >
+                    <i className="fas fa-lock"></i> Connexion
+                  </button>
+                )}
+              </>
+            )}
+            
+            {/* Bouton Noter */}
+            {onReviewSubmit && (
+              <button 
+                className="review-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onReviewSubmit(pharmacy);
+                }}
+                title="Noter cette pharmacie"
+              >
+                <i className="fas fa-star"></i> Noter
+              </button>
+            )}
+          </div>
         </div>
       ))}
       </div>

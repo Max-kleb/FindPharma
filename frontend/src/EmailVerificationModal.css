@@ -160,7 +160,7 @@
   font-weight: 700;
   border: 3px solid #dee2e6;
   border-radius: 12px;
-  background: white;
+  background: var(--bg-card);
   color: #212529;
   transition: all 0.2s;
   font-family: 'Courier New', monospace;

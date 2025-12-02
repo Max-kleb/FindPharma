@@ -4,6 +4,7 @@ import SearchSection from '../SearchSection';
 import ResultsDisplay from '../ResultsDisplay';
 import Cart from '../Cart';
 import HeroSection from '../HeroSection';
+import { useLanguage } from '../contexts/LanguageContext';
 
 function HomePage({ 
   userLocation, 
@@ -22,6 +23,7 @@ function HomePage({
   onReviewSubmit,
   onAddToCart
 }) {
+  const { t } = useLanguage();
   // Vérifier si l'utilisateur est connecté
   const isLoggedIn = localStorage.getItem('token') !== null;
 
@@ -44,7 +46,7 @@ function HomePage({
           /> 
 
           {/* Affichage des feedbacks utilisateur */}
-          {loading && <div className="feedback-message">⏳ Recherche en cours...</div>}
+          {loading && <div className="feedback-message">⏳ {t('common.loading')}</div>}
           {error && <div className="feedback-message error-api">🚨 {error}</div>}
 
           {/* Affichage de la Carte et de la Liste des Résultats */}

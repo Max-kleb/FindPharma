@@ -1,0 +1,53 @@
+version: '3.8'
+
+# Configuration pour les tests automatisés
+
+services:
+  db_test:
+    image: postgis/postgis:15-3.3
+    environment:
+      POSTGRES_DB: test_findpharma
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    networks:
+      - test_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d test_findpharma"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend_test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=test-secret-key-not-for-production
+      - POSTGRES_DB=test_findpharma
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+      - ALLOWED_HOSTS=*
+    depends_on:
+      db_test:
+        condition: service_healthy
+    networks:
+      - test_network
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py test --noinput"
+
+  frontend_test:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      - CI=true
+      - REACT_APP_API_URL=http://backend_test:8000/api
+    networks:
+      - test_network
+    command: npm test -- --watchAll=false --coverage
+
+networks:
+  test_network:
+    driver: bridge

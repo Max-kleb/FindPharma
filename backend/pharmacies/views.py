@@ -561,3 +561,174 @@ def pharmacy_stock_history(request):
         'count': recent_stocks.count(),
         'results': serializer.data
     })
+
+
+# ============================================================
+# VUES POUR LES AVIS (User Story 7)
+# ============================================================
+
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from .models import PharmacyReview
+from .serializers import (
+    PharmacyReviewSerializer,
+    PharmacyReviewCreateSerializer,
+    PharmacyWithRatingSerializer
+)
+
+
+class PharmacyReviewViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet pour gérer les avis des pharmacies.
+    
+    Endpoints:
+    - GET /api/pharmacies/{pharmacy_id}/reviews/ - Lister les avis d'une pharmacie
+    - POST /api/pharmacies/{pharmacy_id}/reviews/ - Créer un avis
+    - GET /api/reviews/ - Lister tous les avis (admin)
+    - GET /api/reviews/my/ - Mes avis
+    - DELETE /api/reviews/{id}/ - Supprimer mon avis
+    """
+    serializer_class = PharmacyReviewSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    def get_queryset(self):
+        """Filtre les avis selon le contexte"""
+        queryset = PharmacyReview.objects.filter(is_approved=True)
+        
+        # Filtrer par pharmacie si spécifié dans l'URL
+        pharmacy_id = self.kwargs.get('pharmacy_id')
+        if pharmacy_id:
+            queryset = queryset.filter(pharmacy_id=pharmacy_id)
+        
+        return queryset.select_related('user', 'pharmacy')
+    
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PharmacyReviewCreateSerializer
+        return PharmacyReviewSerializer
+    
+    def create(self, request, pharmacy_id=None):
+        """Créer un avis pour une pharmacie"""
+        if not request.user.is_authenticated:
+            return Response(
+                {'error': 'Vous devez être connecté pour laisser un avis'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        # Ajouter pharmacy_id aux données
+        data = request.data.copy()
+        if pharmacy_id:
+            data['pharmacy'] = pharmacy_id
+        
+        serializer = PharmacyReviewCreateSerializer(
+            data=data,
+            context={'request': request}
+        )
+        
+        if serializer.is_valid():
+            review = serializer.save()
+            return Response(
+                PharmacyReviewSerializer(review).data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, *args, **kwargs):
+        """Supprimer un avis (uniquement le propriétaire)"""
+        review = self.get_object()
+        if review.user != request.user and not request.user.is_staff:
+            return Response(
+                {'error': 'Vous ne pouvez supprimer que vos propres avis'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().destroy(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def my(self, request):
+        """Récupérer mes avis"""
+        reviews = PharmacyReview.objects.filter(user=request.user).select_related('pharmacy')
+        serializer = PharmacyReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def pharmacy_reviews(request, pharmacy_id):
+    """
+    GET /api/pharmacies/{pharmacy_id}/reviews/
+    Lister les avis d'une pharmacie avec statistiques
+    """
+    try:
+        pharmacy = Pharmacy.objects.get(pk=pharmacy_id)
+    except Pharmacy.DoesNotExist:
+        return Response(
+            {'error': 'Pharmacie non trouvée'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    reviews = PharmacyReview.objects.filter(
+        pharmacy=pharmacy,
+        is_approved=True
+    ).select_related('user').order_by('-created_at')
+    
+    # Calculer les statistiques
+    total_reviews = reviews.count()
+    if total_reviews > 0:
+        average_rating = sum(r.rating for r in reviews) / total_reviews
+        rating_distribution = {
+            5: reviews.filter(rating=5).count(),
+            4: reviews.filter(rating=4).count(),
+            3: reviews.filter(rating=3).count(),
+            2: reviews.filter(rating=2).count(),
+            1: reviews.filter(rating=1).count(),
+        }
+    else:
+        average_rating = None
+        rating_distribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0}
+    
+    serializer = PharmacyReviewSerializer(reviews, many=True)
+    
+    return Response({
+        'pharmacy_id': pharmacy_id,
+        'pharmacy_name': pharmacy.name,
+        'total_reviews': total_reviews,
+        'average_rating': round(average_rating, 1) if average_rating else None,
+        'rating_distribution': rating_distribution,
+        'reviews': serializer.data
+    })
+
+
+@api_view(['POST'])
+def create_pharmacy_review(request, pharmacy_id):
+    """
+    POST /api/pharmacies/{pharmacy_id}/reviews/
+    Créer un avis pour une pharmacie
+    """
+    if not request.user.is_authenticated:
+        return Response(
+            {'error': 'Vous devez être connecté pour laisser un avis'},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+    
+    try:
+        pharmacy = Pharmacy.objects.get(pk=pharmacy_id)
+    except Pharmacy.DoesNotExist:
+        return Response(
+            {'error': 'Pharmacie non trouvée'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    data = request.data.copy()
+    data['pharmacy'] = pharmacy_id
+    
+    serializer = PharmacyReviewCreateSerializer(
+        data=data,
+        context={'request': request}
+    )
+    
+    if serializer.is_valid():
+        review = serializer.save()
+        return Response({
+            'message': 'Avis enregistré avec succès',
+            'review': PharmacyReviewSerializer(review).data
+        }, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

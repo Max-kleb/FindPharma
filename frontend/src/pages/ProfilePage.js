@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './ProfilePage.css';
+
+// Langues disponibles
+const availableLanguages = [
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' }
+];
 
 const ProfilePage = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('profile'); // profile, security, preferences
@@ -30,7 +39,7 @@ const ProfilePage = () => {
     email_notifications: true,
     sms_notifications: false,
     newsletter: true,
-    language: 'fr'
+    language: i18n.language?.substring(0, 2) || 'fr' // Utiliser la langue de i18n
   });
   
   const [profileImage, setProfileImage] = useState(null);
@@ -41,6 +50,12 @@ const ProfilePage = () => {
   useEffect(() => {
     loadUserProfile();
   }, []);
+
+  // Synchroniser les préférences de langue avec i18n
+  useEffect(() => {
+    const currentLang = i18n.language?.substring(0, 2) || 'fr';
+    setPreferences(prev => ({ ...prev, language: currentLang }));
+  }, [i18n.language]);
 
   const loadUserProfile = async () => {
     try {
@@ -133,13 +148,13 @@ const ProfilePage = () => {
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
       
-      setSuccessMessage('✅ Profil mis à jour avec succès !');
+      setSuccessMessage(`✅ ${t('profile.profileUpdated')}`);
       setIsEditing(false);
       
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Erreur mise à jour profil:', error);
-      setErrorMessage('❌ Erreur lors de la mise à jour du profil');
+      setErrorMessage(`❌ ${t('errors.profileUpdateError')}`);
     }
   };
 
@@ -149,12 +164,12 @@ const ProfilePage = () => {
     setErrorMessage('');
     
     if (passwordData.new_password !== passwordData.confirm_password) {
-      setErrorMessage('❌ Les mots de passe ne correspondent pas');
+      setErrorMessage(`❌ ${t('profile.passwordMismatch')}`);
       return;
     }
     
     if (passwordData.new_password.length < 8) {
-      setErrorMessage('❌ Le mot de passe doit contenir au moins 8 caractères');
+      setErrorMessage(`❌ ${t('register.passwordMinLength')}`);
       return;
     }
     
@@ -162,7 +177,7 @@ const ProfilePage = () => {
       // TODO: API call to change password
       // await changePassword(passwordData);
       
-      setSuccessMessage('✅ Mot de passe modifié avec succès !');
+      setSuccessMessage(`✅ ${t('profile.passwordChanged')}`);
       setPasswordData({
         current_password: '',
         new_password: '',
@@ -172,7 +187,7 @@ const ProfilePage = () => {
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Erreur changement mot de passe:', error);
-      setErrorMessage('❌ Erreur lors du changement de mot de passe');
+      setErrorMessage(`❌ ${t('profile.passwordError')}`);
     }
   };
 
@@ -185,19 +200,19 @@ const ProfilePage = () => {
       // TODO: API call to update preferences
       // await updatePreferences(preferences);
       
-      setSuccessMessage('✅ Préférences enregistrées !');
+      setSuccessMessage(`✅ ${t('profile.preferencesUpdated')}`);
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Erreur sauvegarde préférences:', error);
-      setErrorMessage('❌ Erreur lors de la sauvegarde');
+      setErrorMessage(`❌ ${t('errors.saveError')}`);
     }
   };
 
   const getUserTypeLabel = (type) => {
     const labels = {
-      admin: 'Administrateur',
-      pharmacy: 'Pharmacie',
-      customer: 'Client'
+      admin: t('header.userTypeAdmin'),
+      pharmacy: t('header.userTypePharmacy'),
+      customer: t('header.userTypeCustomer')
     };
     return labels[type] || type;
   };
@@ -215,7 +230,7 @@ const ProfilePage = () => {
     return (
       <div className="profile-loading">
         <div className="spinner"></div>
-        <p>Chargement du profil...</p>
+        <p>{t('common.loading')}</p>
       </div>
     );
   }
@@ -270,7 +285,7 @@ const ProfilePage = () => {
                 className="btn-edit-profile"
                 onClick={() => setIsEditing(true)}
               >
-                <i className="fas fa-edit"></i> Modifier le profil
+                <i className="fas fa-edit"></i> {t('profile.editProfile')}
               </button>
             ) : (
               <button 
@@ -280,7 +295,7 @@ const ProfilePage = () => {
                   loadUserProfile();
                 }}
               >
-                <i className="fas fa-times"></i> Annuler
+                <i className="fas fa-times"></i> {t('profile.cancel')}
               </button>
             )}
           </div>
@@ -306,19 +321,19 @@ const ProfilePage = () => {
           className={`profile-tab ${activeTab === 'profile' ? 'active' : ''}`}
           onClick={() => setActiveTab('profile')}
         >
-          <i className="fas fa-user"></i> Profil
+          <i className="fas fa-user"></i> {t('profile.profileTab')}
         </button>
         <button
           className={`profile-tab ${activeTab === 'security' ? 'active' : ''}`}
           onClick={() => setActiveTab('security')}
         >
-          <i className="fas fa-lock"></i> Sécurité
+          <i className="fas fa-lock"></i> {t('profile.securityTab')}
         </button>
         <button
           className={`profile-tab ${activeTab === 'preferences' ? 'active' : ''}`}
           onClick={() => setActiveTab('preferences')}
         >
-          <i className="fas fa-cog"></i> Préférences
+          <i className="fas fa-cog"></i> {t('profile.preferencesTab')}
         </button>
       </div>
 
@@ -327,13 +342,13 @@ const ProfilePage = () => {
         {/* Profile Tab */}
         {activeTab === 'profile' && (
           <div className="profile-section">
-            <h2><i className="fas fa-user-circle"></i> Informations personnelles</h2>
+            <h2><i className="fas fa-user-circle"></i> {t('profile.personalInfo')}</h2>
             
             <form onSubmit={handleSubmitProfile} className="profile-form">
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="first_name">
-                    <i className="fas fa-user"></i> Prénom
+                    <i className="fas fa-user"></i> {t('profile.firstName')}
                   </label>
                   <input
                     type="text"
@@ -342,13 +357,13 @@ const ProfilePage = () => {
                     value={formData.first_name}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    placeholder="Votre prénom"
+                    placeholder={t('profile.firstNamePlaceholder')}
                   />
                 </div>
                 
                 <div className="form-group">
                   <label htmlFor="last_name">
-                    <i className="fas fa-user"></i> Nom
+                    <i className="fas fa-user"></i> {t('profile.lastName')}
                   </label>
                   <input
                     type="text"
@@ -357,7 +372,7 @@ const ProfilePage = () => {
                     value={formData.last_name}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    placeholder="Votre nom"
+                    placeholder={t('profile.lastNamePlaceholder')}
                   />
                 </div>
               </div>
@@ -365,7 +380,7 @@ const ProfilePage = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="username">
-                    <i className="fas fa-at"></i> Nom d'utilisateur
+                    <i className="fas fa-at"></i> {t('profile.username')}
                   </label>
                   <input
                     type="text"
@@ -373,13 +388,13 @@ const ProfilePage = () => {
                     name="username"
                     value={formData.username}
                     disabled
-                    title="Le nom d'utilisateur ne peut pas être modifié"
+                    title={t('profile.usernameCannotChange')}
                   />
                 </div>
                 
                 <div className="form-group">
                   <label htmlFor="email">
-                    <i className="fas fa-envelope"></i> Email
+                    <i className="fas fa-envelope"></i> {t('profile.email')}
                   </label>
                   <input
                     type="email"
@@ -388,7 +403,7 @@ const ProfilePage = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    placeholder="votre@email.com"
+                    placeholder={t('profile.emailPlaceholder')}
                   />
                 </div>
               </div>
@@ -396,7 +411,7 @@ const ProfilePage = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="phone">
-                    <i className="fas fa-phone"></i> Téléphone
+                    <i className="fas fa-phone"></i> {t('profile.phone')}
                   </label>
                   <input
                     type="tel"
@@ -405,13 +420,13 @@ const ProfilePage = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    placeholder="+237 6XX XXX XXX"
+                    placeholder={t('profile.phonePlaceholder')}
                   />
                 </div>
                 
                 <div className="form-group">
                   <label htmlFor="location">
-                    <i className="fas fa-map-marker-alt"></i> Localisation
+                    <i className="fas fa-map-marker-alt"></i> {t('profile.location')}
                   </label>
                   <input
                     type="text"
@@ -420,14 +435,14 @@ const ProfilePage = () => {
                     value={formData.location}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    placeholder="Ville, Pays"
+                    placeholder={t('profile.locationPlaceholder')}
                   />
                 </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="bio">
-                  <i className="fas fa-align-left"></i> Bio
+                  <i className="fas fa-align-left"></i> {t('profile.bio')}
                 </label>
                 <textarea
                   id="bio"
@@ -435,7 +450,7 @@ const ProfilePage = () => {
                   value={formData.bio}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  placeholder="Parlez-nous de vous..."
+                  placeholder={t('profile.bioPlaceholder')}
                   rows="4"
                 ></textarea>
               </div>
@@ -443,7 +458,7 @@ const ProfilePage = () => {
               {isEditing && (
                 <div className="form-actions">
                   <button type="submit" className="btn-save">
-                    <i className="fas fa-save"></i> Enregistrer les modifications
+                    <i className="fas fa-save"></i> {t('profile.save')}
                   </button>
                 </div>
               )}
@@ -454,12 +469,12 @@ const ProfilePage = () => {
         {/* Security Tab */}
         {activeTab === 'security' && (
           <div className="profile-section">
-            <h2><i className="fas fa-shield-alt"></i> Sécurité du compte</h2>
+            <h2><i className="fas fa-shield-alt"></i> {t('profile.accountSecurity')}</h2>
             
             <form onSubmit={handleSubmitPassword} className="profile-form">
               <div className="form-group">
                 <label htmlFor="current_password">
-                  <i className="fas fa-key"></i> Mot de passe actuel
+                  <i className="fas fa-key"></i> {t('profile.currentPassword')}
                 </label>
                 <input
                   type="password"
@@ -467,14 +482,14 @@ const ProfilePage = () => {
                   name="current_password"
                   value={passwordData.current_password}
                   onChange={handlePasswordChange}
-                  placeholder="Votre mot de passe actuel"
+                  placeholder={t('profile.currentPassword')}
                   required
                 />
               </div>
 
               <div className="form-group">
                 <label htmlFor="new_password">
-                  <i className="fas fa-lock"></i> Nouveau mot de passe
+                  <i className="fas fa-lock"></i> {t('profile.newPassword')}
                 </label>
                 <input
                   type="password"
@@ -482,17 +497,17 @@ const ProfilePage = () => {
                   name="new_password"
                   value={passwordData.new_password}
                   onChange={handlePasswordChange}
-                  placeholder="Minimum 8 caractères"
+                  placeholder={t('register.minChars8')}
                   required
                 />
                 <small className="form-hint">
-                  Utilisez au moins 8 caractères avec des lettres et des chiffres
+                  {t('register.minChars8')}
                 </small>
               </div>
 
               <div className="form-group">
                 <label htmlFor="confirm_password">
-                  <i className="fas fa-lock"></i> Confirmer le mot de passe
+                  <i className="fas fa-lock"></i> {t('profile.confirmPassword')}
                 </label>
                 <input
                   type="password"
@@ -500,25 +515,25 @@ const ProfilePage = () => {
                   name="confirm_password"
                   value={passwordData.confirm_password}
                   onChange={handlePasswordChange}
-                  placeholder="Retapez le nouveau mot de passe"
+                  placeholder={t('profile.confirmPassword')}
                   required
                 />
               </div>
 
               <div className="form-actions">
                 <button type="submit" className="btn-save">
-                  <i className="fas fa-save"></i> Changer le mot de passe
+                  <i className="fas fa-save"></i> {t('profile.updatePassword')}
                 </button>
               </div>
             </form>
 
             <div className="security-info">
-              <h3><i className="fas fa-info-circle"></i> Conseils de sécurité</h3>
+              <h3><i className="fas fa-info-circle"></i> {t('profile.securityTips')}</h3>
               <ul>
-                <li>✅ Utilisez un mot de passe unique et fort</li>
-                <li>✅ Ne partagez jamais votre mot de passe</li>
-                <li>✅ Changez votre mot de passe régulièrement</li>
-                <li>✅ Activez la vérification en deux étapes (bientôt disponible)</li>
+                <li>✅ {t('profile.securityTip1')}</li>
+                <li>✅ {t('profile.securityTip2')}</li>
+                <li>✅ {t('profile.securityTip3')}</li>
+                <li>✅ {t('profile.securityTip4')}</li>
               </ul>
             </div>
           </div>
@@ -527,18 +542,18 @@ const ProfilePage = () => {
         {/* Preferences Tab */}
         {activeTab === 'preferences' && (
           <div className="profile-section">
-            <h2><i className="fas fa-sliders-h"></i> Préférences</h2>
+            <h2><i className="fas fa-sliders-h"></i> {t('profile.preferences')}</h2>
             
             <form onSubmit={handleSubmitPreferences} className="profile-form">
               <div className="preferences-section">
-                <h3><i className="fas fa-bell"></i> Notifications</h3>
+                <h3><i className="fas fa-bell"></i> {t('profile.notifications')}</h3>
                 
                 <div className="preference-item">
                   <div className="preference-info">
                     <label htmlFor="email_notifications">
-                      Notifications par email
+                      {t('profile.emailNotifications')}
                     </label>
-                    <small>Recevez des alertes par email</small>
+                    <small>{t('profile.receiveUpdates')}</small>
                   </div>
                   <label className="toggle-switch">
                     <input
@@ -555,9 +570,9 @@ const ProfilePage = () => {
                 <div className="preference-item">
                   <div className="preference-info">
                     <label htmlFor="sms_notifications">
-                      Notifications SMS
+                      {t('profile.smsNotifications')}
                     </label>
-                    <small>Recevez des alertes par SMS</small>
+                    <small>{t('profile.receiveSMS')}</small>
                   </div>
                   <label className="toggle-switch">
                     <input
@@ -574,9 +589,9 @@ const ProfilePage = () => {
                 <div className="preference-item">
                   <div className="preference-info">
                     <label htmlFor="newsletter">
-                      Newsletter
+                      {t('profile.newsletter')}
                     </label>
-                    <small>Recevez nos actualités et offres</small>
+                    <small>{t('profile.receiveNewsletter')}</small>
                   </div>
                   <label className="toggle-switch">
                     <input
@@ -592,26 +607,36 @@ const ProfilePage = () => {
               </div>
 
               <div className="preferences-section">
-                <h3><i className="fas fa-language"></i> Langue</h3>
+                <h3><i className="fas fa-language"></i> {t('profile.language')}</h3>
                 
                 <div className="form-group">
                   <select
                     value={preferences.language}
-                    onChange={(e) => setPreferences(prev => ({
-                      ...prev,
-                      language: e.target.value
-                    }))}
+                    onChange={(e) => {
+                      const newLang = e.target.value;
+                      setPreferences(prev => ({
+                        ...prev,
+                        language: newLang
+                      }));
+                      // Appliquer immédiatement le changement de langue
+                      i18n.changeLanguage(newLang);
+                    }}
                   >
-                    <option value="fr">🇫🇷 Français</option>
-                    <option value="en">🇬🇧 English</option>
-                    <option value="es">🇪🇸 Español</option>
+                    {availableLanguages.map(lang => (
+                      <option key={lang.code} value={lang.code}>
+                        {lang.flag} {lang.name}
+                      </option>
+                    ))}
                   </select>
+                  <p className="language-hint">
+                    ✓ {t('profile.chooseLanguage')}
+                  </p>
                 </div>
               </div>
 
               <div className="form-actions">
                 <button type="submit" className="btn-save">
-                  <i className="fas fa-save"></i> Enregistrer les préférences
+                  <i className="fas fa-save"></i> {t('profile.savePreferences')}
                 </button>
               </div>
             </form>

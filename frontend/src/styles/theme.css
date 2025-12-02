@@ -1,0 +1,370 @@
+/* ===================================
+   VARIABLES CSS POUR LES THÈMES
+   =================================== */
+
+:root {
+  /* Mode Clair (défaut) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e8e8e8;
+  --bg-card: #ffffff;
+  --bg-header: #ffffff;
+  --bg-footer: #2c3e50;
+  --white: #ffffff;
+  
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-inverse: #ffffff;
+  
+  --border-color: #e0e0e0;
+  --border-light: #f0f0f0;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  
+  --primary-color: #4CAF50;
+  --primary-hover: #45a049;
+  --primary-light: #e8f5e9;
+  
+  --secondary-color: #2196F3;
+  --secondary-hover: #1976D2;
+  
+  --success-color: #4CAF50;
+  --success-light: #e8f5e9;
+  
+  --warning-color: #ff9800;
+  --warning-light: #fff3e0;
+  
+  --danger-color: #f44336;
+  --danger-light: #ffebee;
+  
+  --info-color: #2196F3;
+  --info-light: #e3f2fd;
+  
+  --input-bg: #ffffff;
+  --input-border: #ddd;
+  --input-focus-border: #4CAF50;
+  
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  
+  --hero-gradient: linear-gradient(135deg, #F0F9F5 0%, #E8F5E9 50%, #FFFFFF 100%);
+  
+  /* Transition pour le changement de thème */
+  --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ===================================
+   MODE SOMBRE
+   =================================== */
+
+[data-theme="dark"] {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #0f3460;
+  --bg-card: #1f2937;
+  --bg-header: #1a1a2e;
+  --bg-footer: #0a0a0f;
+  --white: #1f2937;
+  
+  --text-primary: #e4e4e7;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-inverse: #1a1a2e;
+  
+  --border-color: #374151;
+  --border-light: #2d3748;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+  
+  --primary-color: #10b981;
+  --primary-hover: #059669;
+  --primary-light: #064e3b;
+  
+  --secondary-color: #3b82f6;
+  --secondary-hover: #2563eb;
+  
+  --success-color: #10b981;
+  --success-light: #064e3b;
+  
+  --warning-color: #f59e0b;
+  --warning-light: #78350f;
+  
+  --danger-color: #ef4444;
+  --danger-light: #7f1d1d;
+  
+  --info-color: #3b82f6;
+  --info-light: #1e3a5f;
+  
+  --input-bg: #1f2937;
+  --input-border: #374151;
+  --input-focus-border: #10b981;
+  
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  
+  --hero-gradient: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+}
+
+/* ===================================
+   STYLES GLOBAUX AVEC VARIABLES
+   =================================== */
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: var(--theme-transition);
+}
+
+/* Application générale des styles */
+.app-container,
+.main-content,
+.page-content {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Cards */
+.card,
+.result-card,
+.pharmacy-card,
+.medicine-card,
+.dashboard-card,
+.stat-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+  transition: var(--theme-transition);
+}
+
+.card:hover,
+.result-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  transition: var(--theme-transition);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--input-focus-border);
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* Boutons */
+.btn-primary,
+.primary-button {
+  background-color: var(--primary-color);
+  color: white;
+  transition: var(--theme-transition);
+}
+
+.btn-primary:hover,
+.primary-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+/* Tables */
+table {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+th {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--border-color);
+}
+
+td {
+  border-bottom: 1px solid var(--border-light);
+}
+
+tr:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* Links */
+a {
+  color: var(--primary-color);
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* Modal / Overlay */
+.modal-overlay,
+.overlay {
+  background-color: var(--overlay-bg);
+}
+
+.modal-content {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Scrollbar pour le mode sombre */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 5px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* ===================================
+   COMPOSANT THEME TOGGLE
+   =================================== */
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-secondary);
+}
+
+.theme-toggle-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-toggle-icon {
+  transform: rotate(20deg);
+}
+
+.theme-toggle-label {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+/* Switch Toggle Style */
+.theme-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-switch-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.theme-switch-slider {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  background-color: var(--bg-tertiary);
+  border-radius: 26px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid var(--border-color);
+}
+
+.theme-switch-slider::before {
+  content: '☀️';
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--bg-card);
+  border-radius: 50%;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.theme-switch-input:checked + .theme-switch-slider {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.theme-switch-input:checked + .theme-switch-slider::before {
+  content: '🌙';
+  transform: translateY(-50%) translateX(22px);
+}
+
+/* Icônes de thème dans le header */
+.theme-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+}
+
+.theme-icon-btn:hover {
+  background-color: var(--bg-secondary);
+  transform: scale(1.1);
+}
+
+[data-theme="dark"] .theme-icon-btn:hover {
+  background-color: var(--bg-tertiary);
+}
+
+/* Animation de rotation pour le changement de thème */
+@keyframes rotateIcon {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.theme-icon-btn.rotating {
+  animation: rotateIcon 0.5s ease;
+}

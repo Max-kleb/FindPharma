@@ -3,6 +3,15 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './Header';
+import Footer from './Footer';
+import { LanguageProvider } from './contexts/LanguageContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+
+// Configuration i18n (react-i18next)
+import './i18n';
+
+// Styles de thème
+import './styles/theme.css';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -16,10 +25,12 @@ import FaqPage from './pages/FaqPage';
 import AboutPage from './pages/AboutPage';
 import LegalPage from './pages/LegalPage';
 import ProfilePage from './pages/ProfilePage';
+import MesReservationsPage from './pages/MesReservationsPage';
 
-// 💡 IMPORTS US 5, US 6, US 8
+// 💡 IMPORTS US 5, US 6, US 7
 import ReservationModal from './ReservationModal';
-import { submitPharmacyReview, getNearbyPharmacies } from './services/api'; 
+import ReviewModal from './ReviewModal';
+import { submitPharmacyReview, getNearbyPharmacies, submitReservation, refreshAccessToken } from './services/api'; 
 
 
 // Coordonnées par défaut du centre de Yaoundé, Cameroun
@@ -117,27 +128,89 @@ function App() {
   }, [cartItems]);
   // Fin US 5 : PANIER
 
-  // ... (LOGIQUE US 6 : RÉSERVATION - inchangée) ...
-  const handleProceedToReservation = () => { /* ... */ };
-  const handleReservationSubmit = async (items, contact) => { /* ... */ };
-  // ... (Fin LOGIQUE US 6) ...
+  // 💡 US 6 : RÉSERVATION
+  const handleProceedToReservation = () => {
+    if (!isLoggedIn) {
+      alert("Vous devez être connecté pour effectuer une réservation.");
+      window.location.href = '/login';
+      return;
+    }
+    if (cartItems.length === 0) {
+      alert("Votre panier est vide.");
+      return;
+    }
+    setShowReservationModal(true);
+  };
+  
+  const handleReservationSubmit = async (reservationData) => {
+    if (!userToken) {
+      throw new Error("Non authentifié");
+    }
+    
+    try {
+      const result = await submitReservation(reservationData, userToken);
+      console.log('✅ Réservation créée:', result);
+      clearCart(); // Vider le panier après succès
+      return result;
+    } catch (error) {
+      console.error('❌ Erreur réservation:', error);
+      
+      // Si le token est invalide (401), essayer de rafraîchir
+      if (error.message.includes('Given token not valid') || error.message.includes('401')) {
+        console.log('🔄 Token expiré, tentative de rafraîchissement...');
+        
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (refreshToken) {
+          try {
+            const newAccessToken = await refreshAccessToken(refreshToken);
+            
+            // Mettre à jour le token dans localStorage et l'état
+            localStorage.setItem('token', newAccessToken);
+            setUserToken(newAccessToken);
+            
+            console.log('✅ Token rafraîchi, nouvelle tentative de réservation...');
+            
+            // Retenter la réservation avec le nouveau token
+            const result = await submitReservation(reservationData, newAccessToken);
+            console.log('✅ Réservation créée après refresh:', result);
+            clearCart();
+            return result;
+          } catch (refreshError) {
+            console.error('❌ Échec du rafraîchissement du token:', refreshError);
+            // Token de rafraîchissement aussi invalide → déconnexion
+            handleLogout();
+            throw new Error("Session expirée. Veuillez vous reconnecter.");
+          }
+        } else {
+          // Pas de refresh token → déconnexion
+          handleLogout();
+          throw new Error("Session expirée. Veuillez vous reconnecter.");
+        }
+      }
+      
+      throw error;
+    }
+  };
+  // Fin US 6 : RÉSERVATION
 
-  // 💡 US 8 : NOTATION/AVIS (Ajout de la vérification isLoggedIn)
+  // 💡 US 7 : NOTATION/AVIS
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [pharmacyToReview, setPharmacyToReview] = useState(null);
+  
   const handleReviewSubmit = (pharmacy) => {
       if (!isLoggedIn) {
-          alert("Vous devez être connecté pour laisser une note et un avis (US 4).");
+          alert("Vous devez être connecté pour laisser une note et un avis.");
           window.location.href = '/login';
           return;
       }
-      const rating = prompt(`Notez ${pharmacy.name} de 1 à 5 :`);
-      const comment = prompt(`Laissez un commentaire (optionnel) :`);
-      
-      if (rating && !isNaN(parseInt(rating))) {
-          submitPharmacyReview(pharmacy.id, parseInt(rating), comment, userToken); // Passage du token
-      } else {
-          alert("Note annulée ou invalide.");
-      }
+      setPharmacyToReview(pharmacy);
+      setShowReviewModal(true);
   };
+  
+  const handleReviewConfirm = async (pharmacyId, rating, comment) => {
+      await submitPharmacyReview(pharmacyId, rating, comment, userToken);
+  };
+  // Fin US 7 : NOTATION/AVIS
 
 
   // 6. LOGIQUE CLÉ : Déterminer quels résultats doivent être affichés (US 2 > US 1)
@@ -150,13 +223,15 @@ function App() {
 
 
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        {/* 💡 US 4: Mise à jour du Header pour les boutons d'auth */}
-        <Header 
-          isLoggedIn={isLoggedIn}
-          onLogout={handleLogout}
-        />
+    <ThemeProvider>
+      <LanguageProvider>
+        <BrowserRouter>
+          <div className="app-container">
+            {/* 💡 US 4: Mise à jour du Header pour les boutons d'auth */}
+            <Header 
+              isLoggedIn={isLoggedIn}
+              onLogout={handleLogout}
+            />
         
         {/* Routes de l'application */}
         <Routes>
@@ -228,6 +303,9 @@ function App() {
           
           {/* Page de profil utilisateur */}
           <Route path="/profile" element={<ProfilePage />} />
+          
+          {/* Page Mes Réservations (US 6) */}
+          <Route path="/reservations" element={<MesReservationsPage />} />
         </Routes>
 
         {/* US 6 : Le Modal de Réservation */}
@@ -237,31 +315,30 @@ function App() {
                 totalPrice={calculateTotalPrice} 
                 onSubmit={handleReservationSubmit} 
                 onClose={() => setShowReservationModal(false)}
+                userInfo={{
+                  username: localStorage.getItem('username') || '',
+                  email: localStorage.getItem('userEmail') || ''
+                }}
             />
         )}
 
-        <footer className="app-footer">
-          <div className="footer-links">
-            <a href="/about">À propos</a>
-            <a href="mailto:contact@findpharma.cm">Contact</a>
-            <a href="/faq">FAQ</a>
-            <a href="/legal">Mentions Légales</a>
-          </div>
-          <div className="footer-social">
-            <a 
-              href="https://www.facebook.com/share/19vayRCk8F/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="facebook-button"
-              title="Suivez-nous sur Facebook"
-            >
-              <i className="fab fa-facebook-f"></i>
-              <span>Suivez-nous</span>
-            </a>
-          </div>
-        </footer>
+        {/* US 7 : Le Modal de Notation */}
+        {showReviewModal && pharmacyToReview && (
+            <ReviewModal
+                pharmacy={pharmacyToReview}
+                onSubmit={handleReviewConfirm}
+                onClose={() => {
+                  setShowReviewModal(false);
+                  setPharmacyToReview(null);
+                }}
+            />
+        )}
+
+        <Footer />
       </div>
     </BrowserRouter>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 

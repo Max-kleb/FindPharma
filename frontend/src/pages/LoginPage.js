@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../services/api';
+import { useTranslation } from 'react-i18next';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -10,6 +11,7 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +65,7 @@ function LoginPage() {
       
     } catch (err) {
       console.error('❌ Erreur connexion:', err);
-      setError(err.message || 'Erreur lors de la connexion');
+      setError(err.message || t('auth.loginError'));
       setLoading(false);
     }
   };
@@ -79,8 +81,8 @@ function LoginPage() {
               <span className="logo-pharma">Pharma</span>
             </span>
           </div>
-          <h1>Connexion</h1>
-          <p>Accédez à votre compte FindPharma</p>
+          <h1>{t('auth.loginTitle')}</h1>
+          <p>{t('auth.accessAccount')}</p>
         </div>
 
         {error && (
@@ -94,14 +96,14 @@ function LoginPage() {
           <div className="form-group">
             <label htmlFor="username">
               <span className="label-icon">👤</span>
-              Nom d'utilisateur
+              {t('auth.username')}
             </label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Entrez votre nom d'utilisateur"
+              placeholder={t('auth.usernamePlaceholder')}
               required
               autoComplete="username"
               autoFocus
@@ -111,14 +113,14 @@ function LoginPage() {
           <div className="form-group">
             <label htmlFor="password">
               <span className="label-icon">🔒</span>
-              Mot de passe
+              {t('auth.password')}
             </label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Entrez votre mot de passe"
+              placeholder={t('auth.passwordPlaceholder')}
               required
               autoComplete="current-password"
             />
@@ -132,12 +134,12 @@ function LoginPage() {
             {loading ? (
               <>
                 <span className="spinner">⏳</span>
-                Connexion en cours...
+                {t('auth.loggingIn')}
               </>
             ) : (
               <>
                 <span className="button-icon">🔑</span>
-                Se connecter
+                {t('auth.loginButton')}
               </>
             )}
           </button>
@@ -145,18 +147,18 @@ function LoginPage() {
 
         <div className="login-footer">
           <p>
-            Vous n'avez pas de compte ?{' '}
+            {t('auth.noAccount')}{' '}
             <Link to="/register" className="register-link">
-              Créer un compte
+              {t('auth.createAccount')}
             </Link>
           </p>
           <Link to="/" className="back-link">
-            ← Retour à l'accueil
+            ← {t('common.back')}
           </Link>
         </div>
 
         <div className="test-account-info">
-          <p className="test-label">🧪 Compte de test</p>
+          <p className="test-label">🧪 {t('auth.testAccount')}</p>
           <p className="test-credentials">
             <strong>Username:</strong> admin_centrale<br />
             <strong>Password:</strong> admin123

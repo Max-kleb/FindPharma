@@ -126,11 +126,18 @@ function transformSearchResults(apiData) {
         lat: pharmacy.latitude,
         lng: pharmacy.longitude,
         medicineName: `${medicine.name} ${medicine.dosage}`,  // Identifier une recherche médicament
+        // 💡 IDs nécessaires pour les réservations (US 6)
+        medicineId: medicine.id,
+        stockId: pharmacy.stock?.id,
         medicine: {
+          id: medicine.id,
           name: medicine.name,
           dosage: medicine.dosage,
           form: medicine.form
-        }
+        },
+        // ⭐ US 7 : Données pour les avis (garder snake_case pour cohérence avec le composant)
+        average_rating: pharmacy.average_rating,
+        reviews_count: pharmacy.reviews_count || 0
       });
     });
   });
@@ -157,7 +164,10 @@ function transformNearbyResults(apiData) {
     phone: pharmacy.phone,
     distance: formatDistance(pharmacy.distance),
     lat: pharmacy.latitude,
-    lng: pharmacy.longitude
+    lng: pharmacy.longitude,
+    // ⭐ US 7 : Données pour les avis (garder snake_case pour cohérence avec le composant)
+    average_rating: pharmacy.average_rating,
+    reviews_count: pharmacy.reviews_count || 0
   }));
 }
 
@@ -498,12 +508,18 @@ export const deleteMedicine = async (medicineId, token) => {
 /**
  * Soumet une réservation de médicaments
  * POST /api/reservations/
- * @param {Array} items - Liste des items à réserver
- * @param {Object} contact - Informations de contact
+ * @param {Object} reservationData - Données de la réservation
+ * @param {number} reservationData.pharmacy_id - ID de la pharmacie
+ * @param {Array} reservationData.items - Liste des items [{medicine_id, stock_id, pharmacy_id, quantity}]
+ * @param {string} reservationData.contact_name - Nom du contact
+ * @param {string} reservationData.contact_phone - Téléphone du contact
+ * @param {string} reservationData.contact_email - Email du contact (optionnel)
+ * @param {string} reservationData.pickup_date - Date de récupération prévue (ISO)
+ * @param {string} reservationData.notes - Notes (optionnel)
  * @param {string} token - Token JWT (requis)
  * @returns {Promise<Object>} Réservation créée
  */
-export const submitReservation = async (items, contact, token) => {
+export const submitReservation = async (reservationData, token) => {
   try {
     const response = await fetch(`${API_URL}/api/reservations/`, {
       method: 'POST',
@@ -511,12 +527,18 @@ export const submitReservation = async (items, contact, token) => {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ items, contact })
+      body: JSON.stringify(reservationData)
     });
     
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.detail || 'Erreur lors de la réservation');
+      
+      // Si erreur 401, inclure le status dans le message pour permettre le retry
+      if (response.status === 401) {
+        throw new Error(errorData.detail || 'Given token not valid for any token type');
+      }
+      
+      throw new Error(errorData.detail || errorData.error || JSON.stringify(errorData) || 'Erreur lors de la réservation');
     }
     
     const data = await response.json();
@@ -528,13 +550,103 @@ export const submitReservation = async (items, contact, token) => {
   }
 };
 
+/**
+ * Récupère la liste des réservations de l'utilisateur
+ * GET /api/reservations/
+ * @param {string} token - Token JWT
+ * @param {string} status - Filtrer par statut (optionnel)
+ * @returns {Promise<Array>} Liste des réservations
+ */
+export const getMyReservations = async (token, status = null) => {
+  try {
+    let url = `${API_URL}/api/reservations/`;
+    if (status) {
+      url += `?status=${status}`;
+    }
+    
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des réservations');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('❌ Erreur récupération réservations:', error);
+    throw error;
+  }
+};
+
+/**
+ * Récupère les détails d'une réservation
+ * GET /api/reservations/{id}/
+ * @param {number} reservationId - ID de la réservation
+ * @param {string} token - Token JWT
+ * @returns {Promise<Object>} Détails de la réservation
+ */
+export const getReservationDetails = async (reservationId, token) => {
+  try {
+    const response = await fetch(`${API_URL}/api/reservations/${reservationId}/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Réservation non trouvée');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('❌ Erreur détails réservation:', error);
+    throw error;
+  }
+};
+
+/**
+ * Annule une réservation
+ * POST /api/reservations/{id}/cancel/
+ * @param {number} reservationId - ID de la réservation
+ * @param {string} reason - Raison de l'annulation (optionnel)
+ * @param {string} token - Token JWT
+ * @returns {Promise<Object>} Réservation mise à jour
+ */
+export const cancelReservation = async (reservationId, reason, token) => {
+  try {
+    const response = await fetch(`${API_URL}/api/reservations/${reservationId}/cancel/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ reason: reason || '' })
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Erreur lors de l\'annulation');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('❌ Erreur annulation réservation:', error);
+    throw error;
+  }
+};
+
 // ============================================================
-// ⭐ AVIS ET NOTATIONS (US 8)
+// ⭐ AVIS ET NOTATIONS (US 7)
 // ============================================================
 
 /**
  * Soumet un avis et une note pour une pharmacie
- * POST /api/pharmacies/{pharmacyId}/reviews/
+ * POST /api/pharmacies/{pharmacyId}/reviews/create/
  * @param {number} pharmacyId - ID de la pharmacie
  * @param {number} rating - Note de 1 à 5
  * @param {string} comment - Commentaire (optionnel)
@@ -543,13 +655,14 @@ export const submitReservation = async (items, contact, token) => {
  */
 export const submitPharmacyReview = async (pharmacyId, rating, comment, token) => {
   try {
-    const response = await fetch(`${API_URL}/api/pharmacies/${pharmacyId}/reviews/`, {
+    const response = await fetch(`${API_URL}/api/pharmacies/${pharmacyId}/reviews/create/`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
+        pharmacy: pharmacyId,
         rating: parseInt(rating), 
         comment: comment || '' 
       })
@@ -557,7 +670,7 @@ export const submitPharmacyReview = async (pharmacyId, rating, comment, token) =
     
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.detail || 'Erreur lors de l\'envoi de l\'avis');
+      throw new Error(errorData.error || errorData.detail || 'Erreur lors de l\'envoi de l\'avis');
     }
     
     const data = await response.json();
@@ -565,6 +678,27 @@ export const submitPharmacyReview = async (pharmacyId, rating, comment, token) =
     return data;
   } catch (error) {
     console.error('❌ Erreur soumission avis:', error);
+    throw error;
+  }
+};
+
+/**
+ * Récupère les avis d'une pharmacie
+ * GET /api/pharmacies/{pharmacyId}/reviews/
+ * @param {number} pharmacyId - ID de la pharmacie
+ * @returns {Promise<Object>} Liste des avis avec statistiques
+ */
+export const getPharmacyReviews = async (pharmacyId) => {
+  try {
+    const response = await fetch(`${API_URL}/api/pharmacies/${pharmacyId}/reviews/`);
+    
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des avis');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('❌ Erreur récupération avis:', error);
     throw error;
   }
 };
@@ -802,11 +936,84 @@ export const resendVerificationCode = async (email) => {
     }
 
     const data = await response.json();
+
     console.log('✅ Nouveau code envoyé');
     
     return data;
   } catch (error) {
     console.error('❌ Erreur renvoi code:', error.message);
+    throw error;
+  }
+};
+
+
+// ============================================================
+// USER STORY 8 : DASHBOARD ADMIN - STATISTIQUES
+// ============================================================
+
+/**
+ * Récupère les statistiques du dashboard admin
+ * GET /api/admin/stats/
+ * @param {string} token - Token JWT admin
+ * @returns {Promise<Object>} Statistiques de la plateforme
+ */
+export const getAdminStats = async (token) => {
+  try {
+    const response = await fetch(`${API_URL}/api/admin/stats/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Accès refusé. Droits administrateur requis.');
+      }
+      if (response.status === 401) {
+        throw new Error('Non authentifié. Veuillez vous reconnecter.');
+      }
+      throw new Error('Erreur lors de la récupération des statistiques');
+    }
+
+    const data = await response.json();
+    console.log('📊 Admin Stats:', data);
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur stats admin:', error);
+    throw error;
+  }
+};
+
+/**
+ * Récupère l'activité récente (réservations, avis, inscriptions)
+ * GET /api/admin/activity/
+ * @param {string} token - Token JWT admin
+ * @returns {Promise<Object>} Activité récente
+ */
+export const getAdminActivity = async (token) => {
+  try {
+    const response = await fetch(`${API_URL}/api/admin/activity/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Accès refusé. Droits administrateur requis.');
+      }
+      throw new Error('Erreur lors de la récupération de l\'activité');
+    }
+
+    const data = await response.json();
+    console.log('📋 Admin Activity:', data);
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur activité admin:', error);
     throw error;
   }
 };

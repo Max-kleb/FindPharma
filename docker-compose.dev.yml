@@ -1,0 +1,90 @@
+version: '3.8'
+
+# Configuration pour le développement avec hot-reload
+
+services:
+  # Base de données PostgreSQL avec PostGIS
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: findpharma_db_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: findpharma_db
+      POSTGRES_USER: findpharma_user
+      POSTGRES_PASSWORD: findpharma_password
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - findpharma_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U findpharma_user -d findpharma_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Backend Django avec hot-reload
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: findpharma_backend_dev
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - /app/venv_system  # Exclure le venv
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-dev-key-for-development-only
+      - POSTGRES_DB=findpharma_db
+      - POSTGRES_USER=findpharma_user
+      - POSTGRES_PASSWORD=findpharma_password
+      - ALLOWED_HOSTS=localhost,127.0.0.1,backend
+      - CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:80,http://localhost
+      - EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - findpharma_network
+    command: python manage.py runserver 0.0.0.0:8000
+
+  # Frontend React avec hot-reload (mode développement)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: findpharma_frontend_dev
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # Exclure node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+      - CHOKIDAR_USEPOLLING=true  # Pour le hot-reload dans Docker
+      - WDS_SOCKET_PORT=3000
+    depends_on:
+      - backend
+    networks:
+      - findpharma_network
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data_dev:
+    driver: local
+  static_volume:
+    driver: local
+  media_volume:
+    driver: local
+
+networks:
+  findpharma_network:
+    driver: bridge

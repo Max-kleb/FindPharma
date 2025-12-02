@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   fetchPharmacyStocks, 
   addStock, 
@@ -10,6 +11,7 @@ import {
 import './StockManager.css';
 
 const StockManager = () => {
+    const { t } = useTranslation();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -157,9 +159,9 @@ const StockManager = () => {
             setProducts(products.map(p => 
                 p.id === stockId ? { ...p, is_available: !currentStatus } : p
             ));
-            showSuccess(`Stock ${!currentStatus ? 'disponible' : 'indisponible'}`);
+            showSuccess(!currentStatus ? t('stocks.inStock') : t('stocks.outOfStock'));
         } catch (err) {
-            setError(`Erreur changement disponibilité: ${err.message}`);
+            setError(`${t('common.error')}: ${err.message}`);
         }
     };
 
@@ -171,10 +173,10 @@ const StockManager = () => {
     if (!pharmacyId || !token) {
         return (
             <div className="loading-container">
-                <h2>🔒 Accès restreint</h2>
-                <p>Vous devez être connecté en tant que pharmacie</p>
+                <h2>🔒 {t('errors.unauthorized')}</h2>
+                <p>{t('register.pharmacyHelp')}</p>
                 <button className="btn-add-stock" onClick={() => window.location.href = '/login'}>
-                    Se connecter
+                    {t('auth.loginButton')}
                 </button>
             </div>
         );
@@ -187,7 +189,7 @@ const StockManager = () => {
                 <div className="dashboard-title">
                     <h1>
                         <span>📊</span>
-                        Tableau de Bord
+                        {t('stocks.title')}
                     </h1>
                     <p>{pharmacyName}</p>
                 </div>
@@ -196,7 +198,7 @@ const StockManager = () => {
                     className={`btn-add-stock ${showAddForm ? 'cancel' : ''}`}
                 >
                     <span>{showAddForm ? '✖' : '➕'}</span>
-                    {showAddForm ? 'Annuler' : 'Ajouter un médicament'}
+                    {showAddForm ? t('common.cancel') : t('stocks.addStock')}
                 </button>
             </div>
 
@@ -207,7 +209,7 @@ const StockManager = () => {
                         <span className="stat-icon">💊</span>
                     </div>
                     <div className="stat-value">{stats.total}</div>
-                    <div className="stat-label">Médicaments en Stock</div>
+                    <div className="stat-label">{t('admin.stats.totalMedicines')}</div>
                 </div>
 
                 <div className="stat-card">
@@ -215,9 +217,9 @@ const StockManager = () => {
                         <span className="stat-icon">✅</span>
                     </div>
                     <div className="stat-value">{stats.available}</div>
-                    <div className="stat-label">Disponibles</div>
+                    <div className="stat-label">{t('search.available')}</div>
                     <div className="stat-change positive">
-                        ↗ {((stats.available / stats.total) * 100).toFixed(0)}% du total
+                        ↗ {((stats.available / stats.total) * 100).toFixed(0)}% {t('common.total')}
                     </div>
                 </div>
 
@@ -226,10 +228,10 @@ const StockManager = () => {
                         <span className="stat-icon">⚠️</span>
                     </div>
                     <div className="stat-value">{stats.lowStock}</div>
-                    <div className="stat-label">Stock Faible</div>
+                    <div className="stat-label">{t('stocks.lowStock')}</div>
                     {stats.lowStock > 0 && (
                         <div className="stat-change negative">
-                            ↘ Réapprovisionnement nécessaire
+                            ↘ {t('common.warning')}
                         </div>
                     )}
                 </div>
@@ -239,7 +241,7 @@ const StockManager = () => {
                         <span className="stat-icon">💰</span>
                     </div>
                     <div className="stat-value">{stats.totalValue.toLocaleString('fr-FR', {maximumFractionDigits: 0})}</div>
-                    <div className="stat-label">Valeur Totale (XAF)</div>
+                    <div className="stat-label">{t('common.total')} ({t('units.xaf')})</div>
                 </div>
             </div>
 
@@ -263,18 +265,18 @@ const StockManager = () => {
             {/* Form */}
             {showAddForm && (
                 <div className="add-form-container">
-                    <h3>➕ Ajouter un nouveau stock</h3>
+                    <h3>➕ {t('stocks.addStock')}</h3>
                     <form onSubmit={handleAddStock}>
                         <div className="form-grid">
                             <div className="form-group">
-                                <label>💊 Médicament</label>
+                                <label>💊 {t('stocks.medicine')}</label>
                                 <select
                                     className="form-select"
                                     value={newStock.medicine}
                                     onChange={(e) => setNewStock({...newStock, medicine: e.target.value})}
                                     required
                                 >
-                                    <option value="">-- Sélectionner un médicament --</option>
+                                    <option value="">-- {t('stocks.selectMedicine')} --</option>
                                     {medicines.map(med => (
                                         <option key={med.id} value={med.id}>
                                             {med.name} - {med.dosage} ({med.form})
@@ -284,20 +286,20 @@ const StockManager = () => {
                             </div>
 
                             <div className="form-group">
-                                <label>📦 Quantité</label>
+                                <label>📦 {t('stocks.quantity')}</label>
                                 <input
                                     type="number"
                                     className="form-input"
                                     min="0"
                                     value={newStock.quantity}
                                     onChange={(e) => setNewStock({...newStock, quantity: e.target.value})}
-                                    placeholder="Ex: 100"
+                                    placeholder={t('stocks.quantityPlaceholder')}
                                     required
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label>💵 Prix (XAF)</label>
+                                <label>💵 {t('stocks.price')} ({t('units.xaf')})</label>
                                 <input
                                     type="number"
                                     className="form-input"
@@ -305,13 +307,13 @@ const StockManager = () => {
                                     step="0.01"
                                     value={newStock.price}
                                     onChange={(e) => setNewStock({...newStock, price: e.target.value})}
-                                    placeholder="Ex: 2500"
+                                    placeholder={t('stocks.pricePlaceholder')}
                                     required
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label>Statut</label>
+                                <label>{t('stocks.status')}</label>
                                 <div className="form-checkbox-group">
                                     <input
                                         type="checkbox"
@@ -319,17 +321,17 @@ const StockManager = () => {
                                         checked={newStock.is_available}
                                         onChange={(e) => setNewStock({...newStock, is_available: e.target.checked})}
                                     />
-                                    <span>Disponible à la vente</span>
+                                    <span>{t('search.available')}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="form-actions">
                             <button type="button" className="btn-cancel" onClick={() => setShowAddForm(false)}>
-                                Annuler
+                                {t('common.cancel')}
                             </button>
                             <button type="submit" className="btn-submit" disabled={loading}>
-                                {loading ? 'Ajout en cours...' : '✅ Ajouter le stock'}
+                                {loading ? t('common.loading') : '✅ ' + t('common.add')}
                             </button>
                         </div>
                     </form>
@@ -340,20 +342,20 @@ const StockManager = () => {
             {loading && !showAddForm ? (
                 <div className="loading-container">
                     <div className="spinner"></div>
-                    <p>Chargement des stocks...</p>
+                    <p>{t('common.loading')}</p>
                 </div>
             ) : products.length === 0 ? (
                 <div className="empty-state">
                     <div className="empty-state-icon">📭</div>
-                    <h3>Aucun stock enregistré</h3>
-                    <p>Cliquez sur "Ajouter un médicament" pour commencer</p>
+                    <h3>{t('stocks.noStocks')}</h3>
+                    <p>{t('stocks.addFirst')}</p>
                 </div>
             ) : (
                 <div className="stocks-container fade-in">
                     <div className="stocks-header">
                         <h2>
                             <span>📦</span>
-                            Gestion des Stocks
+                            {t('stocks.title')}
                             <span className="stocks-count">{products.length}</span>
                         </h2>
                     </div>
@@ -361,11 +363,11 @@ const StockManager = () => {
                     <table className="stocks-table">
                         <thead>
                             <tr>
-                                <th>💊 Médicament</th>
-                                <th>📦 Quantité</th>
-                                <th>💵 Prix (XAF)</th>
-                                <th>📊 Statut</th>
-                                <th>⚙️ Actions</th>
+                                <th>💊 {t('stocks.medicine')}</th>
+                                <th>📦 {t('stocks.quantity')}</th>
+                                <th>💵 {t('stocks.price')} ({t('units.xaf')})</th>
+                                <th>📊 {t('stocks.status')}</th>
+                                <th>⚙️ {t('common.actions')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -373,7 +375,7 @@ const StockManager = () => {
                                 <tr key={product.id}>
                                     <td>
                                         <div className="medicine-info">
-                                            <span className="medicine-name">{product.medicine?.name || 'Médicament'}</span>
+                                            <span className="medicine-name">{product.medicine?.name || t('stocks.medicine')}</span>
                                             <span className="medicine-details">
                                                 {product.medicine?.dosage} • {product.medicine?.form}
                                             </span>
@@ -399,7 +401,7 @@ const StockManager = () => {
                                             onClick={() => handleToggleAvailability(product.id, product.is_available)}
                                         >
                                             <span>{product.is_available ? '✅' : '❌'}</span>
-                                            {product.is_available ? 'Disponible' : 'Indisponible'}
+                                            {product.is_available ? t('stocks.inStock') : t('stocks.outOfStock')}
                                         </button>
                                     </td>
                                     <td>
@@ -407,7 +409,7 @@ const StockManager = () => {
                                             <button
                                                 className="btn-action btn-delete"
                                                 onClick={() => handleDelete(product.id)}
-                                                title="Supprimer"
+                                                title={t('common.delete')}
                                             >
                                                 🗑️
                                             </button>

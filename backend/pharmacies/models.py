@@ -9,6 +9,8 @@ except Exception:
     GIS_AVAILABLE = False
 
 from django.db import models
+from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Pharmacy(models.Model):
@@ -39,3 +41,61 @@ class Pharmacy(models.Model):
     
     def __str__(self):
         return self.name
+    
+    @property
+    def average_rating(self):
+        """Calcule la note moyenne de la pharmacie"""
+        reviews = self.reviews.all()
+        if reviews.exists():
+            return round(sum(r.rating for r in reviews) / reviews.count(), 1)
+        return None
+    
+    @property
+    def reviews_count(self):
+        """Nombre total d'avis"""
+        return self.reviews.count()
+
+
+class PharmacyReview(models.Model):
+    """
+    Modèle pour les avis et notations des pharmacies (User Story 7)
+    """
+    pharmacy = models.ForeignKey(
+        Pharmacy,
+        on_delete=models.CASCADE,
+        related_name='reviews',
+        verbose_name="Pharmacie"
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='pharmacy_reviews',
+        verbose_name="Utilisateur"
+    )
+    rating = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name="Note (1-5)"
+    )
+    comment = models.TextField(
+        blank=True,
+        default='',
+        verbose_name="Commentaire"
+    )
+    
+    # Dates
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    # Modération
+    is_approved = models.BooleanField(default=True, verbose_name="Approuvé")
+    is_reported = models.BooleanField(default=False, verbose_name="Signalé")
+    
+    class Meta:
+        verbose_name = "Avis pharmacie"
+        verbose_name_plural = "Avis pharmacies"
+        ordering = ['-created_at']
+        # Un utilisateur ne peut laisser qu'un seul avis par pharmacie
+        unique_together = ['pharmacy', 'user']
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.pharmacy.name} ({self.rating}/5)"

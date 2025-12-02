@@ -2,19 +2,21 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import GeolocationButton from './GeolocationButton';
 import { searchMedication, getNearbyPharmacies } from './services/api';
+import { useTranslation } from 'react-i18next';
 
 function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoading, setError, setLastSearch }) {
   const [searchText, setSearchText] = useState('');
   const [searchRadius, setSearchRadius] = useState(5000); // Rayon par défaut: 5km
   const [isSearching, setIsSearching] = useState(false);
   const debounceTimerRef = useRef(null);
+  const { t } = useTranslation();
   
   // Fonction de recherche avec gestion améliorée (wrapped with useCallback)
   const handleSearch = useCallback(async (query = null) => {
     const trimmedText = (query || searchText).trim().toLowerCase();
     
     if (!trimmedText) {
-      setError('Veuillez entrer un nom de médicament');
+      setError(t('search.enterMedicine'));
       setPharmacies([]);
       return;
     }
@@ -38,21 +40,21 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
       const results = await searchMedication(trimmedText, userLocation);
       
       if (results.length === 0) {
-        setError(`Aucune pharmacie ne propose "${trimmedText}" actuellement`);
+        setError(t('search.noResults').replace('{query}', trimmedText));
         setPharmacies([]);
       } else {
         setPharmacies(results);
         setError(null);
       }
     } catch (err) {
-      setError('Erreur lors de la recherche. Vérifiez que le serveur backend est lancé.');
+      setError(t('search.errorSearch'));
       console.error('Erreur recherche:', err);
       setPharmacies([]);
     } finally {
       setLoading(false);
       setIsSearching(false);
     }
-  }, [searchText, userLocation, setPharmacies, setLoading, setError, setLastSearch]);
+  }, [searchText, userLocation, setPharmacies, setLoading, setError, setLastSearch, t]);
 
   // Debounce pour recherche automatique pendant la frappe
   useEffect(() => {
@@ -95,7 +97,7 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
       const results = await getNearbyPharmacies(latitude, longitude, searchRadius);
       
       if (results.length === 0) {
-        setError(`Aucune pharmacie trouvée dans un rayon de ${searchRadius / 1000} km. Essayez d'augmenter le rayon de recherche.`);
+        setError(t('search.noPharmacyInRadius').replace('{km}', searchRadius / 1000));
         setPharmacies([]);
       } else {
         setError(null);
@@ -104,7 +106,7 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
         console.log(`✅ ${results.length} pharmacie(s) trouvée(s) dans un rayon de ${searchRadius / 1000} km`);
       }
     } catch (err) {
-      setError('Erreur lors de la récupération des pharmacies proches');
+      setError(t('search.errorSearch'));
       console.error('Erreur géolocalisation:', err);
       setPharmacies([]);
     } finally {
@@ -116,7 +118,7 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
         <i className={`fas ${isSearching ? 'fa-spinner fa-spin' : 'fa-search'} search-icon`}></i>
         <input 
           type="text" 
-          placeholder="Rechercher un médicament (Ex: doli, asp, ibu...)" 
+          placeholder={t('search.placeholder')} 
           className="search-input" 
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
@@ -135,7 +137,7 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
               setPharmacies([]);
               setError(null);
             }}
-            title="Effacer"
+            title={t('search.clear')}
           >
             <i className="fas fa-times"></i>
           </button>
@@ -143,10 +145,10 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
         <button 
           className="search-button" 
           onClick={() => handleSearch()}
-          title="Lancer la recherche"
+          title={t('search.searchButton')}
           disabled={isSearching || !searchText.trim()}
         >
-          {isSearching ? 'Recherche...' : 'Rechercher'}
+          {isSearching ? t('search.searching') : t('search.searchButton')}
         </button>
       </div>
       
@@ -154,32 +156,32 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
       {searchText.trim().length > 0 && searchText.trim().length < 2 && (
         <div className="search-hint">
           <i className="fas fa-info-circle"></i>
-          Tapez au moins 2 caractères pour lancer la recherche
+          {t('search.hintMinChars')}
         </div>
       )}
 
       {/* Sélecteur de rayon de recherche */}
       <div className="radius-selector">
         <label htmlFor="search-radius">
-          <i className="fas fa-map-marked-alt"></i> Rayon de recherche :
+          <i className="fas fa-map-marked-alt"></i> {t('search.searchRadius')} :
         </label>
         <select 
           id="search-radius"
           value={searchRadius} 
           onChange={(e) => setSearchRadius(Number(e.target.value))}
           className="radius-select"
-          title="Choisissez la distance maximale pour trouver des pharmacies proches"
+          title={t('search.usedForLocation')}
         >
-          <option value="1000">1 km autour de moi</option>
-          <option value="2000">2 km autour de moi</option>
-          <option value="3000">3 km autour de moi</option>
-          <option value="5000">5 km autour de moi</option>
-          <option value="10000">10 km autour de moi</option>
-          <option value="20000">20 km autour de moi</option>
-          <option value="50000">50 km autour de moi</option>
+          <option value="1000">{t('search.kmAroundMe').replace('{km}', '1')}</option>
+          <option value="2000">{t('search.kmAroundMe').replace('{km}', '2')}</option>
+          <option value="3000">{t('search.kmAroundMe').replace('{km}', '3')}</option>
+          <option value="5000">{t('search.kmAroundMe').replace('{km}', '5')}</option>
+          <option value="10000">{t('search.kmAroundMe').replace('{km}', '10')}</option>
+          <option value="20000">{t('search.kmAroundMe').replace('{km}', '20')}</option>
+          <option value="50000">{t('search.kmAroundMe').replace('{km}', '50')}</option>
         </select>
         <span className="radius-info">
-          <i className="fas fa-info-circle"></i> Utilisé lors de la localisation
+          <i className="fas fa-info-circle"></i> {t('search.usedForLocation')}
         </span>
       </div>
 

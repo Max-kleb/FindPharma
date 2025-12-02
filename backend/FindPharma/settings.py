@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'users',
     'stocks',
     'cart',
+    'reservations',
     'django_filters',
     'drf_spectacular',
 ]

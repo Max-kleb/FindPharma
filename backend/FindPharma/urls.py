@@ -22,6 +22,10 @@ urlpatterns = [
     path('api/', include('stocks.urls')),
     path('api/', include('medicines.urls')),  # Medicines endpoint
     path('api/cart/', include('cart.urls', namespace='cart')),
+    path('api/', include('reservations.urls', namespace='reservations')),
+    
+    # US 8 : Dashboard Admin - Statistiques
+    path('api/', include('core.urls')),
     
     # Swagger/OpenAPI URLs (Documentation interactive)
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

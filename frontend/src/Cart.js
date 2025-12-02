@@ -1,14 +1,16 @@
 // src/Cart.js
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Cart({ cartItems, onRemoveItem, onClearCart, onProceedToReservation }) {
+  const { t } = useTranslation();
     
   if (cartItems.length === 0) {
     return (
       <div className="cart-container empty-cart">
-        <h3>🛒 Mon Panier</h3>
-        <p>Votre panier est vide pour l'instant.</p>
-        <p>Recherchez un médicament et cliquez sur "Ajouter au panier".</p>
+        <h3>🛒 {t('cart.title')}</h3>
+        <p>{t('cart.empty')}</p>
+        <p>{t('cart.continueShopping')}</p>
       </div>
     );
   }
@@ -22,7 +24,7 @@ function Cart({ cartItems, onRemoveItem, onClearCart, onProceedToReservation }) 
 
   return (
     <div className="cart-container">
-      <h3>🛒 Mon Panier ({cartItems.length} articles)</h3>
+      <h3>🛒 {t('cart.title')} ({cartItems.length} {t('reservations.items')})</h3>
       
       {cartItems.map((item, index) => (
         <div key={item.id + '-' + index} className="cart-item">
@@ -31,7 +33,7 @@ function Cart({ cartItems, onRemoveItem, onClearCart, onProceedToReservation }) 
                 <i className="fas fa-pills"></i> **{item.medicineName}**
             </p>
             <p className="item-pharmacy-name">
-                <i className="fas fa-clinic-medical"></i> Chez {item.pharmacyName}
+                <i className="fas fa-clinic-medical"></i> {item.pharmacyName}
             </p>
             <p className="item-price-quantity">
                 {item.price} x {item.quantity}
@@ -40,7 +42,7 @@ function Cart({ cartItems, onRemoveItem, onClearCart, onProceedToReservation }) 
           <button 
             className="remove-button"
             onClick={() => onRemoveItem(item.id, index)}
-            title="Retirer cet article du panier"
+            title={t('cart.remove')}
           >
             &times;
           </button>
@@ -48,7 +50,7 @@ function Cart({ cartItems, onRemoveItem, onClearCart, onProceedToReservation }) 
       ))}
 
       <div className="cart-summary">
-        <h4>Total estimé : {total.toLocaleString('fr-CM', { style: 'currency', currency: 'XAF', minimumFractionDigits: 0 })}</h4>
+        <h4>{t('cart.total')} : {total.toLocaleString('fr-CM', { style: 'currency', currency: 'XAF', minimumFractionDigits: 0 })}</h4>
       </div>
 
       <div className="cart-actions">
@@ -56,17 +58,17 @@ function Cart({ cartItems, onRemoveItem, onClearCart, onProceedToReservation }) 
         <button 
           className="proceed-button"
           onClick={onProceedToReservation} 
-          title="Passer à la réservation"
+          title={t('cart.proceedReservation')}
         >
-          <i className="fas fa-shopping-cart"></i> Réserver ({cartItems.length})
+          <i className="fas fa-shopping-cart"></i> {t('search.reserve')} ({cartItems.length})
         </button>
 
         <button 
           className="clear-button"
           onClick={onClearCart}
-          title="Vider tout le panier"
+          title={t('cart.clear')}
         >
-          <i className="fas fa-trash"></i> Vider le Panier
+          <i className="fas fa-trash"></i> {t('cart.clear')}
         </button>
       </div>
     </div>

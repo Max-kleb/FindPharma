@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register, getAllPharmacies, sendVerificationCode } from '../services/api';
 import EmailVerificationModal from '../EmailVerificationModal'; // Correct path
+import { useTranslation } from 'react-i18next';
 import './RegisterPage.css';
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,18 +44,18 @@ function RegisterPage() {
 
     // Validation du mot de passe
     if (password.length < 8) {
-      setError('Le mot de passe doit contenir au moins 8 caractères');
+      setError(t('register.passwordMinLength'));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas');
+      setError(t('auth.passwordMismatch'));
       return;
     }
 
     // Validation pour les pharmacies
     if (userType === 'pharmacy' && !pharmacyId) {
-      setError('Veuillez sélectionner une pharmacie');
+      setError(t('register.selectPharmacy'));
       return;
     }
 
@@ -65,7 +67,7 @@ function RegisterPage() {
         setShowVerificationModal(true);
       } catch (err) {
         console.error('❌ Erreur envoi code:', err);
-        setError(err.message || 'Erreur lors de l\'envoi du code de vérification');
+        setError(err.message || t('register.verificationCodeError'));
       } finally {
         setLoading(false);
       }
@@ -122,10 +124,10 @@ function RegisterPage() {
         <div className="register-container success-container">
           <div className="success-message">
             <span className="success-icon">✅</span>
-            <h2>Inscription réussie !</h2>
-            <p>Votre compte a été créé avec succès.</p>
+            <h2>{t('register.successTitle')}</h2>
+            <p>{t('register.successMessage')}</p>
             <p className="redirect-message">
-              Redirection vers la page de connexion...
+              {t('register.redirecting')}
             </p>
           </div>
         </div>
@@ -144,15 +146,15 @@ function RegisterPage() {
               <span className="logo-pharma">Pharma</span>
             </span>
           </div>
-          <h1>Créer un Compte</h1>
-          <p>Rejoignez FindPharma dès maintenant</p>
+          <h1>{t('register.title')}</h1>
+          <p>{t('register.subtitle')}</p>
         </div>
 
         {/* Badge de vérification email */}
         {emailVerified && (
           <div className="verification-badge">
             <i className="fas fa-check-circle"></i>
-            <span>Email vérifié avec succès</span>
+            <span>{t('register.emailVerified')}</span>
           </div>
         )}
 
@@ -167,7 +169,7 @@ function RegisterPage() {
           <div className="form-group">
             <label htmlFor="userType">
               <span className="label-icon">👥</span>
-              Type de compte
+              {t('register.accountType')}
             </label>
             <select
               id="userType"
@@ -176,13 +178,13 @@ function RegisterPage() {
               className="select-input"
               required
             >
-              <option value="customer">👤 Client</option>
-              <option value="pharmacy">💊 Pharmacie</option>
+              <option value="customer">👤 {t('register.customer')}</option>
+              <option value="pharmacy">💊 {t('register.pharmacy')}</option>
             </select>
             <small className="help-text">
               {userType === 'customer' 
-                ? 'Compte pour rechercher et réserver des médicaments' 
-                : 'Compte pour gérer les stocks de votre pharmacie'}
+                ? t('register.customerHelp')
+                : t('register.pharmacyHelp')}
             </small>
           </div>
 
@@ -191,7 +193,7 @@ function RegisterPage() {
             <div className="form-group">
               <label htmlFor="pharmacyId">
                 <span className="label-icon">🏥</span>
-                Sélectionner votre pharmacie
+                {t('register.selectYourPharmacy')}
               </label>
               <select
                 id="pharmacyId"
@@ -200,7 +202,7 @@ function RegisterPage() {
                 className="select-input"
                 required
               >
-                <option value="">-- Choisir une pharmacie --</option>
+                <option value="">-- {t('register.choosePharmacy')} --</option>
                 {pharmacies.map((pharmacy) => (
                   <option key={pharmacy.id} value={pharmacy.id}>
                     {pharmacy.name} - {pharmacy.address}
@@ -208,7 +210,7 @@ function RegisterPage() {
                 ))}
               </select>
               <small className="help-text">
-                Sélectionnez la pharmacie que vous représentez
+                {t('register.pharmacySelectHelp')}
               </small>
             </div>
           )}
@@ -216,33 +218,33 @@ function RegisterPage() {
           <div className="form-group">
             <label htmlFor="username">
               <span className="label-icon">👤</span>
-              Nom d'utilisateur
+              {t('auth.username')}
             </label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Choisissez un nom d'utilisateur"
+              placeholder={t('register.usernamePlaceholder')}
               required
               autoComplete="username"
               autoFocus
               minLength={3}
             />
-            <small className="help-text">Minimum 3 caractères</small>
+            <small className="help-text">{t('register.minChars3')}</small>
           </div>
 
           <div className="form-group">
             <label htmlFor="email">
               <span className="label-icon">📧</span>
-              Adresse email
+              {t('auth.email')}
             </label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="votre.email@exemple.com"
+              placeholder={t('auth.emailPlaceholder')}
               required
               autoComplete="email"
             />
@@ -251,32 +253,32 @@ function RegisterPage() {
           <div className="form-group">
             <label htmlFor="password">
               <span className="label-icon">🔒</span>
-              Mot de passe
+              {t('auth.password')}
             </label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Créez un mot de passe sécurisé"
+              placeholder={t('register.passwordPlaceholder')}
               required
               autoComplete="new-password"
               minLength={8}
             />
-            <small className="help-text">Minimum 8 caractères</small>
+            <small className="help-text">{t('register.minChars8')}</small>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword">
               <span className="label-icon">🔒</span>
-              Confirmer le mot de passe
+              {t('auth.confirmPassword')}
             </label>
             <input
               type="password"
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirmez votre mot de passe"
+              placeholder={t('auth.confirmPasswordPlaceholder')}
               required
               autoComplete="new-password"
               minLength={8}
@@ -291,17 +293,17 @@ function RegisterPage() {
             {loading ? (
               <>
                 <span className="spinner">⏳</span>
-                {emailVerified ? 'Création en cours...' : 'Envoi du code...'}
+                {emailVerified ? t('register.creating') : t('register.sendingCode')}
               </>
             ) : emailVerified ? (
               <>
                 <span className="button-icon">✅</span>
-                Finaliser l'inscription
+                {t('register.finalize')}
               </>
             ) : (
               <>
-                <span className="button-icon">�</span>
-                Vérifier mon email
+                <span className="button-icon">📧</span>
+                {t('register.verifyEmail')}
               </>
             )}
           </button>
@@ -309,20 +311,20 @@ function RegisterPage() {
           {!emailVerified && (
             <p className="verification-notice">
               <i className="fas fa-info-circle"></i>
-              Un code de vérification sera envoyé à votre email
+              {t('register.verificationNotice')}
             </p>
           )}
         </form>
 
         <div className="register-footer">
           <p>
-            Vous avez déjà un compte ?{' '}
+            {t('auth.hasAccount')}{' '}
             <Link to="/login" className="login-link">
-              Se connecter
+              {t('auth.loginButton')}
             </Link>
           </p>
           <Link to="/" className="back-link">
-            ← Retour à l'accueil
+            ← {t('common.back')}
           </Link>
         </div>
       </div>

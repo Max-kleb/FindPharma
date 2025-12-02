@@ -2,8 +2,14 @@
 
 .profile-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   padding-bottom: 60px;
+  transition: var(--theme-transition);
+}
+
+.profile-page * {
+  transition: var(--theme-transition);
 }
 
 /* ============================================
@@ -11,7 +17,7 @@
    ============================================ */
 
 .profile-header {
-  background: white;
+  background: var(--bg-card);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 30px;
 }
@@ -61,7 +67,7 @@
   height: 160px;
   border-radius: 50%;
   border: 6px solid white;
-  background: white;
+  background: var(--bg-card);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   position: relative;
@@ -97,18 +103,18 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #667eea;
+  background: var(--primary-color);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
 }
 
 .profile-avatar-edit:hover {
-  background: #5568d3;
+  background: var(--primary-hover);
   transform: scale(1.1);
 }
 
@@ -119,14 +125,14 @@
 .profile-name {
   font-size: 32px;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--text-primary);
   margin: 0 0 5px 0;
   line-height: 1.2;
 }
 
 .profile-username {
   font-size: 16px;
-  color: #718096;
+  color: var(--text-tertiary);
   margin: 0 0 12px 0;
 }
 
@@ -173,12 +179,12 @@
 }
 
 .btn-cancel-edit {
-  background: #e2e8f0;
-  color: #4a5568;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
 }
 
 .btn-cancel-edit:hover {
-  background: #cbd5e0;
+  background: var(--bg-secondary);
   transform: translateY(-2px);
 }
 
@@ -210,13 +216,13 @@
 }
 
 .alert-success {
-  background: #d4edda;
+  background: var(--success-light);
   color: #155724;
   border: 1px solid #c3e6cb;
 }
 
 .alert-error {
-  background: #f8d7da;
+  background: var(--danger-light);
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
@@ -230,7 +236,7 @@
   margin: 0 auto 30px;
   display: flex;
   gap: 12px;
-  background: white;
+  background: var(--bg-card);
   padding: 12px;
   border-radius: 16px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
@@ -241,7 +247,7 @@
   padding: 14px 24px;
   border: none;
   background: transparent;
-  color: #718096;
+  color: var(--text-tertiary);
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
@@ -254,7 +260,7 @@
 }
 
 .profile-tab:hover {
-  background: #f7fafc;
+  background: var(--bg-secondary);
   color: #667eea;
 }
 
@@ -278,7 +284,7 @@
 }
 
 .profile-section {
-  background: white;
+  background: var(--bg-card);
   padding: 40px;
   border-radius: 16px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
@@ -299,7 +305,7 @@
 .profile-section h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--text-primary);
   margin: 0 0 30px 0;
   display: flex;
   align-items: center;
@@ -316,7 +322,7 @@
 .profile-section h3 {
   font-size: 18px;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--text-secondary);
   margin: 30px 0 20px 0;
   display: flex;
   align-items: center;
@@ -349,7 +355,7 @@
 .form-group label {
   display: block;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--text-secondary);
   margin-bottom: 10px;
   font-size: 14px;
   display: flex;
@@ -370,9 +376,9 @@
   border: 2px solid #e2e8f0;
   border-radius: 10px;
   font-size: 15px;
-  color: #2d3748;
+  color: var(--text-primary);
   transition: all 0.3s ease;
-  background: white;
+  background: var(--bg-card);
 }
 
 .form-group input:focus,
@@ -384,7 +390,7 @@
 }
 
 .form-group input:disabled {
-  background: #f7fafc;
+  background: var(--bg-secondary);
   color: #a0aec0;
   cursor: not-allowed;
 }
@@ -461,7 +467,7 @@
 
 .security-info li {
   padding: 10px 0;
-  color: #4a5568;
+  color: var(--text-secondary);
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -481,27 +487,27 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background: #f7fafc;
+  background: var(--bg-secondary);
   border-radius: 12px;
   margin-bottom: 12px;
   transition: all 0.3s ease;
 }
 
 .preference-item:hover {
-  background: #edf2f7;
+  background: var(--bg-tertiary);
   transform: translateX(4px);
 }
 
 .preference-info label {
   font-weight: 600;
-  color: #2d3748;
+  color: var(--text-primary);
   margin-bottom: 4px;
   cursor: pointer;
 }
 
 .preference-info small {
   display: block;
-  color: #718096;
+  color: var(--text-tertiary);
   font-size: 13px;
 }
 
@@ -580,7 +586,7 @@
 
 .profile-loading p {
   font-size: 16px;
-  color: #718096;
+  color: var(--text-tertiary);
 }
 
 /* ============================================
@@ -667,3 +673,12 @@
 .profile-avatar:hover .profile-avatar-placeholder {
   animation: pulse 2s ease-in-out infinite;
 }
+
+/* Hint pour le changement de langue */
+.language-hint {
+  font-size: 12px;
+  color: #00A86B;
+  margin-top: 8px;
+  font-style: italic;
+}
+
