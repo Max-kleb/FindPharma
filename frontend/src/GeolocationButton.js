@@ -8,9 +8,8 @@ function GeolocationButton({ onLocationFound, onError }) {
     if (!navigator.geolocation) {
       if (onError) {
         onError(new Error("Votre navigateur ne supporte pas la géolocalisation."));
-      } else {
-        alert("Votre navigateur ne supporte pas la géolocalisation.");
       }
+      // Pas de pop-up, erreur silencieuse
       return;
     }
 
@@ -27,9 +26,8 @@ function GeolocationButton({ onLocationFound, onError }) {
         console.error("Erreur de géolocalisation :", error);
         if (onError) {
           onError(error);
-        } else {
-          alert("Impossible de vous localiser. Vérifiez les permissions de votre navigateur.");
         }
+        // Pas de pop-up, erreur silencieuse
         setIsLoading(false);
       },
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }

@@ -146,6 +146,19 @@ def send_verification_email(user_email, verification_code, username):
     """
     
     try:
+        # 🔧 En mode console, afficher le code dans les logs
+        if settings.EMAIL_BACKEND == 'django.core.mail.backends.console.EmailBackend':
+            print("\n" + "="*70)
+            print(f"📧 EMAIL DE VÉRIFICATION (Mode Console)")
+            print("="*70)
+            print(f"À: {user_email}")
+            print(f"Objet: {subject}")
+            print(f"👤 Utilisateur: {username}")
+            print(f"🔐 CODE DE VÉRIFICATION: {verification_code}")
+            print(f"⏰ Expire dans: {expiry_minutes} minute(s)")
+            print("="*70 + "\n")
+        
+        # Envoyer l'email (timeout de 5 secondes pour éviter les blocages)
         send_mail(
             subject=subject,
             message=plain_message,
@@ -158,6 +171,12 @@ def send_verification_email(user_email, verification_code, username):
         return True
     except Exception as e:
         print(f"❌ Erreur envoi email à {user_email}: {str(e)}")
+        # 🔧 En mode développement, on considère l'envoi comme réussi même si l'email échoue
+        # car le code est déjà stocké en cache
+        if settings.DEBUG:
+            print(f"⚠️ Mode DEBUG: Le code est stocké en cache même si l'email a échoué")
+            print(f"🔐 Utiliser ce code pour tester: {verification_code}")
+            return True
         return False
 
 def send_welcome_email(user_email, username):

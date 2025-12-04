@@ -172,42 +172,20 @@ function transformNearbyResults(apiData) {
 }
 
 /**
- * Formater la distance (mètres → km)
- * @param {number} distanceInMeters - Distance en mètres
+ * Formater la distance (km → string)
+ * @param {number} distanceInKm - Distance en kilomètres depuis le backend
  * @returns {string} Distance formatée (ex: "1.5 km" ou "500 m")
  */
-function formatDistance(distanceInMeters) {
-  if (!distanceInMeters) return null;
+function formatDistance(distanceInKm) {
+  if (!distanceInKm) return null;
+  
+  const distanceInMeters = distanceInKm * 1000;
   
   if (distanceInMeters < 1000) {
     return `${Math.round(distanceInMeters)} m`;
   }
   
-  return `${(distanceInMeters / 1000).toFixed(1)} km`;
-}
-
-/**
- * Calculer la distance entre deux points (formule Haversine)
- * @param {object} point1 - {lat, lng}
- * @param {object} point2 - {lat, lng}
- * @returns {number} Distance en mètres
- */
-export function calculateDistance(point1, point2) {
-  const R = 6371000; // Rayon de la Terre en mètres
-  const dLat = toRad(point2.lat - point1.lat);
-  const dLng = toRad(point2.lng - point1.lng);
-  
-  const a = 
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(point1.lat)) * Math.cos(toRad(point2.lat)) *
-    Math.sin(dLng / 2) * Math.sin(dLng / 2);
-  
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distance en mètres
-}
-
-function toRad(degrees) {
-  return degrees * (Math.PI / 180);
+  return `${distanceInKm.toFixed(1)} km`;
 }
 
 // ============================================================

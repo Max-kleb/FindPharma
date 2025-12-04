@@ -5,7 +5,7 @@ import './ReservationModal.css';
 function ReservationModal({ cartItems, totalPrice, onSubmit, onClose, userInfo }) {
   // Informations de contact
   const [contactName, setContactName] = useState(userInfo?.username || '');
-  const [contactPhone, setContactPhone] = useState('');
+  const [contactPhone, setContactPhone] = useState(userInfo?.phone || '');
   const [contactEmail, setContactEmail] = useState(userInfo?.email || '');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,6 +18,75 @@ function ReservationModal({ cartItems, totalPrice, onSubmit, onClose, userInfo }
     return date.toISOString().slice(0, 16);
   }, []);
   const [pickupDate, setPickupDate] = useState(tomorrow);
+
+  // Fonction pour formater automatiquement le numéro de téléphone camerounais
+  const formatPhoneNumber = (value) => {
+    // Retirer tous les caractères non numériques sauf le +
+    let cleaned = value.replace(/[^\d+]/g, '');
+    
+    // Si commence par +237, garder tel quel
+    if (cleaned.startsWith('+237')) {
+      cleaned = cleaned.substring(0, 13); // +237 + 9 chiffres max
+      
+      // Formater: +237 6XX XXX XXX
+      if (cleaned.length > 4) {
+        cleaned = cleaned.substring(0, 4) + ' ' + cleaned.substring(4);
+      }
+      if (cleaned.length > 8) {
+        cleaned = cleaned.substring(0, 8) + ' ' + cleaned.substring(8);
+      }
+      if (cleaned.length > 12) {
+        cleaned = cleaned.substring(0, 12) + ' ' + cleaned.substring(12);
+      }
+      
+      return cleaned;
+    }
+    
+    // Si commence par 6 ou 2 (numéros camerounais), ajouter +237
+    if (cleaned.startsWith('6') || cleaned.startsWith('2')) {
+      cleaned = '+237' + cleaned.substring(0, 9);
+      
+      // Formater
+      if (cleaned.length > 4) {
+        cleaned = cleaned.substring(0, 4) + ' ' + cleaned.substring(4);
+      }
+      if (cleaned.length > 8) {
+        cleaned = cleaned.substring(0, 8) + ' ' + cleaned.substring(8);
+      }
+      if (cleaned.length > 12) {
+        cleaned = cleaned.substring(0, 12) + ' ' + cleaned.substring(12);
+      }
+      
+      return cleaned;
+    }
+    
+    // Si commence par 237, ajouter le +
+    if (cleaned.startsWith('237')) {
+      cleaned = '+' + cleaned.substring(0, 12);
+      
+      // Formater
+      if (cleaned.length > 4) {
+        cleaned = cleaned.substring(0, 4) + ' ' + cleaned.substring(4);
+      }
+      if (cleaned.length > 8) {
+        cleaned = cleaned.substring(0, 8) + ' ' + cleaned.substring(8);
+      }
+      if (cleaned.length > 12) {
+        cleaned = cleaned.substring(0, 12) + ' ' + cleaned.substring(12);
+      }
+      
+      return cleaned;
+    }
+    
+    // Sinon, retourner tel quel (limité à 17 caractères)
+    return cleaned.substring(0, 17);
+  };
+
+  // Gestionnaire du changement de numéro de téléphone avec formatage
+  const handlePhoneChange = (e) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setContactPhone(formatted);
+  };
 
   // Grouper les items par pharmacie
   const itemsByPharmacy = useMemo(() => {
@@ -39,17 +108,9 @@ function ReservationModal({ cartItems, totalPrice, onSubmit, onClose, userInfo }
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validation
-    if (!contactName.trim()) {
-      alert("Veuillez fournir votre nom.");
-      return;
-    }
-    if (!contactPhone.trim()) {
-      alert("Veuillez fournir un numéro de téléphone.");
-      return;
-    }
-    if (!pickupDate) {
-      alert("Veuillez choisir une date de récupération.");
+    // Validation (pas de pop-up, on empêche simplement la soumission)
+    if (!contactName.trim() || !contactPhone.trim() || !pickupDate) {
+      // Laisser les validations HTML5 et les erreurs visuelles gérer cela
       return;
     }
     
@@ -76,12 +137,13 @@ function ReservationModal({ cartItems, totalPrice, onSubmit, onClose, userInfo }
         await onSubmit(reservationData);
       }
       
-      alert(`✅ Réservation(s) créée(s) avec succès ! Vous recevrez une confirmation.`);
+      // Pas de pop-up, fermeture directe
+      onClose();
     } catch (error) {
-      alert(`❌ Erreur: ${error.message}`);
+      // Erreur silencieuse ou affichée dans l'UI si nécessaire
+      console.error('Erreur réservation:', error);
     } finally {
       setLoading(false);
-      onClose();
     }
   };
 
@@ -118,6 +180,7 @@ function ReservationModal({ cartItems, totalPrice, onSubmit, onClose, userInfo }
               onChange={(e) => setContactName(e.target.value)}
               placeholder="Votre nom"
               required
+              autoComplete="name"
             />
           </div>
           
@@ -127,10 +190,12 @@ function ReservationModal({ cartItems, totalPrice, onSubmit, onClose, userInfo }
               id="contact-phone"
               type="tel"
               value={contactPhone}
-              onChange={(e) => setContactPhone(e.target.value)}
+              onChange={handlePhoneChange}
               placeholder="+237 6XX XXX XXX"
               required
+              autoComplete="tel"
             />
+            <small className="help-text">Format: +237 6XX XXX XXX (formaté automatiquement)</small>
           </div>
           
           <div className="form-group">
@@ -141,6 +206,7 @@ function ReservationModal({ cartItems, totalPrice, onSubmit, onClose, userInfo }
               value={contactEmail}
               onChange={(e) => setContactEmail(e.target.value)}
               placeholder="votre@email.com"
+              autoComplete="email"
             />
           </div>
           

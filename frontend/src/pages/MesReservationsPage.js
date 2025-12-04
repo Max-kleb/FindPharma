@@ -44,7 +44,8 @@ function MesReservationsPage() {
       const details = await getReservationDetails(reservationId, token);
       setSelectedReservation(details);
     } catch (err) {
-      alert(t('reservations.detailsError'));
+      // Erreur silencieuse
+      console.error('Erreur détails réservation:', err);
     }
   };
   
@@ -54,11 +55,12 @@ function MesReservationsPage() {
     
     try {
       await cancelReservation(reservationId, reason, token);
-      alert('✅ ' + t('reservations.cancelSuccess'));
+      // Pas de pop-up, rechargement direct
       loadReservations();
       setSelectedReservation(null);
     } catch (err) {
-      alert(`❌ ${t('common.error')}: ${err.message}`);
+      // Erreur silencieuse
+      console.error('Erreur annulation:', err);
     }
   };
   

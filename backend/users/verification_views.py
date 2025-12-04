@@ -70,11 +70,19 @@ def send_verification_code(request):
         success = send_verification_email(email, code, username)
         
         if success:
-            return Response({
+            response_data = {
                 'message': 'Code de vérification envoyé',
                 'email': email,
                 'expires_in': expiry_minutes * 60  # Convertir en secondes
-            }, status=status.HTTP_200_OK)
+            }
+            
+            # 🔧 MODE DEBUG : Retourner le code dans la réponse pour faciliter les tests
+            if settings.DEBUG and settings.EMAIL_BACKEND == 'django.core.mail.backends.console.EmailBackend':
+                response_data['verification_code'] = code
+                response_data['dev_mode'] = True
+                print(f"⚠️ MODE DEV : Code renvoyé dans la réponse API (dev_mode=True)")
+            
+            return Response(response_data, status=status.HTTP_200_OK)
         else:
             return Response(
                 {'error': 'Erreur lors de l\'envoi de l\'email'},

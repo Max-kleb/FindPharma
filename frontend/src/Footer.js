@@ -10,7 +10,7 @@ function Footer() {
     <footer className="app-footer">
       <div className="footer-links">
         <Link to="/about">{t('footer.about')}</Link>
-        <a href="mailto:contact@findpharma.cm">{t('footer.contact')}</a>
+        <Link to="/contact">{t('footer.contact')}</Link>
         <Link to="/faq">{t('footer.faq')}</Link>
         <Link to="/legal">{t('footer.legal')}</Link>
       </div>

@@ -24,6 +24,7 @@ import MedicineManager from './MedicineManager';
 import FaqPage from './pages/FaqPage';
 import AboutPage from './pages/AboutPage';
 import LegalPage from './pages/LegalPage';
+import ContactPage from './pages/ContactPage';
 import ProfilePage from './pages/ProfilePage';
 import MesReservationsPage from './pages/MesReservationsPage';
 
@@ -99,13 +100,19 @@ function App() {
       localStorage.removeItem('user');
       localStorage.removeItem('pharmacyId');
       localStorage.removeItem('pharmacyName');
-      alert("Déconnexion réussie.");
+      // Pas de pop-up, redirection directe
       window.location.href = '/'; // Rediriger vers l'accueil
   };
   // Fin US 4 Handlers
 
   // 🛒 LOGIQUE US 5 : PANIER
   const addToCart = (item) => {
+    // Vérifier si l'utilisateur est connecté
+    if (!isLoggedIn) {
+      localStorage.setItem('redirectAfterLogin', window.location.pathname);
+      window.location.href = '/login';
+      return;
+    }
     console.log('🛒 Ajout au panier:', item);
     setCartItems(prev => [...prev, { ...item, quantity: 1 }]);
   };
@@ -131,12 +138,13 @@ function App() {
   // 💡 US 6 : RÉSERVATION
   const handleProceedToReservation = () => {
     if (!isLoggedIn) {
-      alert("Vous devez être connecté pour effectuer une réservation.");
+      // Sauvegarder l'URL et rediriger vers login
+      localStorage.setItem('redirectAfterLogin', window.location.pathname);
       window.location.href = '/login';
       return;
     }
     if (cartItems.length === 0) {
-      alert("Votre panier est vide.");
+      // Pas de pop-up, on n'ouvre simplement pas la modal
       return;
     }
     setShowReservationModal(true);
@@ -144,7 +152,7 @@ function App() {
   
   const handleReservationSubmit = async (reservationData) => {
     if (!userToken) {
-      throw new Error("Non authentifié");
+      throw new Error("Vous devez être connecté pour faire une réservation.");
     }
     
     try {
@@ -168,23 +176,24 @@ function App() {
             localStorage.setItem('token', newAccessToken);
             setUserToken(newAccessToken);
             
-            console.log('✅ Token rafraîchi, nouvelle tentative de réservation...');
+            console.log('✅ Token rafraîchi avec succès');
             
             // Retenter la réservation avec le nouveau token
             const result = await submitReservation(reservationData, newAccessToken);
-            console.log('✅ Réservation créée après refresh:', result);
+            console.log('✅ Réservation créée après rafraîchissement du token:', result);
             clearCart();
             return result;
           } catch (refreshError) {
             console.error('❌ Échec du rafraîchissement du token:', refreshError);
-            // Token de rafraîchissement aussi invalide → déconnexion
-            handleLogout();
-            throw new Error("Session expirée. Veuillez vous reconnecter.");
+            
+            // NE PAS déconnecter automatiquement - laisser l'utilisateur décider
+            // handleLogout();
+            
+            throw new Error("Votre session a expiré. Veuillez vous reconnecter pour continuer.");
           }
         } else {
-          // Pas de refresh token → déconnexion
-          handleLogout();
-          throw new Error("Session expirée. Veuillez vous reconnecter.");
+          // Pas de refresh token disponible
+          throw new Error("Votre session a expiré. Veuillez vous reconnecter pour continuer.");
         }
       }
       
@@ -199,7 +208,7 @@ function App() {
   
   const handleReviewSubmit = (pharmacy) => {
       if (!isLoggedIn) {
-          alert("Vous devez être connecté pour laisser une note et un avis.");
+          // Redirection silencieuse vers login
           window.location.href = '/login';
           return;
       }
@@ -300,6 +309,7 @@ function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/legal" element={<LegalPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           
           {/* Page de profil utilisateur */}
           <Route path="/profile" element={<ProfilePage />} />

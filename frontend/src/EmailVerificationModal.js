@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { verifyEmailCode, resendVerificationCode } from './services/api';
 import './EmailVerificationModal.css';
 
-function EmailVerificationModal({ email, username, onVerified, onClose }) {
+function EmailVerificationModal({ email, username, devCode, onVerified, onClose }) {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -113,7 +113,7 @@ function EmailVerificationModal({ email, username, onVerified, onClose }) {
       setCanResend(false);
       setCode(['', '', '', '', '', '']);
       document.getElementById('code-input-0')?.focus();
-      alert('✅ Nouveau code envoyé !');
+      // Pas de pop-up, l'utilisateur voit le timer se réinitialiser
     } catch (err) {
       setError(err.message);
     } finally {
@@ -147,6 +147,18 @@ function EmailVerificationModal({ email, username, onVerified, onClose }) {
 
         {!success && (
           <>
+            {/* 🔧 Affichage du code en mode développement */}
+            {devCode && (
+              <div className="dev-code-banner">
+                <i className="fas fa-code"></i>
+                <div>
+                  <strong>🔧 MODE DÉVELOPPEMENT</strong>
+                  <p>Code de vérification : <span className="dev-code-text">{devCode}</span></p>
+                  <small>Ce code n'est visible qu'en développement</small>
+                </div>
+              </div>
+            )}
+            
             <div className="verification-body">
               <p className="instruction">Entrez le code à 6 caractères :</p>
               

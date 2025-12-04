@@ -47,16 +47,26 @@ function LoginPage() {
       
       console.log('✅ Connexion réussie:', user);
       
-      // Redirection selon le type d'utilisateur
-      if (user.user_type === 'pharmacy') {
-        console.log('🔄 Redirection vers /stocks (pharmacy)');
-        navigate('/stocks');
-      } else if (user.user_type === 'admin') {
-        console.log('🔄 Redirection vers /admin');
-        navigate('/admin');
+      // Vérifier s'il y a une redirection en attente
+      const redirectUrl = localStorage.getItem('redirectAfterLogin');
+      
+      if (redirectUrl) {
+        // Supprimer la redirection sauvegardée
+        localStorage.removeItem('redirectAfterLogin');
+        console.log('🔄 Redirection vers:', redirectUrl);
+        navigate(redirectUrl);
       } else {
-        console.log('🔄 Redirection vers / (customer)');
-        navigate('/');
+        // Redirection par défaut selon le type d'utilisateur
+        if (user.user_type === 'pharmacy') {
+          console.log('🔄 Redirection vers /stocks (pharmacy)');
+          navigate('/stocks');
+        } else if (user.user_type === 'admin') {
+          console.log('🔄 Redirection vers /admin');
+          navigate('/admin');
+        } else {
+          console.log('🔄 Redirection vers / (customer)');
+          navigate('/');
+        }
       }
       
       // Recharger la page pour mettre à jour le header

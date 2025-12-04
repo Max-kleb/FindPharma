@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   fetchMedicines, 
   createMedicine, 
@@ -8,6 +9,9 @@ import {
 import './StockManager.css'; // Réutiliser le même CSS
 
 const MedicineManager = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    
     const [medicines, setMedicines] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -16,6 +20,7 @@ const MedicineManager = () => {
     const [editingMedicine, setEditingMedicine] = useState(null);
     const [token, setToken] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isAuthorized, setIsAuthorized] = useState(false);
     
     const [formData, setFormData] = useState({
         name: '',
@@ -31,25 +36,35 @@ const MedicineManager = () => {
         'crème', 'pommade', 'autre'
     ];
 
-    // Initialisation
+    // Initialisation et vérification d'authentification
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
         
-        if (storedUser && storedToken) {
-            try {
-                const userData = JSON.parse(storedUser);
-                // Vérifier que c'est une pharmacie ou admin
-                if (userData.user_type === 'pharmacy' || userData.user_type === 'admin') {
-                    setToken(storedToken);
-                } else {
-                    setError('Accès réservé aux pharmacies et administrateurs');
-                }
-            } catch (err) {
-                console.error('Erreur parsing user data:', err);
-            }
+        if (!storedToken || !storedUser) {
+            // Pas connecté - rediriger vers login
+            localStorage.setItem('redirectAfterLogin', location.pathname);
+            navigate('/login');
+            return;
         }
-    }, []);
+        
+        try {
+            const userData = JSON.parse(storedUser);
+            // Vérifier que c'est une pharmacie ou admin
+            if (userData.user_type === 'pharmacy' || userData.user_type === 'admin') {
+                setToken(storedToken);
+                setIsAuthorized(true);
+            } else {
+                setError('Accès réservé aux pharmacies et administrateurs');
+                // Rediriger vers accueil après 2 secondes
+                setTimeout(() => navigate('/'), 2000);
+            }
+        } catch (err) {
+            console.error('Erreur parsing user data:', err);
+            localStorage.setItem('redirectAfterLogin', location.pathname);
+            navigate('/login');
+        }
+    }, [navigate, location.pathname]);
 
     // Charger les médicaments
     useEffect(() => {

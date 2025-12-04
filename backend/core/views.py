@@ -5,7 +5,7 @@ from django.db.models.functions import TruncDate, TruncMonth
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 
@@ -281,4 +281,126 @@ def admin_recent_activity(request):
         'recent_users': users_data,
         'recent_pharmacies': pharmacies_data,
     })
+
+
+# ============================================================
+# FORMULAIRE DE CONTACT - ENVOI D'EMAIL
+# ============================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_contact_email(request):
+    """
+    POST /api/contact/
+    Envoie un email de contact à l'équipe FindPharma.
+    
+    Body:
+    {
+        "name": "Nom complet",
+        "email": "email@example.com",
+        "subject": "general|technical|partnership|other",
+        "message": "Le message..."
+    }
+    """
+    from django.core.mail import send_mail, EmailMessage
+    from django.conf import settings
+    
+    data = request.data
+    name = data.get('name', '').strip()
+    email = data.get('email', '').strip()
+    subject_type = data.get('subject', 'general')
+    message = data.get('message', '').strip()
+    
+    # Validation
+    if not name or not email or not message:
+        return Response({
+            'success': False,
+            'error': 'Tous les champs sont requis (nom, email, message)'
+        }, status=400)
+    
+    # Mapper les types de sujets
+    subject_labels = {
+        'general': 'Question générale',
+        'technical': 'Problème technique',
+        'partnership': 'Partenariat pharmacie',
+        'other': 'Autre demande'
+    }
+    subject_label = subject_labels.get(subject_type, 'Contact')
+    
+    # Construire le sujet et le corps de l'email
+    email_subject = f"[FindPharma Contact] {subject_label} - {name}"
+    email_body = f"""
+Nouveau message de contact reçu sur FindPharma
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📧 De: {name} <{email}>
+📋 Sujet: {subject_label}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Message:
+
+{message}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cet email a été envoyé automatiquement depuis le formulaire de contact FindPharma.
+Répondez directement à cet email pour contacter {name}.
+"""
+    
+    try:
+        # Envoyer l'email à l'équipe FindPharma
+        email_msg = EmailMessage(
+            subject=email_subject,
+            body=email_body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=['contact.findpharma@gmail.com'],
+            reply_to=[email],  # Permet de répondre directement à l'expéditeur
+        )
+        email_msg.send(fail_silently=False)
+        
+        # Envoyer un email de confirmation à l'utilisateur
+        confirmation_subject = "FindPharma - Nous avons bien reçu votre message"
+        confirmation_body = f"""
+Bonjour {name},
+
+Nous avons bien reçu votre message et nous vous en remercions.
+
+Notre équipe vous répondra dans les plus brefs délais.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Récapitulatif de votre demande:
+
+Type: {subject_label}
+Message: {message[:200]}{'...' if len(message) > 200 else ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cordialement,
+L'équipe FindPharma
+
+📧 contact.findpharma@gmail.com
+📞 +237 679 336 545
+"""
+        send_mail(
+            subject=confirmation_subject,
+            message=confirmation_body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            fail_silently=True,  # Ne pas bloquer si l'email de confirmation échoue
+        )
+        
+        return Response({
+            'success': True,
+            'message': 'Votre message a été envoyé avec succès'
+        })
+        
+    except Exception as e:
+        print(f"❌ Erreur envoi email contact: {e}")
+        return Response({
+            'success': False,
+            'error': 'Une erreur est survenue lors de l\'envoi du message'
+        }, status=500)
 

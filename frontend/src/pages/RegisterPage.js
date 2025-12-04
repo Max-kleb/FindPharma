@@ -23,6 +23,7 @@ function RegisterPage() {
   // États pour la vérification email
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [devCode, setDevCode] = useState(null); // Code de dev pour affichage direct
 
   // Charger la liste des pharmacies au chargement du composant
   useEffect(() => {
@@ -63,7 +64,14 @@ function RegisterPage() {
     if (!emailVerified) {
       setLoading(true);
       try {
-        await sendVerificationCode(email, username);
+        const response = await sendVerificationCode(email, username);
+        
+        // 🔧 Si mode dev, récupérer le code pour l'afficher
+        if (response.dev_mode && response.verification_code) {
+          setDevCode(response.verification_code);
+          console.log('🔧 MODE DEV : Code de vérification:', response.verification_code);
+        }
+        
         setShowVerificationModal(true);
       } catch (err) {
         console.error('❌ Erreur envoi code:', err);
@@ -334,6 +342,7 @@ function RegisterPage() {
         <EmailVerificationModal
           email={email}
           username={username}
+          devCode={devCode}
           onVerified={handleEmailVerified}
           onClose={() => setShowVerificationModal(false)}
         />

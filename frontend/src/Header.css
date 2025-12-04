@@ -1,6 +1,41 @@
 /* src/Header.css */
 
 /* ======================================== */
+/* HEADER - 2 SECTIONS HORIZONTALES        */
+/* ======================================== */
+
+.app-header {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Section 1: Logo (ligne du haut) */
+.header-section-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--gray-100);
+    background: linear-gradient(135deg, rgba(0, 200, 83, 0.02) 0%, rgba(26, 115, 232, 0.02) 100%);
+}
+
+/* Section 2: Navigation + Auth (ligne du bas) */
+.header-section-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 10px 24px;
+    background: var(--white);
+}
+
+/* ======================================== */
 /* LOGO SECTION                             */
 /* ======================================== */
 
@@ -149,9 +184,21 @@
 
 /* Liens Admin */
 .nav-link-admin {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     background: linear-gradient(135deg, #E53935 0%, #C62828 100%);
     color: white !important;
     box-shadow: 0 2px 8px rgba(229, 57, 53, 0.3);
+}
+
+.nav-link-admin .nav-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.nav-link-admin .nav-text {
+    white-space: nowrap;
 }
 
 .nav-link-admin:hover {
@@ -578,6 +625,23 @@
     .nav-link i {
         font-size: 18px;
     }
+    
+    /* Boutons admin responsive - icône seulement */
+    .nav-link-admin {
+        padding: 8px;
+        min-width: 40px;
+        height: 40px;
+        justify-content: center;
+    }
+    
+    .nav-link-admin .nav-text {
+        display: none !important; /* Masquer le texte */
+    }
+    
+    .nav-link-admin .nav-icon {
+        display: flex !important;
+        font-size: 20px;
+    }
 
     .login-button,
     .register-button {
@@ -626,6 +690,17 @@
 
     .nav-link {
         padding: 6px 10px;
+    }
+    
+    /* Boutons admin ultra-compacts sur mobile */
+    .nav-link-admin {
+        padding: 6px;
+        min-width: 34px;
+        height: 34px;
+    }
+    
+    .nav-link-admin .nav-icon {
+        font-size: 18px;
     }
 
     .user-avatar-btn {

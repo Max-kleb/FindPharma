@@ -16,11 +16,11 @@ import sys
 import psycopg2
 try:
     conn = psycopg2.connect(
-        dbname="${POSTGRES_DB:-findpharma_db}",
-        user="${POSTGRES_USER:-findpharma_user}",
-        password="${POSTGRES_PASSWORD:-findpharma_password}",
-        host="db",
-        port="5432"
+        dbname="${DATABASE_NAME:-findpharma}",
+        user="${DATABASE_USER:-findpharmauser}",
+        password="${DATABASE_PASSWORD:-root}",
+        host="${DATABASE_HOST:-db}",
+        port="${DATABASE_PORT:-5432}"
     )
     conn.close()
     sys.exit(0)

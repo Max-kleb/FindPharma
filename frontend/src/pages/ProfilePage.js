@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './ProfilePage.css';
 
@@ -12,6 +12,7 @@ const availableLanguages = [
 
 const ProfilePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, i18n } = useTranslation();
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -48,8 +49,15 @@ const ProfilePage = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
+    // Vérifier l'authentification
+    const token = localStorage.getItem('token');
+    if (!token) {
+      localStorage.setItem('redirectAfterLogin', location.pathname);
+      navigate('/login');
+      return;
+    }
     loadUserProfile();
-  }, []);
+  }, [navigate, location.pathname]);
 
   // Synchroniser les préférences de langue avec i18n
   useEffect(() => {
@@ -63,6 +71,7 @@ const ProfilePage = () => {
       const userData = JSON.parse(localStorage.getItem('user'));
       
       if (!userData) {
+        localStorage.setItem('redirectAfterLogin', location.pathname);
         navigate('/login');
         return;
       }

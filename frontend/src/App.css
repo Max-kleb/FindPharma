@@ -133,15 +133,7 @@ body::before {
 }
 
 /* --- HEADER PROFESSIONNEL --- */
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 32px;
-    background: var(--white);
-    border-bottom: var(--border-light);
-    position: relative;
-}
+/* Note: .app-header est maintenant défini dans Header.css */
 
 .app-header::after {
     content: '';

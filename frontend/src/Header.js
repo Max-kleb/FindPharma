@@ -95,29 +95,34 @@ function Header({ isLoggedIn, onLogout }) {
 
   return (
     <header className="app-header">
-      <Link to="/" className="logo" title="Retour à l'accueil">
-        <img src="/logo.svg" alt="FindPharma Logo" className="logo-image" />
-        <span className="logo-text">
-          <span className="logo-find">Find</span>
-          <span className="logo-pharma">Pharma</span>
-        </span>
-      </Link>
+      {/* Section 1: Logo uniquement */}
+      <div className="header-section-logo">
+        <Link to="/" className="logo" title="Retour à l'accueil">
+          <img src="/logo.svg" alt="FindPharma Logo" className="logo-image" />
+          <span className="logo-text">
+            <span className="logo-find">Find</span>
+            <span className="logo-pharma">Pharma</span>
+          </span>
+        </Link>
+      </div>
 
-      <nav className="header-nav">
-        {isLoggedIn && userType === 'customer' && (
-          <>
-            <Link to="/dashboard" className="nav-link nav-link-dashboard">
-              <i className="fas fa-search"></i>
-              <span>{t('header.search')}</span>
-            </Link>
-            <Link to="/reservations" className="nav-link nav-link-reservations">
-              <i className="fas fa-clipboard-list"></i>
-              <span>{t('header.myReservations')}</span>
-            </Link>
-          </>
-        )}
-        
-        {isLoggedIn && userType === 'pharmacy' && (
+      {/* Section 2: Navigation + Auth */}
+      <div className="header-section-actions">
+        <nav className="header-nav">
+          {isLoggedIn && userType === 'customer' && (
+            <>
+              <Link to="/dashboard" className="nav-link nav-link-dashboard">
+                <i className="fas fa-search"></i>
+                <span>{t('header.search')}</span>
+              </Link>
+              <Link to="/reservations" className="nav-link nav-link-reservations">
+                <i className="fas fa-clipboard-list"></i>
+                <span>{t('header.myReservations')}</span>
+              </Link>
+            </>
+          )}
+          
+          {isLoggedIn && userType === 'pharmacy' && (
           <>
             <Link to="/stocks" className="nav-link nav-link-primary">
               📦 {t('header.manageStocks')}
@@ -130,17 +135,19 @@ function Header({ isLoggedIn, onLogout }) {
         
         {isLoggedIn && isAdmin && (
           <>
-            <Link to="/admin" className="nav-link nav-link-admin">
-              👨‍💼 {t('header.adminDashboard')}
+            <Link to="/admin" className="nav-link nav-link-admin" title={t('header.adminDashboard')}>
+              <span className="nav-icon">👨‍💼</span>
+              <span className="nav-text">{t('header.adminDashboard')}</span>
             </Link>
-            <Link to="/medicines" className="nav-link nav-link-admin">
-              💊 {t('header.manageMedicines')}
+            <Link to="/medicines" className="nav-link nav-link-admin" title={t('header.manageMedicines')}>
+              <span className="nav-icon">💊</span>
+              <span className="nav-text">{t('header.manageMedicines')}</span>
             </Link>
           </>
         )}
-      </nav>
+        </nav>
 
-      <div className="header-auth">
+        <div className="header-auth">
         {isLoggedIn ? (
           <div className="user-menu-container" ref={menuRef}>
             <button 
@@ -263,6 +270,7 @@ function Header({ isLoggedIn, onLogout }) {
             </button>
           </>
         )}
+        </div>
       </div>
     </header>
   );

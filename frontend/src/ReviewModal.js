@@ -12,17 +12,18 @@ function ReviewModal({ pharmacy, onSubmit, onClose }) {
     e.preventDefault();
     
     if (rating === 0) {
-      alert('Veuillez sélectionner une note');
+      // Pas de pop-up, empêche simplement la soumission
       return;
     }
     
     setLoading(true);
     try {
       await onSubmit(pharmacy.id, rating, comment);
-      alert(`✅ Merci pour votre avis sur ${pharmacy.name} !`);
+      // Pas de pop-up, fermeture directe
       onClose();
     } catch (error) {
-      alert(`❌ Erreur: ${error.message}`);
+      // Erreur silencieuse
+      console.error('Erreur avis:', error);
     } finally {
       setLoading(false);
     }

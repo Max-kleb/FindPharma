@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer les dépendances
-RUN npm ci --silent
+RUN npm install --silent
 
 # Copier tout le code source
 COPY . .
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serveur Nginx pour servir les fichiers statiques
-FROM nginx:alpine
+FROM docker.io/library/nginx:alpine
 
 # Copier les fichiers build depuis l'étape précédente
 COPY --from=build /app/build /usr/share/nginx/html

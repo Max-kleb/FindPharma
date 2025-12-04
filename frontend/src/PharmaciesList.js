@@ -8,7 +8,7 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
     e.stopPropagation(); // Empêche le déclenchement du clic sur la pharmacy-item
     
     if (!pharmacy.price || pharmacy.stock === "Épuisé") {
-      alert('Ce médicament n\'est pas disponible ou n\'a pas de prix défini.');
+      // Pas de pop-up, ajout silencieux ignoré
       return;
     }
     
@@ -25,7 +25,7 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
         stock: pharmacy.stock,
         quantity: 1
       });
-      alert(`✅ ${pharmacy.medicineName || 'Médicament'} ajouté au panier !`);
+      // Pas de pop-up, ajout silencieux au panier
     }
   };
   
@@ -133,7 +133,7 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
                     className="add-to-cart-button login-required"
                     onClick={(e) => {
                       e.stopPropagation();
-                      alert('Veuillez vous connecter pour ajouter des articles au panier');
+                      // Redirection silencieuse vers login
                       window.location.href = '/login';
                     }}
                     title="Connexion requise"

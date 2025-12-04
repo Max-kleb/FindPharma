@@ -1,15 +1,18 @@
 // src/pages/AdminDashboardPage.js
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import AdminDashboard from '../AdminDashboard';
 
 function AdminDashboardPage() {
+  const location = useLocation();
+  
   // Vérifier l'authentification et le rôle admin
   const token = localStorage.getItem('token');
   const userStr = localStorage.getItem('user');
   
   if (!token) {
-    // Rediriger vers la connexion si pas connecté
+    // Sauvegarder l'URL pour redirection après login
+    localStorage.setItem('redirectAfterLogin', location.pathname);
     return <Navigate to="/login" replace />;
   }
   
@@ -20,10 +23,12 @@ function AdminDashboardPage() {
     isAdmin = user.user_type === 'admin' || user.is_superuser;
   } catch (err) {
     console.error('Erreur parsing user:', err);
+    localStorage.setItem('redirectAfterLogin', location.pathname);
+    return <Navigate to="/login" replace />;
   }
   
   if (!isAdmin) {
-    alert('Accès réservé aux administrateurs');
+    // Pas admin - redirection vers accueil
     return <Navigate to="/" replace />;
   }
   
