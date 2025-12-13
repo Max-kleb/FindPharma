@@ -147,18 +147,6 @@ function EmailVerificationModal({ email, username, devCode, onVerified, onClose 
 
         {!success && (
           <>
-            {/* 🔧 Affichage du code en mode développement */}
-            {devCode && (
-              <div className="dev-code-banner">
-                <i className="fas fa-code"></i>
-                <div>
-                  <strong>🔧 MODE DÉVELOPPEMENT</strong>
-                  <p>Code de vérification : <span className="dev-code-text">{devCode}</span></p>
-                  <small>Ce code n'est visible qu'en développement</small>
-                </div>
-              </div>
-            )}
-            
             <div className="verification-body">
               <p className="instruction">Entrez le code à 6 caractères :</p>
               

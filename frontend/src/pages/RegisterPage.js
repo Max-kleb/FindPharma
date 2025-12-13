@@ -64,14 +64,7 @@ function RegisterPage() {
     if (!emailVerified) {
       setLoading(true);
       try {
-        const response = await sendVerificationCode(email, username);
-        
-        // 🔧 Si mode dev, récupérer le code pour l'afficher
-        if (response.dev_mode && response.verification_code) {
-          setDevCode(response.verification_code);
-          console.log('🔧 MODE DEV : Code de vérification:', response.verification_code);
-        }
-        
+        await sendVerificationCode(email, username);
         setShowVerificationModal(true);
       } catch (err) {
         console.error('❌ Erreur envoi code:', err);
