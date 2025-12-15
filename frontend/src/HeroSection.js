@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import './HeroSection.css';
 
 function HeroSection({ isLoggedIn }) {
   const navigate = useNavigate();
@@ -146,18 +147,15 @@ function HeroSection({ isLoggedIn }) {
       </div>
 
       {/* Section statistiques */}
+      {/* Statistiques - Valeurs réalistes */}
       <div className="hero-stats">
         <div className="stat-item">
-          <div className="stat-number">500+</div>
+          <div className="stat-number">50+</div>
           <div className="stat-label">{t('hero.stats.pharmacies')}</div>
         </div>
         <div className="stat-item">
-          <div className="stat-number">10 000+</div>
+          <div className="stat-number">1 000+</div>
           <div className="stat-label">{t('hero.stats.medicines')}</div>
-        </div>
-        <div className="stat-item">
-          <div className="stat-number">50 000+</div>
-          <div className="stat-label">{t('hero.stats.users')}</div>
         </div>
         <div className="stat-item">
           <div className="stat-number">24/7</div>
@@ -165,7 +163,7 @@ function HeroSection({ isLoggedIn }) {
         </div>
       </div>
 
-      {/* Section comment ça marche */}
+      {/* Section comment ça marche - Simplifié à 3 étapes */}
       <div className="how-it-works">
         <h2 className="section-title">{t('hero.howItWorks.title')}</h2>
         <div className="steps-container">
@@ -189,18 +187,9 @@ function HeroSection({ isLoggedIn }) {
 
           <div className="step-item">
             <div className="step-number">3</div>
-            <div className="step-icon">🛒</div>
-            <h3>{t('hero.howItWorks.step3')}</h3>
-            <p>{t('hero.howItWorks.step3Desc')}</p>
-          </div>
-
-          <div className="step-arrow">→</div>
-
-          <div className="step-item">
-            <div className="step-number">4</div>
             <div className="step-icon">✅</div>
-            <h3>{t('hero.howItWorks.step4')}</h3>
-            <p>{t('hero.howItWorks.step4Desc')}</p>
+            <h3>Récupérez</h3>
+            <p>Retirez vos médicaments à la pharmacie</p>
           </div>
         </div>
       </div>

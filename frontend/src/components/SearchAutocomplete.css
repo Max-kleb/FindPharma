@@ -1,0 +1,273 @@
+/**
+ * SearchAutocomplete.css
+ * Styles pour le composant de recherche avec auto-complétion
+ */
+
+.search-autocomplete {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Form */
+.search-form {
+  width: 100%;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 50px;
+  padding: 4px 8px 4px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.search-input-wrapper:focus-within {
+  border-color: #2ecc71;
+  box-shadow: 0 4px 25px rgba(46, 204, 113, 0.2);
+}
+
+.search-input-wrapper .search-icon {
+  color: #888;
+  font-size: 18px;
+  margin-right: 12px;
+  transition: opacity 0.2s ease;
+}
+
+.search-input-wrapper .search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 12px 0;
+  background: transparent;
+  transition: padding-left 0.2s ease;
+}
+
+/* Quand il y a du texte, ajuster le padding */
+.search-input-wrapper .search-input.has-text {
+  padding-left: 8px;
+}
+
+.search-input-wrapper .search-input::placeholder {
+  color: #aaa;
+}
+
+.search-input-wrapper .clear-btn {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.search-input-wrapper .clear-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.search-input-wrapper .search-btn {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  border: none;
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.search-input-wrapper .search-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+}
+
+/* Dropdown */
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sections */
+.dropdown-section {
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-section:last-child {
+  border-bottom: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-title i {
+  color: #2ecc71;
+}
+
+.clear-history-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.clear-history-btn:hover {
+  background: #fee;
+}
+
+/* Items */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dropdown-item:hover,
+.dropdown-item.selected {
+  background: #f8f9fa;
+}
+
+.dropdown-item .item-icon {
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+.dropdown-item .item-text {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.dropdown-item .item-badge {
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: #e8f5e9;
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.dropdown-item .item-badge.popular {
+  background: #fff3e0;
+  color: #e67e22;
+}
+
+/* Empty state */
+.dropdown-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: #888;
+}
+
+.dropdown-empty i {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: #ddd;
+}
+
+.dropdown-empty p {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.dropdown-empty span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Scrollbar */
+.autocomplete-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 3px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-autocomplete {
+    max-width: 100%;
+  }
+  
+  .autocomplete-dropdown {
+    max-height: 300px;
+  }
+  
+  .search-input-wrapper {
+    padding: 2px 4px 2px 16px;
+  }
+  
+  .search-input-wrapper .search-input {
+    font-size: 14px;
+    padding: 10px 0;
+  }
+  
+  .search-input-wrapper .search-btn {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -1,5 +1,7 @@
 // src/PharmaciesList.js
 import React from 'react';
+import { Link } from 'react-router-dom';
+import './PharmacyCard.css';
 
 function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCart, onReviewSubmit }) {
     
@@ -156,6 +158,18 @@ function PharmaciesList({ results, onPharmacyClick, selectedPharmacy, onAddToCar
               >
                 <i className="fas fa-star"></i> Noter
               </button>
+            )}
+            
+            {/* Bouton Documentation du médicament */}
+            {isMedicineSearch && pharmacy.medicineId && (
+              <Link 
+                to={`/medicines/${pharmacy.medicineId}`}
+                className="medicine-info-button"
+                onClick={(e) => e.stopPropagation()}
+                title="Voir la fiche du médicament"
+              >
+                <i className="fas fa-info-circle"></i> Fiche
+              </Link>
             )}
           </div>
         </div>

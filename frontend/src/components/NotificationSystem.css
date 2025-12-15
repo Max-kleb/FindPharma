@@ -1,0 +1,547 @@
+/**
+ * NotificationSystem.css
+ * Styles pour le système de notifications
+ */
+
+/* Toast Container */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 380px;
+  pointer-events: none;
+}
+
+/* Toast individuel */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 0.3s ease, fadeOut 0.3s ease 4.7s forwards;
+  pointer-events: auto;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-left: 4px solid #ccc;
+}
+
+.toast-success { border-left-color: #00C853; }
+.toast-error { border-left-color: #E53935; }
+.toast-warning { border-left-color: #FB8C00; }
+.toast-info { border-left-color: #039BE5; }
+.toast-stock { border-left-color: #9C27B0; }
+.toast-reservation { border-left-color: #00897B; }
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.toast-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.toast-success .toast-icon { background: #E8F5E9; color: #00C853; }
+.toast-error .toast-icon { background: #FFEBEE; color: #E53935; }
+.toast-warning .toast-icon { background: #FFF3E0; color: #FB8C00; }
+.toast-info .toast-icon { background: #E3F2FD; color: #039BE5; }
+.toast-stock .toast-icon { background: #F3E5F5; color: #9C27B0; }
+.toast-reservation .toast-icon { background: #E0F2F1; color: #00897B; }
+
+.toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.toast-message {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
+  margin: -4px -4px -4px 0;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.toast-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.3;
+  animation: progressBar 5s linear forwards;
+}
+
+@keyframes progressBar {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* Notification Bell */
+.notification-bell-wrapper {
+  position: relative;
+}
+
+.notification-bell {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  position: relative;
+  color: var(--text-secondary, #666);
+}
+
+.notification-bell:hover {
+  background: var(--bg-secondary, #f5f5f5);
+  color: var(--primary-medical, #00A86B);
+}
+
+.notification-bell i {
+  font-size: 20px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  background: linear-gradient(135deg, #E53935, #C62828);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Notification Panel */
+.notification-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 360px;
+  max-height: 480px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 1000;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notification-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+  background: var(--bg-secondary, #f9f9f9);
+}
+
+.notification-panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification-panel-header h3 i {
+  color: var(--primary-medical, #00A86B);
+}
+
+.notification-panel-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.notification-panel-actions button {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.notification-panel-actions button:hover {
+  background: #eee;
+  color: #333;
+}
+
+.notification-panel-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Empty state */
+.notification-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: #999;
+}
+
+.notification-empty i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #ddd;
+}
+
+.notification-empty p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Notification Item */
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+
+.notification-item:hover {
+  background: #f9f9f9;
+}
+
+.notification-item.unread {
+  background: #f0f9f5;
+}
+
+.notification-item.unread:hover {
+  background: #e0f5eb;
+}
+
+.notification-item-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification-item-icon.success { background: #E8F5E9; color: #00C853; }
+.notification-item-icon.error { background: #FFEBEE; color: #E53935; }
+.notification-item-icon.warning { background: #FFF3E0; color: #FB8C00; }
+.notification-item-icon.info { background: #E3F2FD; color: #039BE5; }
+.notification-item-icon.stock { background: #F3E5F5; color: #9C27B0; }
+.notification-item-icon.reservation { background: #E0F2F1; color: #00897B; }
+
+.notification-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-item-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.notification-item-message {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.notification-item-time {
+  font-size: 11px;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notification-item-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary-medical, #00A86B);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Scrollbar */
+.notification-panel-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-panel-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notification-panel-body::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toast-container {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
+
+  .notification-panel {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+/* ==========================================
+   DIALOGUE DE CONFIRMATION PROFESSIONNEL
+   ========================================== */
+
+.confirm-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.confirm-dialog {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+  max-width: 420px;
+  width: 90%;
+  animation: scaleIn 0.25s ease;
+  overflow: hidden;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.confirm-dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 24px 16px;
+}
+
+.confirm-dialog-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.confirm-dialog-icon.warning {
+  background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+  color: #E65100;
+}
+
+.confirm-dialog-icon.danger {
+  background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+  color: #C62828;
+}
+
+.confirm-dialog-icon.info {
+  background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+  color: #1565C0;
+}
+
+.confirm-dialog-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.confirm-dialog-body {
+  padding: 0 24px 24px;
+}
+
+.confirm-dialog-body p {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.confirm-dialog-footer {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.confirm-dialog-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-dialog-btn.cancel {
+  background: white;
+  color: #666;
+  border: 1px solid #ddd;
+}
+
+.confirm-dialog-btn.cancel:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.confirm-dialog-btn.confirm {
+  color: white;
+}
+
+.confirm-dialog-btn.confirm.warning {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+}
+
+.confirm-dialog-btn.confirm.warning:hover {
+  background: linear-gradient(135deg, #F57C00, #E65100);
+  transform: translateY(-1px);
+}
+
+.confirm-dialog-btn.confirm.danger {
+  background: linear-gradient(135deg, #E53935, #C62828);
+}
+
+.confirm-dialog-btn.confirm.danger:hover {
+  background: linear-gradient(135deg, #C62828, #B71C1C);
+  transform: translateY(-1px);
+}
+
+.confirm-dialog-btn.confirm.info {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+}
+
+.confirm-dialog-btn.confirm.info:hover {
+  background: linear-gradient(135deg, #1976D2, #1565C0);
+  transform: translateY(-1px);
+}
+
+/* Responsive pour le dialogue */
+@media (max-width: 480px) {
+  .confirm-dialog {
+    margin: 16px;
+    max-width: none;
+    width: calc(100% - 32px);
+  }
+
+  .confirm-dialog-footer {
+    flex-direction: column-reverse;
+  }
+}

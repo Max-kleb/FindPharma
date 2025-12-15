@@ -1,9 +1,10 @@
 // src/pages/DashboardClient.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import SearchSection from '../SearchSection';
 import ResultsDisplay from '../ResultsDisplay';
 import Cart from '../Cart';
+import { getMyReservations } from '../services/api';
 import '../DashboardClient.css';
 
 function DashboardClient({ 
@@ -43,7 +44,23 @@ function DashboardClient({
     }
   }, []);
 
-  // Mettre à jour les stats séparément pour rafraîchir après recherche
+  // Fonction pour charger les vraies réservations depuis l'API
+  const loadReservationCount = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const reservations = await getMyReservations(token);
+        const activeCount = reservations.filter(r => 
+          !['cancelled', 'expired', 'collected'].includes(r.status)
+        ).length;
+        setStats(prev => ({ ...prev, reservations: activeCount }));
+      } catch (err) {
+        console.error('Erreur chargement réservations:', err);
+      }
+    }
+  }, []);
+
+  // Mettre à jour les stats en temps réel
   useEffect(() => {
     const updateStats = () => {
       const total = cartItems.reduce((sum, item) => {
@@ -51,30 +68,37 @@ function DashboardClient({
         return sum + price;
       }, 0);
       
-      setStats({
+      setStats(prev => ({
+        ...prev,
         searchCount: parseInt(localStorage.getItem('searchCount') || '0'),
         cartTotal: total,
-        reservations: parseInt(localStorage.getItem('reservationCount') || '0')
-      });
+        cartCount: cartItems.length
+      }));
     };
 
     updateStats();
+    loadReservationCount();
 
-    // Écouter les changements de localStorage pour mettre à jour en temps réel
-    const handleStorageChange = () => {
-      updateStats();
+    // Écouter l'événement personnalisé pour les mises à jour
+    const handleReservationUpdate = () => {
+      loadReservationCount();
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('reservationUpdated', handleReservationUpdate);
+    window.addEventListener('storage', updateStats);
     
-    // Vérifier aussi toutes les 500ms pour les changements locaux
-    const interval = setInterval(updateStats, 500);
+    // Rafraîchir toutes les 30 secondes au lieu de 500ms (moins de charge)
+    const interval = setInterval(() => {
+      updateStats();
+      loadReservationCount();
+    }, 30000);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('reservationUpdated', handleReservationUpdate);
+      window.removeEventListener('storage', updateStats);
       clearInterval(interval);
     };
-  }, [cartItems, resultsToDisplay]);
+  }, [cartItems, loadReservationCount]);
 
   return (
     <div className="dashboard-client">

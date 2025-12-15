@@ -6,12 +6,17 @@ import Header from './Header';
 import Footer from './Footer';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { NotificationProvider } from './components/NotificationSystem';
+import PWAPrompt from './components/PWAPrompt';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 
 // Configuration i18n (react-i18next)
 import './i18n';
 
-// Styles de thème
+// Styles de thème et améliorations UI
 import './styles/theme.css';
+import './styles/EnhancedUI.css';
+import './styles/FormEnhancements.css';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -27,6 +32,7 @@ import LegalPage from './pages/LegalPage';
 import ContactPage from './pages/ContactPage';
 import ProfilePage from './pages/ProfilePage';
 import MesReservationsPage from './pages/MesReservationsPage';
+import MedicineDetailPage from './pages/MedicineDetailPage';
 
 // 💡 IMPORTS US 5, US 6, US 7
 import ReservationModal from './ReservationModal';
@@ -234,6 +240,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
+        <NotificationProvider>
         <BrowserRouter>
           <div className="app-container">
             {/* 💡 US 4: Mise à jour du Header pour les boutons d'auth */}
@@ -302,6 +309,9 @@ function App() {
           {/* Page de gestion des médicaments - Pharmacies et Admins */}
           <Route path="/medicines" element={<MedicineManager />} />
           
+          {/* Page de détail d'un médicament */}
+          <Route path="/medicines/:id" element={<MedicineDetailPage />} />
+          
           {/* Page admin (US 8) - Administrateurs plateforme */}
           <Route path="/admin" element={<AdminDashboardPage />} />
           
@@ -316,6 +326,9 @@ function App() {
           
           {/* Page Mes Réservations (US 6) */}
           <Route path="/reservations" element={<MesReservationsPage />} />
+          
+          {/* Dashboard Analytics */}
+          <Route path="/analytics" element={<AnalyticsDashboard />} />
         </Routes>
 
         {/* US 6 : Le Modal de Réservation */}
@@ -345,8 +358,12 @@ function App() {
         )}
 
         <Footer />
+        
+        {/* PWA: Prompts d'installation et bannières */}
+        <PWAPrompt />
       </div>
     </BrowserRouter>
+        </NotificationProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

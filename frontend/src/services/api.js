@@ -371,15 +371,17 @@ export const toggleStockAvailability = async (pharmacyId, stockId, available, to
  */
 export const fetchMedicines = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/medicines/`);
+    // Récupérer tous les médicaments (limite haute pour éviter la pagination)
+    const response = await fetch(`${API_URL}/api/medicines/?limit=1000`);
     
     if (!response.ok) {
       throw new Error('Erreur lors du chargement des médicaments');
     }
     
     const data = await response.json();
-    console.log(`✅ ${data.results.length} médicaments chargés`);
-    return data.results; // API paginée
+    const medicines = data.results || data;
+    console.log(`✅ ${medicines.length} médicaments chargés`);
+    return medicines;
   } catch (error) {
     console.error('❌ Erreur chargement médicaments:', error);
     throw error;

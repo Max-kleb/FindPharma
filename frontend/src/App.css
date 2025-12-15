@@ -197,6 +197,78 @@ body::before {
     border-bottom: var(--border-light);
 }
 
+/* Toggle pour recherche intelligente */
+.autocomplete-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--gray-300);
+    transition: var(--transition-base);
+    border-radius: 24px;
+}
+
+.toggle-slider::before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: var(--transition-base);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, var(--primary-medical), var(--primary-green));
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+}
+
+.toggle-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.toggle-label i {
+    color: var(--primary-medical);
+}
+
+/* Autocomplete principal dans SearchSection */
+.search-autocomplete-main {
+    margin: 0 auto;
+}
+
 .search-bar-box { 
     display: flex; 
     background: var(--bg-secondary);
@@ -435,6 +507,28 @@ body::before {
     cursor: not-allowed; 
     transform: none;
     background: var(--gray-400);
+}
+
+/* Container et message d'erreur géolocalisation */
+.geolocation-container {
+    width: 100%;
+}
+
+.geolocation-error {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: var(--border-radius-sm);
+    color: #856404;
+    font-size: 13px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* --- RESULTS DISPLAY (Carte + Liste) --- */

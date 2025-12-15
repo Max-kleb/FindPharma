@@ -3,21 +3,21 @@ from .models import Medicine
 from pharmacies.serializers import PharmacyWithStockSerializer 
 
 
-#class Medicine(serializers.ModelSerializer):
-    
- #   class Meta:
-  #      model = Medicine
-        
-   #     fields = ['id', 'name', 'description', 'dosage', 'form', 
-    #              'average_price', 'requires_prescription']
-
-
 class MedicineSerializer(serializers.ModelSerializer):
+    """Serializer de base pour les médicaments"""
+    category_display = serializers.CharField(source='get_category_display', read_only=True)
+    
     class Meta:
         model = Medicine
-        fields = ['id', 'name', 'description', 'dosage', 'form', 
-                  'average_price', 'requires_prescription']
-        read_only_fields = ['id']
+        fields = [
+            'id', 'name', 'description', 'dosage', 'form', 
+            'average_price', 'requires_prescription',
+            'category', 'category_display',
+            'indications', 'contraindications', 'posology', 'side_effects',
+            'image_url', 'wikipedia_url',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'category_display']
     
     def validate_name(self, value):
         """Validation du nom du médicament"""

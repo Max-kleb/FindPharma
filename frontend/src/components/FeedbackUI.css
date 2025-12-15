@@ -1,0 +1,639 @@
+/**
+ * FeedbackUI.css - Styles pour les composants de feedback visuel
+ * Animations modernes et micro-interactions
+ */
+
+/* ================================================
+   OVERLAY & CONTAINER
+   ================================================ */
+
+.feedback-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.feedback-container {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+}
+
+.feedback-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 20px 0 8px;
+  color: var(--text-primary);
+}
+
+.feedback-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.feedback-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.feedback-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-retry {
+  background: linear-gradient(135deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+  color: white;
+}
+
+.btn-retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.btn-dismiss {
+  background: var(--gray-100);
+  color: var(--text-secondary);
+}
+
+.btn-dismiss:hover {
+  background: var(--gray-200);
+}
+
+/* ================================================
+   SUCCESS ANIMATION
+   ================================================ */
+
+.success-container {
+  background: linear-gradient(135deg, rgba(0, 200, 83, 0.05) 0%, white 100%);
+}
+
+.success-checkmark {
+  display: inline-block;
+}
+
+.checkmark-svg {
+  animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.checkmark-circle {
+  stroke: #00C853;
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  stroke: #00C853;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ================================================
+   ERROR ANIMATION
+   ================================================ */
+
+.error-container {
+  background: linear-gradient(135deg, rgba(229, 57, 53, 0.05) 0%, white 100%);
+}
+
+.cross-svg {
+  animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.cross-circle {
+  stroke: #E53935;
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.cross-line {
+  stroke: #E53935;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+}
+
+.cross-line.line1 {
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+.cross-line.line2 {
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+/* ================================================
+   LOADING SPINNER
+   ================================================ */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+.loading-message {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Default Spinner */
+.loading-spinner {
+  position: relative;
+}
+
+.spinner-track {
+  stroke: var(--gray-200);
+}
+
+.spinner-progress {
+  stroke: var(--primary-medical);
+  stroke-linecap: round;
+  stroke-dasharray: 80;
+  stroke-dashoffset: 60;
+  animation: spinner-rotate 1.2s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes spinner-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dots Loading */
+.loading-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.loading-dots span {
+  width: 12px;
+  height: 12px;
+  background: var(--primary-medical);
+  border-radius: 50%;
+  animation: dots-bounce 1.4s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+.loading-dots span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes dots-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Pulse Loading */
+.loading-pulse {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--primary-medical);
+  border-radius: 50%;
+  animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+.pulse-core {
+  width: 40%;
+  height: 40%;
+  background: linear-gradient(135deg, var(--primary-medical), var(--primary-green));
+  border-radius: 50%;
+  animation: pulse-core 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-core {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+}
+
+/* Pharmacy Loading */
+.loading-pharmacy {
+  animation: pharmacy-bounce 1s infinite;
+}
+
+.pharmacy-icon {
+  display: block;
+}
+
+@keyframes pharmacy-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(-10deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(10deg);
+  }
+}
+
+/* ================================================
+   CONFIRM DIALOG
+   ================================================ */
+
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.confirm-dialog {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  max-width: 380px;
+  width: 90%;
+}
+
+.confirm-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.confirm-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--text-primary);
+}
+
+.confirm-message {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.confirm-btn {
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-cancel {
+  background: var(--gray-100);
+  color: var(--text-secondary);
+}
+
+.btn-cancel:hover {
+  background: var(--gray-200);
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, var(--primary-medical), var(--primary-green));
+  color: white;
+}
+
+.btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.btn-confirm.danger {
+  background: linear-gradient(135deg, #E53935, #C62828);
+}
+
+.btn-confirm.danger:hover {
+  box-shadow: 0 6px 20px rgba(229, 57, 53, 0.3);
+}
+
+.btn-confirm.warning {
+  background: linear-gradient(135deg, #FB8C00, #F57C00);
+}
+
+.btn-confirm.warning:hover {
+  box-shadow: 0 6px 20px rgba(251, 140, 0, 0.3);
+}
+
+/* ================================================
+   PROGRESS BAR
+   ================================================ */
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.progress-bar {
+  flex: 1;
+  background: var(--gray-200);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-medical), var(--primary-green));
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.progress-bar.striped .progress-fill {
+  position: relative;
+}
+
+.progress-stripes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%
+  );
+  background-size: 20px 20px;
+  animation: stripes-move 1s linear infinite;
+}
+
+@keyframes stripes-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 0; }
+}
+
+.progress-bar.gradient .progress-fill {
+  background: linear-gradient(90deg, 
+    #00C853 0%, 
+    #00A86B 50%, 
+    #1A73E8 100%
+  );
+}
+
+.progress-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 45px;
+  text-align: right;
+}
+
+/* ================================================
+   SKELETON LOADER
+   ================================================ */
+
+.skeleton-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 150px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 60%;
+  border-radius: 6px;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 4px;
+}
+
+.skeleton-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.skeleton-button {
+  height: 40px;
+  flex: 1;
+  border-radius: 10px;
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e8e8e8 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ================================================
+   RIPPLE EFFECT
+   ================================================ */
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ================================================
+   ANIMATED COUNTER
+   ================================================ */
+
+.animated-counter {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* ================================================
+   ANIMATIONS COMMUNES
+   ================================================ */
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+
+@media (max-width: 480px) {
+  .feedback-container,
+  .confirm-dialog {
+    padding: 24px;
+    margin: 16px;
+  }
+  
+  .confirm-actions {
+    flex-direction: column;
+  }
+  
+  .feedback-title,
+  .confirm-title {
+    font-size: 18px;
+  }
+}
+
+/* ================================================
+   MODE SOMBRE
+   ================================================ */
+
+[data-theme="dark"] .feedback-container,
+[data-theme="dark"] .confirm-dialog,
+[data-theme="dark"] .skeleton-card {
+  background: var(--gray-800);
+}
+
+[data-theme="dark"] .feedback-title,
+[data-theme="dark"] .confirm-title,
+[data-theme="dark"] .progress-text,
+[data-theme="dark"] .animated-counter {
+  color: var(--gray-100);
+}
+
+[data-theme="dark"] .skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #2d3748 0%,
+    #374151 20%,
+    #2d3748 40%,
+    #2d3748 100%
+  );
+  background-size: 200% 100%;
+}

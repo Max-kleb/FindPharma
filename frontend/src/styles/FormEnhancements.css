@@ -1,0 +1,436 @@
+/**
+ * FormEnhancements.css - Styles modernes pour les formulaires
+ * Inputs, labels, validations et feedback visuel
+ */
+
+/* ================================================
+   FORM GROUP MODERNE
+   ================================================ */
+
+.form-group-modern {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.form-group-modern label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.form-group-modern label .required {
+  color: var(--danger-red);
+  margin-left: 4px;
+}
+
+/* ================================================
+   INPUT FLOATING LABEL
+   ================================================ */
+
+.input-floating {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.input-floating input,
+.input-floating textarea {
+  width: 100%;
+  padding: 20px 16px 8px;
+  border: 2px solid var(--gray-200);
+  border-radius: 14px;
+  font-size: 16px;
+  background: white;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-floating label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--text-tertiary);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  padding: 0 4px;
+}
+
+.input-floating textarea ~ label {
+  top: 20px;
+}
+
+.input-floating input:focus,
+.input-floating textarea:focus {
+  border-color: var(--primary-medical);
+  box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+}
+
+.input-floating input:focus ~ label,
+.input-floating input:not(:placeholder-shown) ~ label,
+.input-floating textarea:focus ~ label,
+.input-floating textarea:not(:placeholder-shown) ~ label {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-medical);
+}
+
+/* ================================================
+   INPUT WITH ICON
+   ================================================ */
+
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon-wrapper .input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  font-size: 18px;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.input-icon-wrapper input {
+  padding-left: 48px !important;
+}
+
+.input-icon-wrapper:focus-within .input-icon {
+  color: var(--primary-medical);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ================================================
+   INPUT STYLES AVANCÉS
+   ================================================ */
+
+.input-premium {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid var(--gray-200);
+  border-radius: 14px;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: white;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-premium:hover {
+  border-color: var(--gray-300);
+}
+
+.input-premium:focus {
+  border-color: var(--primary-medical);
+  box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+}
+
+.input-premium::placeholder {
+  color: var(--gray-400);
+}
+
+/* Input avec validation success */
+.input-premium.is-valid {
+  border-color: var(--success-green);
+}
+
+.input-premium.is-valid:focus {
+  box-shadow: 0 0 0 4px rgba(0, 200, 83, 0.1);
+}
+
+/* Input avec validation error */
+.input-premium.is-invalid {
+  border-color: var(--danger-red);
+}
+
+.input-premium.is-invalid:focus {
+  box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.1);
+}
+
+/* ================================================
+   TEXTAREA MODERN
+   ================================================ */
+
+.textarea-modern {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid var(--gray-200);
+  border-radius: 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: white;
+  transition: all 0.3s ease;
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.textarea-modern:focus {
+  border-color: var(--primary-medical);
+  box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+}
+
+/* ================================================
+   SELECT MODERN
+   ================================================ */
+
+.select-modern {
+  width: 100%;
+  padding: 16px 48px 16px 20px;
+  border: 2px solid var(--gray-200);
+  border-radius: 14px;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23666' d='M10 14l-5-5h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+.select-modern:focus {
+  border-color: var(--primary-medical);
+  box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+}
+
+/* ================================================
+   CHECKBOX & RADIO MODERNES
+   ================================================ */
+
+.checkbox-modern {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-modern input {
+  display: none;
+}
+
+.checkbox-modern .checkmark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--gray-300);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.checkbox-modern input:checked + .checkmark {
+  background: linear-gradient(135deg, var(--primary-medical), var(--primary-green));
+  border-color: var(--primary-medical);
+}
+
+.checkbox-modern .checkmark::after {
+  content: '';
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.checkbox-modern input:checked + .checkmark::after {
+  transform: rotate(45deg) scale(1);
+}
+
+.checkbox-modern:hover .checkmark {
+  border-color: var(--primary-medical);
+}
+
+/* Radio button */
+.radio-modern {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-modern input {
+  display: none;
+}
+
+.radio-modern .radio-mark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--gray-300);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.radio-modern input:checked + .radio-mark {
+  border-color: var(--primary-medical);
+}
+
+.radio-modern .radio-mark::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, var(--primary-medical), var(--primary-green));
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.radio-modern input:checked + .radio-mark::after {
+  transform: scale(1);
+}
+
+/* ================================================
+   VALIDATION MESSAGES
+   ================================================ */
+
+.validation-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  animation: slideIn 0.3s ease;
+}
+
+.validation-message.error {
+  color: var(--danger-red);
+}
+
+.validation-message.success {
+  color: var(--success-green);
+}
+
+.validation-message.warning {
+  color: #E65100;
+}
+
+.validation-message i {
+  font-size: 14px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================================
+   CHARACTER COUNTER
+   ================================================ */
+
+.char-counter {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+}
+
+.char-counter.warning {
+  color: #E65100;
+}
+
+.char-counter.error {
+  color: var(--danger-red);
+}
+
+/* ================================================
+   FORM ACTIONS
+   ================================================ */
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.form-actions.centered {
+  justify-content: center;
+}
+
+.form-actions.space-between {
+  justify-content: space-between;
+}
+
+/* ================================================
+   FOCUS VISIBLE
+   ================================================ */
+
+.input-premium:focus-visible,
+.textarea-modern:focus-visible,
+.select-modern:focus-visible {
+  outline: 2px solid var(--primary-medical);
+  outline-offset: 2px;
+}
+
+/* ================================================
+   MODE SOMBRE
+   ================================================ */
+
+[data-theme="dark"] .input-premium,
+[data-theme="dark"] .textarea-modern,
+[data-theme="dark"] .select-modern,
+[data-theme="dark"] .input-floating input,
+[data-theme="dark"] .input-floating textarea {
+  background: var(--gray-800);
+  border-color: var(--gray-600);
+  color: var(--gray-100);
+}
+
+[data-theme="dark"] .input-floating label {
+  background: var(--gray-800);
+}
+
+[data-theme="dark"] .checkbox-modern .checkmark,
+[data-theme="dark"] .radio-modern .radio-mark {
+  border-color: var(--gray-500);
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+
+@media (max-width: 768px) {
+  .input-premium,
+  .textarea-modern,
+  .select-modern,
+  .input-floating input {
+    padding: 14px 16px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions button {
+    width: 100%;
+  }
+}

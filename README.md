@@ -165,19 +165,46 @@ FindPharma/
 - **Docker Compose** version 2.0+ ([Installer Docker Compose](https://docs.docker.com/compose/install/))
 - 4 GB RAM minimum
 
-### Installation en 3 commandes
+### 🖥️ Démarrage Multi-Plateforme (Recommandé)
 
+Nous avons des scripts de démarrage automatiques pour tous les systèmes d'exploitation :
+
+#### Linux / macOS
 ```bash
 # 1. Cloner le projet
 git clone https://github.com/Max-kleb/FindPharma.git
 cd FindPharma
 
-# 2. Configuration rapide
-./docker-setup.sh
-
-# 3. Créer un superutilisateur
-make createsuperuser
+# 2. Lancer le script de démarrage
+./start.sh
 ```
+
+#### Windows (PowerShell - Recommandé)
+```powershell
+# 1. Cloner le projet
+git clone https://github.com/Max-kleb/FindPharma.git
+cd FindPharma
+
+# 2. Lancer le script PowerShell
+powershell -ExecutionPolicy Bypass -File start.ps1
+```
+
+#### Windows (Invite de commandes CMD)
+```batch
+# 1. Cloner le projet
+git clone https://github.com/Max-kleb/FindPharma.git
+cd FindPharma
+
+# 2. Double-cliquer sur start.bat ou exécuter :
+start.bat
+```
+
+Le script va automatiquement :
+- ✅ Vérifier l'installation de Docker
+- ✅ Créer le fichier `.env` si nécessaire
+- ✅ Construire et démarrer tous les conteneurs
+- ✅ Peupler la base de données (pharmacies, médicaments, stocks)
+- ✅ Afficher les URLs d'accès
 
 **C'est tout ! 🎉**
 
@@ -529,6 +556,39 @@ Les contributions sont les bienvenues ! Pour contribuer :
 
 ---
 
+## 📚 Documentation Complète
+
+| Document | Description |
+|----------|-------------|
+| [📋 RAPPORT_TECHNIQUE.md](RAPPORT_TECHNIQUE.md) | Rapport technique complet du projet |
+| [🛠️ Guide du Développeur](docs/DEVELOPER_GUIDE.md) | Guide complet pour les développeurs |
+| [📡 API Reference](docs/API_REFERENCE.md) | Documentation complète de l'API REST |
+| [🐳 DOCKER_GUIDE.md](DOCKER_GUIDE.md) | Guide Docker détaillé |
+| [🧪 Guide de Tests](docs/GUIDE_TEST_INTEGRATION.md) | Guide des tests d'intégration |
+
+### Documentation API Interactive
+
+| URL | Description |
+|-----|-------------|
+| http://localhost:8000/api/docs/ | Swagger UI (interactif) |
+| http://localhost:8000/api/redoc/ | ReDoc (documentation lisible) |
+| http://localhost:8000/api/schema/ | Schéma OpenAPI (JSON) |
+
+---
+
+## 📊 Statistiques du Projet
+
+| Métrique | Valeur |
+|----------|--------|
+| **Endpoints API** | 62 |
+| **Modèles Django** | 11 |
+| **Pages React** | 13 |
+| **Composants React** | 30+ |
+| **Langues supportées** | 3 (FR, EN, ES) |
+| **Catégories médicaments** | 18 |
+
+---
+
 ## 📞 Contact
 
 Pour toute question ou suggestion :
@@ -556,4 +616,4 @@ Pour toute question ou suggestion :
 
 Made with ❤️ by the FindPharma Team
 
-</div>
+**Version 1.0.0 | Décembre 2025**

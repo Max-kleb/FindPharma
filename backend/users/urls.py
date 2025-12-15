@@ -15,6 +15,13 @@ from .verification_views import (
     verify_email_code,
     resend_verification_code,
 )
+from .user_management_views import (
+    list_users,
+    get_user,
+    create_user,
+    update_user,
+    delete_user,
+)
 
 app_name = 'users'
 
@@ -37,4 +44,11 @@ urlpatterns = [
     
     # User management (admin only)
     path('', UserListView.as_view(), name='user-list'),
+    
+    # Admin user management (CRUD)
+    path('admin/users/', list_users, name='admin-list-users'),
+    path('admin/users/<int:user_id>/', get_user, name='admin-get-user'),
+    path('admin/users/create/', create_user, name='admin-create-user'),
+    path('admin/users/<int:user_id>/update/', update_user, name='admin-update-user'),
+    path('admin/users/<int:user_id>/delete/', delete_user, name='admin-delete-user'),
 ]

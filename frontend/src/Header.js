@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from './contexts/ThemeContext';
+import { NotificationBell } from './components/NotificationSystem';
 import './Header.css';
 
 // Langues disponibles
@@ -147,6 +148,9 @@ function Header({ isLoggedIn, onLogout }) {
         )}
         </nav>
 
+        {/* Cloche de notifications - seulement pour les utilisateurs connectés */}
+        {isLoggedIn && <NotificationBell />}
+
         <div className="header-auth">
         {isLoggedIn ? (
           <div className="user-menu-container" ref={menuRef}>
@@ -224,6 +228,12 @@ function Header({ isLoggedIn, onLogout }) {
                     <span>{t('header.myReservations')}</span>
                   </Link>
                 )}
+                
+                {/* Lien vers le dashboard analytics */}
+                <Link to="/analytics" className="user-menu-item" onClick={() => setMenuOpen(false)}>
+                  <i className="fas fa-chart-line"></i>
+                  <span>Mes statistiques</span>
+                </Link>
                 
                 <div className="user-menu-divider"></div>
                 

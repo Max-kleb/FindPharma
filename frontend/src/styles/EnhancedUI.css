@@ -1,0 +1,549 @@
+/**
+ * EnhancedUI.css - Améliorations visuelles professionnelles 2025
+ * Glassmorphism, micro-interactions, animations modernes
+ */
+
+/* ================================================
+   VARIABLES PREMIUM
+   ================================================ */
+:root {
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: 20px;
+  
+  /* Gradients Premium */
+  --gradient-primary: linear-gradient(135deg, #00A86B 0%, #00C853 50%, #00E676 100%);
+  --gradient-secondary: linear-gradient(135deg, #1A73E8 0%, #4285F4 100%);
+  --gradient-warm: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  --gradient-cool: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-shine: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%);
+  
+  /* Ombres améliorées */
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--glass-border);
+  --shadow-glow-green: 0 0 30px rgba(0, 168, 107, 0.3), 0 0 60px rgba(0, 168, 107, 0.1);
+  --shadow-glow-blue: 0 0 30px rgba(26, 115, 232, 0.3), 0 0 60px rgba(26, 115, 232, 0.1);
+  --shadow-float: 0 20px 60px rgba(0, 0, 0, 0.15);
+  
+  /* Animations */
+  --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================================
+   GLASSMORPHISM COMPONENTS
+   ================================================ */
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-glass);
+  transition: all 0.4s var(--smooth);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-float), var(--shadow-glow-green);
+}
+
+/* Glass Button */
+.glass-btn {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-shine);
+  transition: left 0.5s ease;
+}
+
+.glass-btn:hover::before {
+  left: 100%;
+}
+
+.glass-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glass);
+}
+
+/* ================================================
+   BOUTONS PREMIUM
+   ================================================ */
+
+/* Bouton avec effet de shine */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.4s var(--smooth);
+  box-shadow: 0 4px 15px rgba(0, 168, 107, 0.3);
+}
+
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.7s ease;
+}
+
+.btn-shine:hover::before {
+  left: 100%;
+}
+
+.btn-shine:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(0, 168, 107, 0.4);
+}
+
+.btn-shine:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+/* Bouton avec bordure animée */
+.btn-border-animate {
+  position: relative;
+  background: transparent;
+  color: var(--primary-medical);
+  border: 2px solid var(--primary-medical);
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s var(--smooth);
+}
+
+.btn-border-animate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: var(--gradient-primary);
+  z-index: -1;
+  transition: width 0.4s var(--smooth);
+}
+
+.btn-border-animate:hover::before {
+  width: 100%;
+}
+
+.btn-border-animate:hover {
+  color: white;
+  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 168, 107, 0.3);
+}
+
+/* Bouton pulsant (CTA) */
+.btn-pulse {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 168, 107, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(0, 168, 107, 0.5), 0 0 0 10px rgba(0, 168, 107, 0.1);
+  }
+}
+
+/* ================================================
+   CARTES AMÉLIORÉES
+   ================================================ */
+
+/* Carte avec badge */
+.card-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--gradient-warm);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  animation: badge-bounce 2s infinite;
+  z-index: 10;
+}
+
+@keyframes badge-bounce {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
+}
+
+/* Carte avec hover 3D */
+.card-3d {
+  transition: transform 0.4s var(--smooth);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card-3d:hover {
+  transform: rotateX(5deg) rotateY(-5deg) translateZ(20px);
+}
+
+/* Carte avec gradient border */
+.card-gradient-border {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: var(--gradient-primary);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card-gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* ================================================
+   INPUTS MODERNES
+   ================================================ */
+
+.input-modern {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid var(--gray-200);
+  border-radius: 14px;
+  font-size: 16px;
+  transition: all 0.3s var(--smooth);
+  background: white;
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: var(--primary-medical);
+  box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+}
+
+.input-modern:hover:not(:focus) {
+  border-color: var(--gray-300);
+}
+
+/* Input avec icône */
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon .input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  transition: all 0.3s ease;
+}
+
+.input-with-icon input {
+  padding-left: 48px;
+}
+
+.input-with-icon:focus-within .input-icon {
+  color: var(--primary-medical);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ================================================
+   BADGES & TAGS
+   ================================================ */
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.tag-pill-success {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.tag-pill-warning {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.tag-pill-error {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+.tag-pill-info {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+
+.tag-pill:hover {
+  transform: scale(1.05);
+}
+
+/* ================================================
+   TOOLTIPS MODERNES
+   ================================================ */
+
+[data-tooltip] {
+  position: relative;
+  cursor: pointer;
+}
+
+[data-tooltip]::before,
+[data-tooltip]::after {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s var(--bounce);
+  z-index: 1000;
+}
+
+[data-tooltip]::before {
+  content: attr(data-tooltip);
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  padding: 10px 16px;
+  background: var(--gray-900);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+[data-tooltip]::after {
+  content: '';
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--gray-900);
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+[data-tooltip]:hover::before {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ================================================
+   SCROLLBAR PERSONNALISÉE
+   ================================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-medical), var(--primary-green));
+  border-radius: 10px;
+  border: 2px solid var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--secondary-green), var(--primary-medical));
+}
+
+/* ================================================
+   LOADING STATES PREMIUM
+   ================================================ */
+
+/* Spinner avec gradient */
+.spinner-gradient {
+  width: 40px;
+  height: 40px;
+  border: 3px solid transparent;
+  border-top-color: var(--primary-medical);
+  border-right-color: var(--primary-green);
+  border-radius: 50%;
+  animation: spin-gradient 1s linear infinite;
+}
+
+@keyframes spin-gradient {
+  to { transform: rotate(360deg); }
+}
+
+/* Skeleton avec shimmer amélioré */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e0e0e0 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ================================================
+   ANIMATIONS UTILITAIRES
+   ================================================ */
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s var(--smooth);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s var(--bounce);
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Délais d'animation */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ================================================
+   EFFETS DE SURVOL PREMIUM
+   ================================================ */
+
+/* Effet de lift */
+.hover-lift {
+  transition: all 0.3s var(--smooth);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-float);
+}
+
+/* Effet de scale */
+.hover-scale {
+  transition: transform 0.3s var(--smooth);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Effet de glow */
+.hover-glow:hover {
+  box-shadow: var(--shadow-glow-green);
+}
+
+/* ================================================
+   RESPONSIVE IMPROVEMENTS
+   ================================================ */
+
+@media (max-width: 768px) {
+  .glass-card {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .btn-shine, .glass-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

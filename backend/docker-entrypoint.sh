@@ -69,6 +69,61 @@ else:
 END
 fi
 
+# Peupler automatiquement la base de données si elle est vide
+echo "🔄 Checking if database needs population..."
+python << 'POPULATE_SCRIPT'
+import os
+import sys
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FindPharma.settings')
+django.setup()
+
+from medicines.models import Medicine
+from pharmacies.models import Pharmacy
+from stocks.models import Stock
+
+medicine_count = Medicine.objects.count()
+pharmacy_count = Pharmacy.objects.count()
+stock_count = Stock.objects.count()
+
+print(f"📊 État actuel de la base de données:")
+print(f"   - Médicaments: {medicine_count}")
+print(f"   - Pharmacies: {pharmacy_count}")
+print(f"   - Stocks: {stock_count}")
+
+needs_population = False
+
+# Vérifier si on doit peupler les médicaments
+if medicine_count < 10:
+    print("📦 Peu de médicaments - peuplement nécessaire")
+    needs_population = True
+
+# Vérifier si on doit peupler les pharmacies et stocks
+if pharmacy_count < 5 or stock_count < 100:
+    print("🏥 Peu de pharmacies/stocks - peuplement nécessaire")
+    needs_population = True
+
+if needs_population:
+    print("\n🚀 Lancement du peuplement automatique...")
+    try:
+        # Exécuter le script de peuplement camerounais
+        exec(open('scripts/populate_cameroon_pharmacies.py').read())
+        print("\n✅ Peuplement terminé avec succès!")
+    except Exception as e:
+        print(f"⚠️  Erreur lors du peuplement: {e}")
+        # Essayer le peuplement basique des médicaments
+        try:
+            from django.core.management import call_command
+            call_command('populate_medicines')
+            print("✅ Médicaments peuplés via commande Django")
+        except Exception as e2:
+            print(f"⚠️  Erreur secondaire: {e2}")
+else:
+    print("✅ Base de données déjà peuplée - aucune action nécessaire")
+
+POPULATE_SCRIPT
+
 echo "🚀 Starting Django development server..."
 echo "   Listening on 0.0.0.0:8000"
 echo ""

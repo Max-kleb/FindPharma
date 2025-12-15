@@ -1,0 +1,558 @@
+/**
+ * HeroSection.css - Animations modernes et effets visuels avancés
+ * Parallax, animations au scroll, micro-interactions
+ */
+
+/* ===============================================
+   HERO SECTION - Améliorations visuelles
+   =============================================== */
+
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Gradient animé */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(0, 168, 107, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(2, 136, 209, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(0, 200, 83, 0.04) 0%, transparent 70%);
+  animation: gradientShift 15s ease infinite;
+  z-index: -1;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(3deg);
+  }
+}
+
+/* Hero Title - Animation d'entrée */
+.hero-title {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-description {
+  animation: fadeInUp 0.8s ease-out 0.1s backwards;
+}
+
+.hero-badge {
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Feature items - Staggered animation */
+.feature-item {
+  opacity: 0;
+  animation: featureSlideIn 0.6s ease-out forwards;
+}
+
+.feature-item:nth-child(1) { animation-delay: 0.3s; }
+.feature-item:nth-child(2) { animation-delay: 0.4s; }
+.feature-item:nth-child(3) { animation-delay: 0.5s; }
+.feature-item:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes featureSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Feature item hover - Amélioration */
+.feature-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.feature-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 0;
+  background: linear-gradient(135deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+  border-radius: 2px;
+  transition: height 0.3s ease;
+}
+
+.feature-item:hover::before {
+  height: 100%;
+}
+
+.feature-item:hover {
+  transform: translateX(8px);
+  background: rgba(0, 168, 107, 0.03);
+  border-radius: 12px;
+  padding-left: 12px;
+  margin-left: -12px;
+}
+
+/* Feature icon image - Amélioration */
+.feature-icon-image {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.feature-item:hover .feature-icon-image {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(0, 168, 107, 0.3);
+}
+
+.feature-icon-image img {
+  transition: transform 0.4s ease;
+}
+
+.feature-item:hover .feature-icon-image img {
+  transform: scale(1.15);
+}
+
+/* ===============================================
+   FLOATING CARDS - Animations améliorées
+   =============================================== */
+
+.pharmacy-card {
+  animation: floatCard 6s ease-in-out infinite;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pharmacy-card:hover {
+  transform: translateY(-5px) scale(1.05) !important;
+  box-shadow: 
+    0 15px 45px rgba(0, 168, 107, 0.2),
+    0 0 0 1px rgba(0, 168, 107, 0.3);
+}
+
+/* Card 1 - Animation de flottement */
+.card-1 {
+  animation: floatCard1 6s ease-in-out infinite;
+}
+
+@keyframes floatCard1 {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(-2deg);
+  }
+  25% {
+    transform: translateY(-15px) translateX(5px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) translateX(-5px) rotate(2deg);
+  }
+  75% {
+    transform: translateY(-20px) translateX(3px) rotate(-1deg);
+  }
+}
+
+/* Card 2 - Animation décalée */
+.card-2 {
+  animation: floatCard2 7s ease-in-out infinite;
+}
+
+@keyframes floatCard2 {
+  0%, 100% {
+    transform: translateY(0) rotate(3deg);
+  }
+  33% {
+    transform: translateY(-12px) rotate(0deg);
+  }
+  66% {
+    transform: translateY(-18px) rotate(5deg);
+  }
+}
+
+/* Card 3 - Animation différente */
+.card-3 {
+  animation: floatCard3 8s ease-in-out infinite;
+}
+
+@keyframes floatCard3 {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-25px) translateX(-10px) rotate(2deg);
+  }
+}
+
+/* Card status - Pulse animation */
+.card-status.available {
+  animation: pulseAvailable 2s ease-in-out infinite;
+}
+
+@keyframes pulseAvailable {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 200, 83, 0);
+  }
+}
+
+/* ===============================================
+   CIRCLES - Animations de background
+   =============================================== */
+
+.illustration-circle {
+  transition: all 0.5s ease;
+}
+
+.circle-1 {
+  animation: circleFloat1 8s ease-in-out infinite;
+}
+
+.circle-2 {
+  animation: circleFloat2 10s ease-in-out infinite;
+}
+
+.circle-3 {
+  animation: circleFloat3 12s ease-in-out infinite;
+}
+
+@keyframes circleFloat1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(20px, -20px) scale(1.1);
+  }
+}
+
+@keyframes circleFloat2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-15px, 15px) scale(1.05);
+  }
+}
+
+@keyframes circleFloat3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(10px, 10px) scale(0.95);
+  }
+}
+
+/* ===============================================
+   HERO CTA BUTTONS - Micro-interactions
+   =============================================== */
+
+.btn-primary-large {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary-large::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-primary-large:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-primary-large:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 10px 30px rgba(0, 168, 107, 0.4),
+    0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary-large:active {
+  transform: translateY(-1px);
+}
+
+.btn-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.btn-primary-large:hover .btn-arrow {
+  transform: translateX(5px);
+}
+
+.btn-secondary-large {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary-large::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-medical);
+  transition: width 0.3s ease;
+}
+
+.btn-secondary-large:hover::after {
+  width: 100%;
+}
+
+.btn-secondary-large:hover {
+  color: var(--primary-medical);
+}
+
+/* ===============================================
+   STATS SECTION - Counter animation
+   =============================================== */
+
+.stat-item {
+  opacity: 0;
+  animation: statFadeIn 0.6s ease-out forwards;
+}
+
+.stat-item:nth-child(1) { animation-delay: 0.8s; }
+.stat-item:nth-child(2) { animation-delay: 0.9s; }
+.stat-item:nth-child(3) { animation-delay: 1.0s; }
+.stat-item:nth-child(4) { animation-delay: 1.1s; }
+
+@keyframes statFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.stat-number {
+  background: linear-gradient(135deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: numberPulse 3s ease-in-out infinite;
+}
+
+@keyframes numberPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.stat-item {
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-item:hover .stat-number {
+  animation-play-state: paused;
+  transform: scale(1.1);
+}
+
+/* ===============================================
+   STEPS - Animation séquentielle
+   =============================================== */
+
+.step-item {
+  opacity: 0;
+  animation: stepSlideUp 0.6s ease-out forwards;
+}
+
+.step-item:nth-child(1) { animation-delay: 0.2s; }
+.step-item:nth-child(3) { animation-delay: 0.4s; }
+.step-item:nth-child(5) { animation-delay: 0.6s; }
+.step-item:nth-child(7) { animation-delay: 0.8s; }
+
+.step-arrow {
+  opacity: 0;
+  animation: arrowFadeIn 0.3s ease-out forwards;
+}
+
+.step-arrow:nth-child(2) { animation-delay: 0.3s; }
+.step-arrow:nth-child(4) { animation-delay: 0.5s; }
+.step-arrow:nth-child(6) { animation-delay: 0.7s; }
+
+@keyframes stepSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes arrowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.step-item {
+  transition: all 0.3s ease;
+}
+
+.step-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 168, 107, 0.15);
+}
+
+.step-icon {
+  transition: transform 0.3s ease;
+}
+
+.step-item:hover .step-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.step-number {
+  transition: all 0.3s ease;
+}
+
+.step-item:hover .step-number {
+  background: linear-gradient(135deg, var(--primary-medical) 0%, var(--secondary-green) 100%);
+  transform: scale(1.1);
+}
+
+/* ===============================================
+   HERO IMAGE - Parallax effect
+   =============================================== */
+
+.hero-bg-image {
+  transition: transform 0.5s ease;
+}
+
+.hero-illustration:hover .hero-bg-image {
+  transform: scale(1.05);
+}
+
+.illustration-overlay {
+  transition: opacity 0.3s ease;
+}
+
+.hero-illustration:hover .illustration-overlay {
+  opacity: 0.5;
+}
+
+/* ===============================================
+   PARTICULES FLOTTANTES (optionnel)
+   =============================================== */
+
+.hero-illustration::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(0, 168, 107, 0.3) 2px, transparent 2px),
+    radial-gradient(circle at 80% 40%, rgba(0, 200, 83, 0.3) 2px, transparent 2px),
+    radial-gradient(circle at 40% 70%, rgba(2, 136, 209, 0.3) 2px, transparent 2px),
+    radial-gradient(circle at 70% 80%, rgba(0, 168, 107, 0.3) 2px, transparent 2px);
+  background-size: 100% 100%;
+  animation: particlesFloat 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes particlesFloat {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+  }
+}
+
+/* ===============================================
+   RESPONSIVE ANIMATIONS
+   =============================================== */
+
+@media (max-width: 768px) {
+  /* Réduire les animations sur mobile pour les performances */
+  .pharmacy-card {
+    animation-duration: 8s;
+  }
+  
+  .circle-1, .circle-2, .circle-3 {
+    animation: none;
+  }
+  
+  .hero-section::before {
+    animation: none;
+  }
+  
+  .hero-illustration::after {
+    display: none;
+  }
+}
+
+/* Préférence pour les mouvements réduits */
+@media (prefers-reduced-motion: reduce) {
+  .pharmacy-card,
+  .circle-1, .circle-2, .circle-3,
+  .hero-section::before,
+  .stat-number,
+  .feature-item,
+  .step-item,
+  .step-arrow,
+  .hero-title,
+  .hero-description,
+  .hero-badge,
+  .stat-item {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,13 +1,14 @@
 // src/SearchSection.js
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import GeolocationButton from './GeolocationButton';
+import SearchAutocomplete from './components/SearchAutocomplete';
 import { searchMedication, getNearbyPharmacies } from './services/api';
 import { useTranslation } from 'react-i18next';
+import './SearchSection.css';
 
 function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoading, setError, setLastSearch }) {
   const [searchText, setSearchText] = useState('');
   const [searchRadius, setSearchRadius] = useState(5000); // Rayon par défaut: 5km
-  const [isSearching, setIsSearching] = useState(false);
   const debounceTimerRef = useRef(null);
   const { t } = useTranslation();
   
@@ -26,7 +27,6 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
       return;
     }
 
-    setIsSearching(true);
     setLoading(true);
     setError(null);
     setLastSearch(trimmedText);
@@ -52,7 +52,6 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
       setPharmacies([]);
     } finally {
       setLoading(false);
-      setIsSearching(false);
     }
   }, [searchText, userLocation, setPharmacies, setLoading, setError, setLastSearch, t]);
 
@@ -112,53 +111,25 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
     } finally {
       setLoading(false);
     }
-  };  return (
+  };  
+  
+  // Handler pour la sélection depuis l'autocomplete
+  const handleAutocompleteSelect = (medicineOrName) => {
+    // Peut recevoir soit un objet {name: ...} soit une string directement
+    const name = typeof medicineOrName === 'string' ? medicineOrName : medicineOrName.name;
+    setSearchText(name);
+    handleSearch(name);
+  };
+  
+  return (
     <section className="search-section-container">
-      <div className="search-bar-box">
-        <i className={`fas ${isSearching ? 'fa-spinner fa-spin' : 'fa-search'} search-icon`}></i>
-        <input 
-          type="text" 
-          placeholder={t('search.placeholder')} 
-          className="search-input" 
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                  handleSearch();
-              }
-          }}
-          autoComplete="off"
-        />
-        {searchText && (
-          <button 
-            className="clear-button"
-            onClick={() => {
-              setSearchText('');
-              setPharmacies([]);
-              setError(null);
-            }}
-            title={t('search.clear')}
-          >
-            <i className="fas fa-times"></i>
-          </button>
-        )}
-        <button 
-          className="search-button" 
-          onClick={() => handleSearch()}
-          title={t('search.searchButton')}
-          disabled={isSearching || !searchText.trim()}
-        >
-          {isSearching ? t('search.searching') : t('search.searchButton')}
-        </button>
-      </div>
-      
-      {/* Message informatif */}
-      {searchText.trim().length > 0 && searchText.trim().length < 2 && (
-        <div className="search-hint">
-          <i className="fas fa-info-circle"></i>
-          {t('search.hintMinChars')}
-        </div>
-      )}
+      {/* Recherche intelligente avec autocomplete */}
+      <SearchAutocomplete
+        onSearch={handleSearch}
+        onSelect={handleAutocompleteSelect}
+        placeholder={t('search.placeholder')}
+        className="search-autocomplete-main"
+      />
 
       {/* Sélecteur de rayon de recherche */}
       <div className="radius-selector">
@@ -172,13 +143,13 @@ function SearchSection({ userLocation, setUserLocation, setPharmacies, setLoadin
           className="radius-select"
           title={t('search.usedForLocation')}
         >
-          <option value="1000">{t('search.kmAroundMe').replace('{km}', '1')}</option>
-          <option value="2000">{t('search.kmAroundMe').replace('{km}', '2')}</option>
-          <option value="3000">{t('search.kmAroundMe').replace('{km}', '3')}</option>
-          <option value="5000">{t('search.kmAroundMe').replace('{km}', '5')}</option>
-          <option value="10000">{t('search.kmAroundMe').replace('{km}', '10')}</option>
-          <option value="20000">{t('search.kmAroundMe').replace('{km}', '20')}</option>
-          <option value="50000">{t('search.kmAroundMe').replace('{km}', '50')}</option>
+          <option value="1000">1 km</option>
+          <option value="2000">2 km</option>
+          <option value="3000">3 km</option>
+          <option value="5000">5 km</option>
+          <option value="10000">10 km</option>
+          <option value="20000">20 km</option>
+          <option value="50000">50 km</option>
         </select>
         <span className="radius-info">
           <i className="fas fa-info-circle"></i> {t('search.usedForLocation')}

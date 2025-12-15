@@ -111,7 +111,8 @@
     "kmAroundMe": "{{km}} km autour de moi",
     "noPharmacyInRadius": "Aucune pharmacie trouvée dans un rayon de {{km}} km. Essayez d'augmenter le rayon de recherche.",
     "addToCart": "Ajouter au panier",
-    "viewOnMap": "Voir sur la carte"
+    "viewOnMap": "Voir sur la carte",
+    "smartSearch": "Recherche intelligente"
   },
   "pharmacy": {
     "openNow": "Ouvert",
@@ -336,7 +337,22 @@
     "legal": "Mentions Légales",
     "followUs": "Suivez-nous",
     "copyright": "© 2024 FindPharma. Tous droits réservés.",
-    "madeWith": "Fait avec ❤️ au Cameroun"
+    "madeWith": "Fait avec ❤️ au Cameroun",
+    "description": "Votre partenaire santé au Cameroun. Trouvez vos médicaments rapidement dans les pharmacies près de chez vous.",
+    "quickLinks": "Liens rapides",
+    "home": "Accueil",
+    "services": "Services",
+    "register": "S'inscrire",
+    "login": "Se connecter",
+    "searchMedicine": "Rechercher",
+    "contactUs": "Nous contacter",
+    "availability": "Disponible 24h/24",
+    "secure": "Paiement sécurisé",
+    "verified": "Pharmacies vérifiées",
+    "support": "Support 24/7",
+    "allRightsReserved": "Tous droits réservés",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité"
   },
   "admin": {
     "dashboard": "Tableau de bord",
@@ -685,6 +701,15 @@
     "minutes": "minutes",
     "hours": "heures",
     "days": "jours"
+  },
+  "myReservations": {
+    "subtitle": "Consultez et gérez vos réservations de médicaments",
+    "filterByStatus": "Filtrer par statut",
+    "statusAll": "Tous les statuts",
+    "statusCollected": "Récupérées",
+    "statusExpired": "Expirées",
+    "refresh": "Actualiser",
+    "searchMedicines": "Rechercher des médicaments"
   },
   "contact": {
     "title": "Contactez-nous",

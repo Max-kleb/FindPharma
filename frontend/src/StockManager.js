@@ -8,6 +8,7 @@ import {
   toggleStockAvailability,
   fetchMedicines
 } from './services/api';
+import { showConfirmDialog } from './components/NotificationSystem';
 import './StockManager.css';
 
 const StockManager = () => {
@@ -140,7 +141,15 @@ const StockManager = () => {
     const handleDelete = async (stockId) => {
         if (!pharmacyId || !token) return;
         
-        if (!window.confirm('Supprimer ce stock définitivement ?')) return;
+        const confirmed = await showConfirmDialog({
+            title: 'Supprimer le stock',
+            message: 'Supprimer ce stock définitivement ?',
+            confirmText: 'Supprimer',
+            cancelText: 'Annuler',
+            type: 'danger'
+        });
+        
+        if (!confirmed) return;
         
         try {
             await deleteStock(pharmacyId, stockId, token);

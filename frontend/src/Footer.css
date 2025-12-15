@@ -1,0 +1,335 @@
+/**
+ * Footer.css - Footer Professionnel FindPharma
+ * Design moderne avec glassmorphism et animations
+ */
+
+.app-footer-pro {
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, #E8F5E9 100%);
+  border-top: 1px solid var(--gray-200);
+  margin-top: auto;
+}
+
+/* Section principale */
+.footer-main {
+  padding: 60px 40px 40px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Colonne Brand */
+.footer-brand {
+  padding-right: 40px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.footer-logo-img {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 2px 8px rgba(0, 168, 107, 0.3));
+}
+
+.footer-logo-text {
+  font-size: 28px;
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-logo-text .logo-find {
+  background: linear-gradient(135deg, #1A73E8, #4285F4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-logo-text .logo-pharma {
+  background: linear-gradient(135deg, #00C853, #00A86B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* Icônes sociales */
+.footer-social-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.social-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icon.facebook { background: linear-gradient(135deg, #1877F2, #0D65D9); }
+.social-icon.twitter { background: linear-gradient(135deg, #1DA1F2, #0C85D0); }
+.social-icon.instagram { background: linear-gradient(135deg, #E4405F, #C13584); }
+.social-icon.whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+
+.social-icon:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Colonnes de liens */
+.footer-links-col h4,
+.footer-contact h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.footer-links-col h4::after,
+.footer-contact h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-medical), var(--primary-green));
+  border-radius: 2px;
+}
+
+.footer-links-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links-col li {
+  margin-bottom: 12px;
+}
+
+.footer-links-col a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  padding: 6px 0;
+}
+
+.footer-links-col a i {
+  font-size: 12px;
+  color: var(--primary-medical);
+  width: 16px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.footer-links-col a:hover {
+  color: var(--primary-medical);
+  transform: translateX(4px);
+}
+
+.footer-links-col a:hover i {
+  transform: scale(1.2);
+}
+
+/* Contact */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.contact-item i {
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 168, 107, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-medical);
+  font-size: 14px;
+}
+
+/* Badges de confiance */
+.footer-trust {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 24px 40px;
+  border-top: 1px solid rgba(0, 168, 107, 0.1);
+  border-bottom: 1px solid rgba(0, 168, 107, 0.1);
+}
+
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.trust-badge i {
+  font-size: 20px;
+  color: var(--primary-medical);
+}
+
+/* Copyright */
+.footer-bottom {
+  background: var(--text-primary);
+  padding: 20px 40px;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.copyright {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  margin: 0;
+}
+
+.made-with {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.heart {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Dark mode */
+[data-theme="dark"] .app-footer-pro {
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, #1a2e1a 100%);
+}
+
+[data-theme="dark"] .footer-trust {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .footer-bottom {
+  background: #0d1117;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 30px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .footer-social-icons {
+    justify-content: center;
+  }
+
+  .footer-links-col h4::after,
+  .footer-contact h4::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-main {
+    padding: 40px 24px 30px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .footer-links-col a {
+    justify-content: center;
+  }
+
+  .contact-item {
+    justify-content: center;
+  }
+
+  .trust-badges {
+    gap: 20px;
+  }
+
+  .trust-badge {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+
+  .footer-bottom-content {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-logo-text {
+    font-size: 24px;
+  }
+
+  .trust-badges {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+  }
+}

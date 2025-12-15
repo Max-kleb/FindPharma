@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FindPharma",
+  "name": "FindPharma - Trouvez vos médicaments",
+  "description": "Application de recherche de médicaments et de pharmacies au Cameroun",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,41 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "orientation": "portrait-primary",
+  "theme_color": "#00A86B",
+  "background_color": "#F0F9F5",
+  "scope": "/",
+  "lang": "fr-FR",
+  "dir": "ltr",
+  "categories": ["health", "medical", "shopping"],
+  "shortcuts": [
+    {
+      "name": "Rechercher un médicament",
+      "short_name": "Rechercher",
+      "description": "Rechercher un médicament dans les pharmacies",
+      "url": "/?source=pwa",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Mes réservations",
+      "short_name": "Réservations",
+      "description": "Voir mes réservations en cours",
+      "url": "/reservations?source=pwa",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

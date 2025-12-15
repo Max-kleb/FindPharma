@@ -1,0 +1,412 @@
+/**
+ * SearchSection.css - Section de recherche moderne
+ * Design premium avec animations et micro-interactions
+ */
+
+/* ================================================
+   CONTAINER PRINCIPAL
+   ================================================ */
+
+.search-section-container {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 168, 107, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-section-container:hover {
+  box-shadow: 
+    0 8px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 168, 107, 0.15);
+}
+
+/* Accent bar */
+.search-section-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+  border-radius: 0 0 4px 4px;
+}
+
+/* ================================================
+   TOGGLE SWITCH - Recherche intelligente
+   ================================================ */
+
+.autocomplete-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(0, 168, 107, 0.05) 0%, rgba(0, 200, 83, 0.05) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(0, 168, 107, 0.1);
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gray-300);
+  border-radius: 26px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-slider::before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(22px);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.toggle-label i {
+  color: var(--primary-medical);
+  font-size: 16px;
+}
+
+.autocomplete-toggle:has(input:checked) .toggle-label {
+  color: var(--primary-medical);
+}
+
+/* ================================================
+   BARRE DE RECHERCHE CLASSIQUE
+   ================================================ */
+
+.search-bar-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.search-bar-box:focus-within {
+  border-color: var(--primary-medical);
+  box-shadow: 
+    0 0 0 4px rgba(0, 168, 107, 0.1),
+    0 4px 12px rgba(0, 168, 107, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px;
+  color: var(--gray-400);
+  font-size: 18px;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.search-bar-box:focus-within .search-icon {
+  color: var(--primary-medical);
+  transform: scale(1.1);
+}
+
+.search-input {
+  flex: 1;
+  padding: 14px 14px 14px 48px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--gray-400);
+}
+
+/* Bouton Clear */
+.clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--gray-100);
+  color: var(--gray-500);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-button:hover {
+  background: var(--gray-200);
+  color: var(--danger-red);
+  transform: rotate(90deg);
+}
+
+/* Bouton Rechercher */
+.search-button {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--primary-medical) 0%, var(--primary-green) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 168, 107, 0.25);
+  white-space: nowrap;
+}
+
+.search-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 168, 107, 0.35);
+}
+
+.search-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.search-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================================================
+   HINT DE RECHERCHE
+   ================================================ */
+
+.search-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: rgba(2, 136, 209, 0.08);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--accent-blue);
+  animation: fadeIn 0.3s ease;
+}
+
+.search-hint i {
+  font-size: 14px;
+}
+
+/* ================================================
+   SELECTEUR DE RAYON
+   ================================================ */
+
+.radius-selector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--gray-50);
+  border-radius: 14px;
+  border: 1px solid var(--gray-100);
+}
+
+.radius-selector label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.radius-selector label i {
+  color: var(--primary-medical);
+}
+
+.radius-select {
+  padding: 10px 16px;
+  padding-right: 36px;
+  border: 2px solid var(--gray-200);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.radius-select:focus {
+  outline: none;
+  border-color: var(--primary-medical);
+  box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.1);
+}
+
+.radius-select:hover {
+  border-color: var(--gray-300);
+}
+
+.radius-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+
+/* ================================================
+   AUTOCOMPLETE MAIN
+   ================================================ */
+
+.search-autocomplete-main {
+  margin-bottom: 8px;
+}
+
+/* ================================================
+   ANIMATIONS
+   ================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================
+   MODE SOMBRE
+   ================================================ */
+
+[data-theme="dark"] .search-section-container {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+}
+
+[data-theme="dark"] .search-bar-box {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+[data-theme="dark"] .search-input {
+  color: var(--gray-100);
+}
+
+[data-theme="dark"] .radius-selector {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+[data-theme="dark"] .radius-select {
+  background: var(--gray-700);
+  border-color: var(--gray-600);
+  color: var(--gray-100);
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+
+@media (max-width: 768px) {
+  .search-section-container {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .search-bar-box {
+    flex-direction: column;
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .search-icon {
+    left: 16px;
+    top: 26px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 12px 12px 12px 44px;
+  }
+  
+  .search-button {
+    width: 100%;
+    padding: 14px;
+  }
+  
+  .clear-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+  
+  .radius-selector {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .radius-select {
+    width: 100%;
+  }
+  
+  .radius-info {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .autocomplete-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,492 @@
+[
+  {
+    "name": "Paracétamol",
+    "category": "analgesique",
+    "description": "Le paracétamol est un antalgique et antipyrétique utilisé pour traiter la douleur légère à modérée et la fièvre.",
+    "indications": "Traitement symptomatique des douleurs d'intensité légère à modérée et/ou des états fébriles. Maux de tête, douleurs dentaires, courbatures, règles douloureuses, état grippal.",
+    "contraindications": "Allergie au paracétamol, insuffisance hépatique sévère, alcoolisme chronique.",
+    "posology": "Adultes: 500mg à 1g, 1 à 3 fois par jour. Maximum 4g/jour. Enfants: 15mg/kg toutes les 6 heures.",
+    "side_effects": "Rares: réactions allergiques cutanées. En cas de surdosage: lésions hépatiques graves.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Ibuprofène",
+    "category": "anti_inflammatoire",
+    "description": "L'ibuprofène est un anti-inflammatoire non stéroïdien (AINS) utilisé pour réduire la douleur, la fièvre et l'inflammation.",
+    "indications": "Douleurs légères à modérées, fièvre, maux de tête, douleurs dentaires, douleurs menstruelles, arthrite, douleurs musculaires.",
+    "contraindications": "Ulcère gastro-duodénal, insuffisance cardiaque sévère, insuffisance rénale sévère, grossesse (3e trimestre), allergie aux AINS.",
+    "posology": "Adultes: 200 à 400mg, 3 fois par jour. Maximum 1200mg/jour sans avis médical.",
+    "side_effects": "Troubles digestifs, nausées, vomissements, douleurs abdominales, risque cardiovasculaire à long terme.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Amoxicilline",
+    "category": "antibiotique",
+    "description": "L'amoxicilline est un antibiotique de la famille des pénicillines utilisé pour traiter diverses infections bactériennes.",
+    "indications": "Infections ORL, infections respiratoires, infections urinaires, infections dentaires, éradication d'Helicobacter pylori.",
+    "contraindications": "Allergie aux pénicillines, allergie aux céphalosporines (prudence), mononucléose infectieuse.",
+    "posology": "Adultes: 500mg à 1g, 2 à 3 fois par jour pendant 5 à 7 jours selon l'infection.",
+    "side_effects": "Diarrhée, nausées, éruptions cutanées, réactions allergiques.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Artemether-Lumefantrine",
+    "category": "antipaludeen",
+    "description": "Combinaison thérapeutique à base d'artémisinine (CTA) recommandée par l'OMS pour le traitement du paludisme non compliqué à Plasmodium falciparum.",
+    "indications": "Traitement du paludisme non compliqué à Plasmodium falciparum.",
+    "contraindications": "Allergie aux composants, premier trimestre de grossesse, paludisme sévère.",
+    "posology": "Adultes >35kg: 4 comprimés en une prise, 2 fois par jour pendant 3 jours (total 24 comprimés).",
+    "side_effects": "Maux de tête, vertiges, nausées, vomissements, douleurs abdominales, fatigue.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Métronidazole",
+    "category": "antiparasitaire",
+    "description": "Antibiotique et antiparasitaire utilisé contre les infections à bactéries anaérobies et certains parasites.",
+    "indications": "Amibiase intestinale et hépatique, giardiase, trichomonase, infections à bactéries anaérobies.",
+    "contraindications": "Allergie au métronidazole, premier trimestre de grossesse, allaitement.",
+    "posology": "Adultes: 250 à 500mg, 2 à 3 fois par jour pendant 7 à 10 jours selon l'indication.",
+    "side_effects": "Goût métallique, nausées, vomissements. Effet antabuse avec l'alcool (ne pas consommer d'alcool).",
+    "requires_prescription": true
+  },
+  {
+    "name": "Oméprazole",
+    "category": "digestif",
+    "description": "Inhibiteur de la pompe à protons (IPP) qui réduit la production d'acide gastrique.",
+    "indications": "Reflux gastro-œsophagien, ulcère gastrique et duodénal, syndrome de Zollinger-Ellison, éradication d'H. pylori.",
+    "contraindications": "Allergie aux IPP, association avec nelfinavir.",
+    "posology": "20 à 40mg une fois par jour, avant le petit-déjeuner, pendant 2 à 8 semaines selon l'indication.",
+    "side_effects": "Maux de tête, diarrhée, constipation, nausées, douleurs abdominales.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Metformine",
+    "category": "antidiabetique",
+    "description": "Antidiabétique oral de première intention pour le diabète de type 2, améliore la sensibilité à l'insuline.",
+    "indications": "Diabète de type 2, en particulier chez les patients en surpoids, en monothérapie ou association.",
+    "contraindications": "Insuffisance rénale sévère, insuffisance hépatique, insuffisance cardiaque décompensée, acidocétose.",
+    "posology": "Débuter à 500mg 1-2 fois/jour avec les repas, augmenter progressivement. Maximum 3g/jour.",
+    "side_effects": "Troubles digestifs fréquents (nausées, diarrhée), goût métallique. Rare: acidose lactique.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Amlodipine",
+    "category": "antihypertenseur",
+    "description": "Inhibiteur calcique utilisé pour traiter l'hypertension artérielle et l'angine de poitrine.",
+    "indications": "Hypertension artérielle, angor stable chronique, angor vasospastique (Prinzmetal).",
+    "contraindications": "Hypotension sévère, sténose aortique sévère, insuffisance cardiaque instable, choc cardiogénique.",
+    "posology": "5 à 10mg une fois par jour. Commencer à 5mg et ajuster selon la réponse.",
+    "side_effects": "Œdèmes des chevilles, bouffées de chaleur, maux de tête, fatigue, palpitations.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Atorvastatine",
+    "category": "cardiovasculaire",
+    "description": "Statine utilisée pour réduire le cholestérol LDL et prévenir les maladies cardiovasculaires.",
+    "indications": "Hypercholestérolémie, prévention cardiovasculaire primaire et secondaire.",
+    "contraindications": "Maladie hépatique active, grossesse, allaitement, myopathie.",
+    "posology": "10 à 80mg une fois par jour, de préférence le soir.",
+    "side_effects": "Douleurs musculaires, troubles digestifs, élévation des transaminases. Rare: rhabdomyolyse.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Ciprofloxacine",
+    "category": "antibiotique",
+    "description": "Antibiotique de la famille des fluoroquinolones à large spectre d'action.",
+    "indications": "Infections urinaires, infections respiratoires basses, infections digestives, infections ostéo-articulaires.",
+    "contraindications": "Allergie aux quinolones, grossesse, allaitement, enfants en croissance, tendinopathie antérieure sous quinolones.",
+    "posology": "250 à 750mg, 2 fois par jour pendant 5 à 14 jours selon l'infection.",
+    "side_effects": "Troubles digestifs, tendinites (risque de rupture tendineuse), photosensibilisation, troubles neurologiques.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Salbutamol",
+    "category": "respiratoire",
+    "description": "Bronchodilatateur bêta-2 mimétique de courte durée d'action utilisé pour soulager les crises d'asthme.",
+    "indications": "Crise d'asthme, bronchospasme, BPCO, prévention de l'asthme d'effort.",
+    "contraindications": "Allergie au salbutamol. Précautions: troubles cardiaques, hyperthyroïdie, diabète.",
+    "posology": "Inhalation: 1-2 bouffées (100-200µg) lors des crises, répétable après 15 min si nécessaire. Max 8 bouffées/jour.",
+    "side_effects": "Tremblements, palpitations, tachycardie, maux de tête, crampes musculaires.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Dexaméthasone",
+    "category": "anti_inflammatoire",
+    "description": "Corticostéroïde puissant aux propriétés anti-inflammatoires et immunosuppressives.",
+    "indications": "Inflammation sévère, allergies graves, maladies auto-immunes, œdème cérébral, COVID-19 sévère.",
+    "contraindications": "Infection non contrôlée, vaccination par vaccin vivant, ulcère gastro-duodénal évolutif.",
+    "posology": "Variable selon l'indication: 0.5 à 10mg/jour. Réduire progressivement pour arrêter.",
+    "side_effects": "Prise de poids, rétention d'eau, hyperglycémie, ostéoporose (usage prolongé), troubles du sommeil.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Cétirizine",
+    "category": "antihistaminique",
+    "description": "Antihistaminique H1 de deuxième génération utilisé pour traiter les allergies.",
+    "indications": "Rhinite allergique, urticaire chronique, conjonctivite allergique.",
+    "contraindications": "Allergie à la cétirizine ou à l'hydroxyzine, insuffisance rénale sévère.",
+    "posology": "Adultes et enfants >12 ans: 10mg une fois par jour. Enfants 6-12 ans: 5mg 2 fois/jour.",
+    "side_effects": "Somnolence légère, sécheresse buccale, maux de tête, fatigue.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Diclofénac",
+    "category": "anti_inflammatoire",
+    "description": "Anti-inflammatoire non stéroïdien (AINS) puissant pour les douleurs inflammatoires.",
+    "indications": "Douleurs rhumatismales, arthrose, arthrite, douleurs post-opératoires, douleurs traumatiques.",
+    "contraindications": "Ulcère gastro-duodénal, insuffisance cardiaque, insuffisance rénale, grossesse (3e trimestre), allergie aux AINS.",
+    "posology": "50 à 75mg, 2 à 3 fois par jour avec les repas. Maximum 150mg/jour.",
+    "side_effects": "Troubles digestifs, risque cardiovasculaire, rétention hydrosodée, troubles rénaux.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Cotrimoxazole",
+    "category": "antibiotique",
+    "description": "Association sulfaméthoxazole + triméthoprime, antibiotique à large spectre.",
+    "indications": "Infections urinaires, infections respiratoires, prophylaxie chez l'immunodéprimé, pneumocystose.",
+    "contraindications": "Allergie aux sulfamides, insuffisance rénale sévère, insuffisance hépatique sévère, grossesse (1er et 3e trimestre).",
+    "posology": "Adultes: 800/160mg (forte), 2 fois par jour pendant 5 à 14 jours selon l'infection.",
+    "side_effects": "Réactions cutanées, troubles digestifs, troubles hématologiques, photosensibilisation.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Losartan",
+    "category": "antihypertenseur",
+    "description": "Antagoniste des récepteurs de l'angiotensine II (ARA II) pour l'hypertension.",
+    "indications": "Hypertension artérielle, protection rénale chez le diabétique, insuffisance cardiaque.",
+    "contraindications": "Grossesse, allaitement, sténose bilatérale des artères rénales, hyperkaliémie.",
+    "posology": "50 à 100mg une fois par jour. Débuter à 25mg si risque de déplétion volémique.",
+    "side_effects": "Hypotension, hyperkaliémie, insuffisance rénale, vertiges.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Albendazole",
+    "category": "antiparasitaire",
+    "description": "Anthelminthique à large spectre contre les vers intestinaux et les parasites tissulaires.",
+    "indications": "Oxyurose, ascaridiose, ankylostomiase, trichuriase, téniasis, hydatidose.",
+    "contraindications": "Grossesse, allergie à l'albendazole ou aux benzimidazolés.",
+    "posology": "Adultes: 400mg en dose unique pour les nématodes. Répéter après 2-3 semaines si nécessaire.",
+    "side_effects": "Douleurs abdominales, nausées, maux de tête, élévation des transaminases.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Fer (Sulfate ferreux)",
+    "category": "vitamine",
+    "description": "Supplément de fer pour le traitement et la prévention de l'anémie ferriprive.",
+    "indications": "Anémie par carence en fer, prévention chez la femme enceinte, carence martiale.",
+    "contraindications": "Surcharge en fer, hémochromatose, anémie non ferriprive, transfusions sanguines répétées.",
+    "posology": "100 à 200mg de fer élément par jour en 2-3 prises, à jeun ou avec vitamine C.",
+    "side_effects": "Constipation, selles noires, nausées, douleurs abdominales, diarrhée.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Acide folique",
+    "category": "vitamine",
+    "description": "Vitamine B9 essentielle à la formation des globules rouges et au développement du fœtus.",
+    "indications": "Prévention des anomalies du tube neural, anémie mégaloblastique, carence en folates.",
+    "contraindications": "Tumeurs malignes (sauf traitement associé).",
+    "posology": "Carence: 5mg/jour. Prévention grossesse: 0.4 à 5mg/jour avant et pendant le 1er trimestre.",
+    "side_effects": "Très bien toléré. Rares: troubles digestifs, réactions allergiques.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Vitamine C",
+    "category": "vitamine",
+    "description": "Acide ascorbique, vitamine hydrosoluble essentielle avec propriétés antioxydantes.",
+    "indications": "Prévention et traitement de la carence en vitamine C (scorbut), stimulation immunitaire.",
+    "contraindications": "Lithiase rénale oxalique (à forte dose), hémochromatose, déficit en G6PD (prudence).",
+    "posology": "Prévention: 500 à 1000mg/jour. Traitement carence: 1 à 2g/jour.",
+    "side_effects": "À haute dose: troubles digestifs, lithiase rénale, diarrhée.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Quinine",
+    "category": "antipaludeen",
+    "description": "Antipaludéen naturel extrait du quinquina, utilisé pour le paludisme grave ou résistant.",
+    "indications": "Paludisme grave, paludisme résistant aux autres traitements, crampes nocturnes.",
+    "contraindications": "Allergie à la quinine, troubles du rythme cardiaque, myasthénie, déficit en G6PD.",
+    "posology": "Paludisme: 8mg/kg toutes les 8h par voie IV ou orale pendant 7 jours.",
+    "side_effects": "Cinchonisme (bourdonnements d'oreilles, vertiges, nausées), hypoglycémie, troubles cardiaques.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Tramadol",
+    "category": "analgesique",
+    "description": "Analgésique opioïde faible pour les douleurs modérées à sévères.",
+    "indications": "Douleurs modérées à sévères: post-opératoires, cancéreuses, neuropathiques.",
+    "contraindications": "Allergie au tramadol, épilepsie non contrôlée, insuffisance respiratoire sévère, intoxication aiguë.",
+    "posology": "50 à 100mg toutes les 4 à 6 heures. Maximum 400mg/jour.",
+    "side_effects": "Nausées, constipation, somnolence, vertiges, risque de dépendance, convulsions.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Clotrimazole",
+    "category": "dermatologique",
+    "description": "Antifongique à large spectre pour le traitement des mycoses cutanées et vaginales.",
+    "indications": "Candidoses cutanées et vaginales, dermatophytoses, pityriasis versicolor.",
+    "contraindications": "Allergie au clotrimazole ou aux imidazolés.",
+    "posology": "Crème: 2-3 applications/jour pendant 2-4 semaines. Ovule vaginal: 1 ovule/jour pendant 3-6 jours.",
+    "side_effects": "Irritation locale, brûlures, démangeaisons.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Gentamicine",
+    "category": "antibiotique",
+    "description": "Antibiotique aminoside bactéricide à large spectre contre les bactéries gram-négatives.",
+    "indications": "Infections sévères à gram-négatifs, endocardites (en association), infections urinaires compliquées.",
+    "contraindications": "Allergie aux aminosides, myasthénie, insuffisance rénale sévère.",
+    "posology": "3 à 5mg/kg/jour en 1-3 injections IM ou IV. Surveiller la fonction rénale.",
+    "side_effects": "Néphrotoxicité, ototoxicité (irréversible), troubles vestibulaires.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Chlorphéniramine",
+    "category": "antihistaminique",
+    "description": "Antihistaminique H1 de première génération pour les allergies.",
+    "indications": "Rhinite allergique, urticaire, piqûres d'insectes, réactions allergiques.",
+    "contraindications": "Glaucome à angle fermé, rétention urinaire, asthme aigu.",
+    "posology": "4mg, 3-4 fois par jour. Maximum 24mg/jour.",
+    "side_effects": "Somnolence importante, sécheresse buccale, rétention urinaire, constipation.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Glibenclamide",
+    "category": "antidiabetique",
+    "description": "Sulfamide hypoglycémiant stimulant la sécrétion d'insuline par le pancréas.",
+    "indications": "Diabète de type 2, en complément du régime et de l'exercice.",
+    "contraindications": "Diabète de type 1, acidocétose, insuffisance rénale sévère, insuffisance hépatique sévère, grossesse.",
+    "posology": "2.5 à 15mg/jour en 1-2 prises, avant les repas. Commencer à faible dose.",
+    "side_effects": "Hypoglycémie (risque majeur), prise de poids, troubles digestifs.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Aspirine",
+    "category": "analgesique",
+    "description": "Acide acétylsalicylique, antalgique, antipyrétique, anti-inflammatoire et antiagrégant plaquettaire.",
+    "indications": "Douleurs, fièvre, inflammation, prévention cardiovasculaire (faible dose).",
+    "contraindications": "Ulcère gastro-duodénal, allergie aux AINS, troubles de la coagulation, grossesse (3e trimestre), enfants <16 ans (syndrome de Reye).",
+    "posology": "Antalgique: 500mg à 1g, 3 fois/jour. Prévention cardiovasculaire: 75-100mg/jour.",
+    "side_effects": "Troubles digestifs, saignements, acouphènes, réactions allergiques.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Loperamide",
+    "category": "digestif",
+    "description": "Antidiarrhéique qui ralentit le transit intestinal.",
+    "indications": "Traitement symptomatique des diarrhées aiguës et chroniques.",
+    "contraindications": "Diarrhée bactérienne invasive, colite pseudomembraneuse, occlusion intestinale, enfants <2 ans.",
+    "posology": "Adultes: 4mg initialement, puis 2mg après chaque selle liquide. Maximum 16mg/jour.",
+    "side_effects": "Constipation, douleurs abdominales, nausées, sécheresse buccale.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Ranitidine",
+    "category": "digestif",
+    "description": "Antihistaminique H2 qui réduit la sécrétion acide gastrique.",
+    "indications": "Ulcère gastrique et duodénal, reflux gastro-œsophagien, syndrome de Zollinger-Ellison.",
+    "contraindications": "Allergie à la ranitidine. Note: retiré du marché dans certains pays (NDMA).",
+    "posology": "150mg 2 fois/jour ou 300mg au coucher.",
+    "side_effects": "Maux de tête, vertiges, constipation, diarrhée.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Nifedipine",
+    "category": "antihypertenseur",
+    "description": "Inhibiteur calcique dihydropyridinique pour l'hypertension et l'angor.",
+    "indications": "Hypertension artérielle, angor stable et de Prinzmetal, phénomène de Raynaud.",
+    "contraindications": "Choc cardiogénique, sténose aortique sévère, angor instable, infarctus récent.",
+    "posology": "Formes LP: 20-60mg/jour en 1-2 prises. Ne pas croquer les formes LP.",
+    "side_effects": "Bouffées de chaleur, œdèmes des chevilles, céphalées, palpitations, hypotension.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Doxycycline",
+    "category": "antibiotique",
+    "description": "Antibiotique de la famille des tétracyclines à large spectre d'action.",
+    "indications": "Infections respiratoires, IST (chlamydia), acné, paludisme (prophylaxie), maladie de Lyme.",
+    "contraindications": "Grossesse (2e et 3e trimestre), allaitement, enfants <8 ans, allergie aux tétracyclines.",
+    "posology": "100 à 200mg/jour en 1-2 prises, avec un grand verre d'eau, sans s'allonger ensuite.",
+    "side_effects": "Photosensibilisation, troubles digestifs, œsophagite, candidose.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Furosémide",
+    "category": "cardiovasculaire",
+    "description": "Diurétique de l'anse puissant qui augmente l'élimination urinaire de sodium et d'eau.",
+    "indications": "Œdèmes, insuffisance cardiaque, hypertension artérielle, insuffisance rénale.",
+    "contraindications": "Déshydratation, hypovolémie, hypokaliémie sévère, allergie aux sulfamides.",
+    "posology": "20 à 80mg/jour le matin. Doses plus élevées en cas d'insuffisance rénale.",
+    "side_effects": "Hypokaliémie, déshydratation, hypotension, hyperuricémie, ototoxicité (fortes doses).",
+    "requires_prescription": true
+  },
+  {
+    "name": "Prednisone",
+    "category": "anti_inflammatoire",
+    "description": "Corticostéroïde aux propriétés anti-inflammatoires et immunosuppressives.",
+    "indications": "Maladies inflammatoires, allergies sévères, maladies auto-immunes, asthme sévère.",
+    "contraindications": "Infection non contrôlée, vaccination par vaccin vivant, psychose non contrôlée.",
+    "posology": "Variable: 5 à 60mg/jour selon l'indication. Prise le matin avec aliments.",
+    "side_effects": "Prise de poids, insomnie, hyperglycémie, ostéoporose (long terme), immunodépression.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Captopril",
+    "category": "antihypertenseur",
+    "description": "Inhibiteur de l'enzyme de conversion (IEC) pour l'hypertension et l'insuffisance cardiaque.",
+    "indications": "Hypertension artérielle, insuffisance cardiaque, post-infarctus, néphropathie diabétique.",
+    "contraindications": "Grossesse, antécédent d'angiœdème sous IEC, sténose bilatérale des artères rénales.",
+    "posology": "25 à 50mg, 2-3 fois/jour. Débuter à faible dose et augmenter progressivement.",
+    "side_effects": "Toux sèche, hypotension, hyperkaliémie, insuffisance rénale, angiœdème (rare).",
+    "requires_prescription": true
+  },
+  {
+    "name": "Mébendazole",
+    "category": "antiparasitaire",
+    "description": "Anthelminthique à large spectre contre les vers intestinaux.",
+    "indications": "Oxyurose, ascaridiose, trichocéphalose, ankylostomiase, infections mixtes.",
+    "contraindications": "Grossesse (surtout 1er trimestre), allergie au mébendazole.",
+    "posology": "Oxyurose: 100mg dose unique, répéter après 2 semaines. Autres vers: 100mg 2x/jour pendant 3 jours.",
+    "side_effects": "Douleurs abdominales, diarrhée, nausées (généralement légers).",
+    "requires_prescription": false
+  },
+  {
+    "name": "Chloroquine",
+    "category": "antipaludeen",
+    "description": "Antipaludéen historique, encore utilisé dans certaines régions sans résistance.",
+    "indications": "Paludisme (zones sensibles), lupus érythémateux, polyarthrite rhumatoïde.",
+    "contraindications": "Rétinopathie, allergie à la chloroquine, psoriasis, porphyrie.",
+    "posology": "Traitement: 10mg/kg puis 5mg/kg à H6, H24, H48. Prophylaxie: 100mg/jour.",
+    "side_effects": "Troubles visuels, rétinopathie (usage prolongé), prurit, troubles digestifs.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Propranolol",
+    "category": "cardiovasculaire",
+    "description": "Bêta-bloquant non sélectif utilisé pour diverses pathologies cardiovasculaires.",
+    "indications": "Hypertension, angor, troubles du rythme, migraine, tremblements, hyperthyroïdie.",
+    "contraindications": "Asthme, BPCO sévère, bradycardie sévère, bloc AV, insuffisance cardiaque décompensée.",
+    "posology": "40 à 160mg/jour en 2-4 prises selon l'indication. Arrêt progressif.",
+    "side_effects": "Bradycardie, fatigue, extrémités froides, troubles du sommeil, bronchospasme.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Nystatin",
+    "category": "dermatologique",
+    "description": "Antifongique polyène actif sur les levures, notamment Candida.",
+    "indications": "Candidoses buccales, cutanées, digestives et vaginales.",
+    "contraindications": "Allergie à la nystatin.",
+    "posology": "Buccal: suspension 100 000 UI, 4x/jour. Vaginal: 1 ovule/jour pendant 14 jours.",
+    "side_effects": "Troubles digestifs légers (voie orale), irritation locale.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Érythromycine",
+    "category": "antibiotique",
+    "description": "Antibiotique macrolide alternative aux pénicillines en cas d'allergie.",
+    "indications": "Infections ORL, respiratoires, cutanées, coqueluche, IST, alternative aux pénicillines.",
+    "contraindications": "Allergie aux macrolides, association avec certains médicaments (ergot, cisapride).",
+    "posology": "250 à 500mg, 4 fois/jour ou 500mg, 2 fois/jour pendant 7-14 jours.",
+    "side_effects": "Troubles digestifs fréquents, allongement QT, interactions médicamenteuses nombreuses.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Aciclovir",
+    "category": "antiviral",
+    "description": "Antiviral actif contre les virus de l'herpès (HSV) et le virus varicelle-zona (VZV).",
+    "indications": "Herpès génital et labial, zona, varicelle, encéphalite herpétique.",
+    "contraindications": "Allergie à l'aciclovir ou au valaciclovir.",
+    "posology": "Herpès: 200mg 5x/jour pendant 5 jours. Zona: 800mg 5x/jour pendant 7 jours.",
+    "side_effects": "Nausées, céphalées, insuffisance rénale (si déshydratation), troubles neurologiques.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Hydrocortisone",
+    "category": "dermatologique",
+    "description": "Corticostéroïde topique faible pour le traitement local des inflammations cutanées.",
+    "indications": "Eczéma, dermatite, piqûres d'insectes, allergies cutanées légères.",
+    "contraindications": "Infections cutanées non traitées, rosacée, acné, lésions ulcérées.",
+    "posology": "Application 1-2 fois/jour sur les lésions. Durée limitée (1-2 semaines maximum).",
+    "side_effects": "Atrophie cutanée (usage prolongé), vergetures, retard de cicatrisation.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Insuline",
+    "category": "antidiabetique",
+    "description": "Hormone hypoglycémiante essentielle au traitement du diabète.",
+    "indications": "Diabète de type 1, diabète de type 2 mal contrôlé, diabète gestationnel, acidocétose.",
+    "contraindications": "Hypoglycémie, allergie à l'insuline ou aux excipients.",
+    "posology": "Individualisée selon glycémie, régime, activité. Généralement 0.5-1 UI/kg/jour.",
+    "side_effects": "Hypoglycémie (risque majeur), réactions au site d'injection, prise de poids, lipodystrophie.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Morphine",
+    "category": "analgesique",
+    "description": "Opioïde fort de référence pour les douleurs intenses, notamment cancéreuses.",
+    "indications": "Douleurs intenses, douleurs cancéreuses, infarctus du myocarde, œdème pulmonaire.",
+    "contraindications": "Insuffisance respiratoire sévère, traumatisme crânien, association aux IMAO.",
+    "posology": "Débuter à 5-10mg toutes les 4h, ajuster selon la douleur et la tolérance.",
+    "side_effects": "Constipation, nausées, somnolence, dépression respiratoire, dépendance.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Vitamine D",
+    "category": "vitamine",
+    "description": "Vitamine liposoluble essentielle à l'absorption du calcium et à la santé osseuse.",
+    "indications": "Prévention et traitement du rachitisme, ostéomalacie, ostéoporose, carence en vitamine D.",
+    "contraindications": "Hypercalcémie, hypervitaminose D, lithiase calcique.",
+    "posology": "Prévention: 800-1000 UI/jour. Traitement carence: 50 000 UI/semaine pendant 8 semaines.",
+    "side_effects": "Surdosage: hypercalcémie, nausées, fatigue, calcifications.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Chlorhexidine",
+    "category": "dermatologique",
+    "description": "Antiseptique à large spectre pour la désinfection cutanée et muqueuse.",
+    "indications": "Antisepsie cutanée, bains de bouche, désinfection des plaies.",
+    "contraindications": "Allergie à la chlorhexidine, utilisation dans l'oreille (tympan perforé).",
+    "posology": "Application locale. Bain de bouche: 2x/jour après brossage des dents.",
+    "side_effects": "Irritation locale, coloration des dents (bains de bouche), réactions allergiques rares.",
+    "requires_prescription": false
+  },
+  {
+    "name": "Diazépam",
+    "category": "psychotrope",
+    "description": "Benzodiazépine anxiolytique, anticonvulsivante et myorelaxante.",
+    "indications": "Anxiété, sevrage alcoolique, épilepsie (état de mal), spasmes musculaires, prémédication.",
+    "contraindications": "Myasthénie, insuffisance respiratoire sévère, apnée du sommeil, intoxication alcoolique.",
+    "posology": "5 à 10mg, 2-3 fois/jour selon l'indication. Traitement de courte durée recommandé.",
+    "side_effects": "Somnolence, dépendance, troubles de mémoire, confusion (personnes âgées).",
+    "requires_prescription": true
+  },
+  {
+    "name": "Amitriptyline",
+    "category": "psychotrope",
+    "description": "Antidépresseur tricyclique également utilisé pour les douleurs neuropathiques.",
+    "indications": "Dépression, douleurs neuropathiques, migraine (prophylaxie), énurésie.",
+    "contraindications": "Infarctus récent, troubles du rythme, glaucome, rétention urinaire, association IMAO.",
+    "posology": "Dépression: 50-150mg/jour. Douleurs: 10-75mg au coucher.",
+    "side_effects": "Somnolence, sécheresse buccale, constipation, troubles cardiaques, prise de poids.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Fluconazole",
+    "category": "dermatologique",
+    "description": "Antifongique triazolé à large spectre, efficace par voie orale.",
+    "indications": "Candidoses systémiques et muqueuses, cryptococcose, dermatomycoses, prophylaxie chez l'immunodéprimé.",
+    "contraindications": "Allergie au fluconazole, association avec certains médicaments (cisapride, quinidine).",
+    "posology": "Candidose orale: 50-100mg/jour. Candidose vaginale: 150mg dose unique.",
+    "side_effects": "Nausées, douleurs abdominales, céphalées, élévation des transaminases, interactions.",
+    "requires_prescription": true
+  },
+  {
+    "name": "Artésunate",
+    "category": "antipaludeen",
+    "description": "Dérivé de l'artémisinine pour le traitement du paludisme grave.",
+    "indications": "Paludisme grave à P. falciparum, traitement de première intention selon l'OMS.",
+    "contraindications": "Allergie à l'artésunate ou aux dérivés de l'artémisinine.",
+    "posology": "IV: 2.4mg/kg à H0, H12, H24, puis toutes les 24h. Relais oral dès que possible.",
+    "side_effects": "Anémie hémolytique retardée, neutropénie, bradycardie, allongement QT.",
+    "requires_prescription": true
+  }
+]
