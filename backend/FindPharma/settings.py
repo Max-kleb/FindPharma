@@ -26,9 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='une_cle_secrete_par_defaut_moins_securisee')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+# Configuration des hôtes autorisés
+ALLOWED_HOSTS_STR = config('ALLOWED_HOSTS', default='localhost,127.0.0.1')
+ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS_STR.split(',') if h.strip()]
 
 
 # Application definition
@@ -238,9 +240,16 @@ LEAFLET_CONFIG = {
 # ========================================
 AUTH_USER_MODEL = 'users.User'
 
-# Configuration CORS pour développement
+# Configuration CORS
 # ========================================
-CORS_ALLOW_ALL_ORIGINS = True
+# En production, on restreint aux domaines autorisés
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
+CORS_ALLOWED_ORIGINS_STR = config('CORS_ALLOWED_ORIGINS', default='')
+if CORS_ALLOWED_ORIGINS_STR:
+    CORS_ALLOWED_ORIGINS = [o.strip() for o in CORS_ALLOWED_ORIGINS_STR.split(',') if o.strip()]
+else:
+    CORS_ALLOWED_ORIGINS = []
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -266,12 +275,23 @@ CORS_ALLOW_HEADERS = [
 # ========================================
 # SESSION_COOKIE_DOMAIN laissé à None pour accepter 127.0.0.1 (les IP ne fonctionnent pas comme domaine)
 SESSION_COOKIE_SAMESITE = 'Lax'  # ✅ 'Lax' pour dev HTTP (None nécessite HTTPS avec Secure=True)
-SESSION_COOKIE_SECURE = False  # False en dev (HTTP), True en prod (HTTPS)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)  # True en prod (HTTPS)
 SESSION_COOKIE_HTTPONLY = True  # Protection XSS
 SESSION_COOKIE_AGE = 1209600  # 2 semaines
 # CSRF_COOKIE_DOMAIN laissé à None également
 CSRF_COOKIE_SAMESITE = 'Lax'  # ✅ Même config que SESSION
-CSRF_COOKIE_SECURE = False  # False en dev
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)  # True en prod
+
+# Configuration CSRF pour accepter les requêtes cross-origin en production
+CSRF_TRUSTED_ORIGINS_STR = config('CSRF_TRUSTED_ORIGINS', default='')
+if CSRF_TRUSTED_ORIGINS_STR:
+    CSRF_TRUSTED_ORIGINS = [o.strip() for o in CSRF_TRUSTED_ORIGINS_STR.split(',') if o.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = []
+
+# Sécurité HTTPS en production
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 
 # ============================================================
 # CONFIGURATION EMAIL

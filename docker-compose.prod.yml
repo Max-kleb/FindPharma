@@ -1,4 +1,6 @@
-version: '3.8'
+# docker-compose.prod.yml
+# Configuration Docker pour production - FindPharma
+# Usage: docker-compose -f docker-compose.prod.yml up -d
 
 services:
   # Base de données PostgreSQL avec PostGIS
@@ -7,65 +9,86 @@ services:
     container_name: findpharma_db_prod
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME:-findpharma}
+      POSTGRES_USER: ${DATABASE_USER:-findpharmauser}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - postgres_data_prod:/var/lib/postgresql/data
     networks:
       - findpharma_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-findpharmauser} -d ${DATABASE_NAME:-findpharma}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # Backend Django en mode production
+  # Backend Django avec Gunicorn
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: findpharma_backend_prod
     restart: always
+    env_file:
+      - ./backend/.env.production
+    environment:
+      - DATABASE_HOST=db
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-    environment:
-      - DEBUG=False
-      - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=${DATABASE_URL}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
-      - EMAIL_BACKEND=${EMAIL_BACKEND}
-      - EMAIL_HOST=${EMAIL_HOST}
-      - EMAIL_PORT=${EMAIL_PORT}
-      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
-      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
-      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
-      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
     depends_on:
       db:
         condition: service_healthy
     networks:
       - findpharma_network
-    command: gunicorn FindPharma.wsgi:application --bind 0.0.0.0:8000 --workers 4
+    expose:
+      - "8000"
+    command: gunicorn FindPharma.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120
 
-  # Frontend React avec Nginx
+  # Frontend React (build statique)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=https://findpharma.app/api
     container_name: findpharma_frontend_prod
+    restart: always
+    networks:
+      - findpharma_network
+    expose:
+      - "80"
+
+  # Nginx Reverse Proxy avec SSL
+  nginx:
+    image: nginx:alpine
+    container_name: findpharma_nginx
     restart: always
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/www:/var/www/certbot:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:ro
     depends_on:
       - backend
+      - frontend
     networks:
       - findpharma_network
+
+  # Certbot pour renouvellement automatique SSL
+  certbot:
+    image: certbot/certbot
+    container_name: findpharma_certbot
     volumes:
-      - ./ssl:/etc/nginx/ssl:ro  # Pour les certificats SSL
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - findpharma_network
 
 volumes:
   postgres_data_prod:

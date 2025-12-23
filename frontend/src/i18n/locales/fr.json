@@ -744,5 +744,131 @@
     "errorNetwork": "Erreur de connexion. Vérifiez votre connexion internet.",
     "loginRequired": "Vous devez être connecté pour envoyer un message.",
     "loginButton": "Se connecter"
+  },
+  "registerPharmacy": {
+    "title": "Inscription de votre Pharmacie",
+    "subtitle": "Rejoignez le réseau FindPharma et augmentez votre visibilité",
+    "steps": {
+      "pharmacyInfo": "Informations Pharmacie",
+      "location": "Localisation",
+      "managerInfo": "Informations Gérant",
+      "review": "Récapitulatif"
+    },
+    "pharmacy": {
+      "title": "Informations de la Pharmacie",
+      "name": "Nom de la pharmacie",
+      "namePlaceholder": "Pharmacie du Centre",
+      "licenseNumber": "Numéro d'agrément",
+      "licenseNumberPlaceholder": "AG-XXX-XXXX",
+      "licenseHelp": "Numéro d'agrément délivré par le Ministère de la Santé",
+      "phone": "Numéro de téléphone",
+      "phonePlaceholder": "+237 XXX XXX XXX",
+      "description": "Description (optionnelle)",
+      "descriptionPlaceholder": "Décrivez votre pharmacie...",
+      "openingHours": "Horaires d'ouverture"
+    },
+    "location": {
+      "title": "Localisation de la Pharmacie",
+      "instructions": "Positionnez le marqueur sur l'emplacement exact de votre pharmacie",
+      "address": "Adresse",
+      "addressPlaceholder": "Rue, quartier, ville",
+      "useMyLocation": "Utiliser ma position",
+      "searchAddress": "Rechercher une adresse",
+      "coordinates": "Coordonnées GPS",
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    },
+    "manager": {
+      "title": "Informations du Gérant",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "emailPlaceholder": "email@exemple.com",
+      "phone": "Téléphone",
+      "phonePlaceholder": "+237 XXX XXX XXX",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "passwordStrength": "Force du mot de passe",
+      "passwordRequirements": "Le mot de passe doit contenir au moins 8 caractères"
+    },
+    "review": {
+      "title": "Récapitulatif de votre demande",
+      "pharmacySection": "Pharmacie",
+      "locationSection": "Localisation",
+      "managerSection": "Gérant",
+      "confirmSubmit": "Je confirme que les informations fournies sont exactes"
+    },
+    "buttons": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "submit": "Soumettre ma demande",
+      "submitting": "Envoi en cours..."
+    },
+    "success": {
+      "title": "Demande envoyée avec succès !",
+      "message": "Votre demande d'inscription a été soumise. Notre équipe l'examinera dans les plus brefs délais.",
+      "nextSteps": "Prochaines étapes",
+      "step1": "Notre équipe examine votre demande (1-2 jours ouvrés)",
+      "step2": "Vous recevrez un email de confirmation",
+      "step3": "Une fois approuvé, vous pourrez vous connecter et gérer votre pharmacie",
+      "backToHome": "Retour à l'accueil"
+    },
+    "errors": {
+      "required": "Ce champ est requis",
+      "invalidEmail": "Adresse email invalide",
+      "invalidPhone": "Numéro de téléphone invalide",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+      "invalidLicense": "Numéro d'agrément invalide",
+      "locationRequired": "Veuillez sélectionner l'emplacement de votre pharmacie",
+      "submitError": "Erreur lors de l'envoi. Veuillez réessayer."
+    }
+  },
+  "adminPendingPharmacies": {
+    "title": "Pharmacies en Attente d'Approbation",
+    "subtitle": "Gérez les demandes d'inscription des nouvelles pharmacies",
+    "stats": {
+      "pending": "En attente",
+      "approved": "Approuvées",
+      "rejected": "Rejetées",
+      "total": "Total"
+    },
+    "table": {
+      "pharmacy": "Pharmacie",
+      "manager": "Gérant",
+      "license": "N° Agrément",
+      "submittedAt": "Soumis le",
+      "actions": "Actions"
+    },
+    "actions": {
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "viewDetails": "Voir les détails"
+    },
+    "modal": {
+      "approveTitle": "Confirmer l'approbation",
+      "approveMessage": "Êtes-vous sûr de vouloir approuver cette pharmacie ? Le gérant recevra un email de confirmation.",
+      "rejectTitle": "Rejeter la demande",
+      "rejectMessage": "Veuillez indiquer la raison du rejet :",
+      "rejectReasonPlaceholder": "Raison du rejet...",
+      "cancel": "Annuler",
+      "confirm": "Confirmer"
+    },
+    "details": {
+      "title": "Détails de la demande",
+      "pharmacyInfo": "Informations Pharmacie",
+      "locationInfo": "Localisation",
+      "managerInfo": "Informations Gérant",
+      "submissionInfo": "Informations de soumission"
+    },
+    "messages": {
+      "approveSuccess": "Pharmacie approuvée avec succès",
+      "rejectSuccess": "Demande rejetée",
+      "error": "Une erreur est survenue"
+    },
+    "empty": {
+      "title": "Aucune demande en attente",
+      "message": "Toutes les demandes ont été traitées."
+    }
   }
 }

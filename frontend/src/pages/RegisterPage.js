@@ -1,7 +1,7 @@
 // src/pages/RegisterPage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { register, getAllPharmacies, sendVerificationCode } from '../services/api';
+import { register, sendVerificationCode } from '../services/api';
 import EmailVerificationModal from '../EmailVerificationModal'; // Correct path
 import { useTranslation } from 'react-i18next';
 import './RegisterPage.css';
@@ -13,9 +13,6 @@ function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userType, setUserType] = useState('customer');
-  const [pharmacyId, setPharmacyId] = useState('');
-  const [pharmacies, setPharmacies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -24,19 +21,6 @@ function RegisterPage() {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [devCode, setDevCode] = useState(null); // Code de dev pour affichage direct
-
-  // Charger la liste des pharmacies au chargement du composant
-  useEffect(() => {
-    const fetchPharmacies = async () => {
-      try {
-        const data = await getAllPharmacies();
-        setPharmacies(data);
-      } catch (err) {
-        console.error('Erreur chargement pharmacies:', err);
-      }
-    };
-    fetchPharmacies();
-  }, []);
 
   // Étape 1 : Vérifier l'email d'abord
   const handleSubmit = async (e) => {
@@ -51,12 +35,6 @@ function RegisterPage() {
 
     if (password !== confirmPassword) {
       setError(t('auth.passwordMismatch'));
-      return;
-    }
-
-    // Validation pour les pharmacies
-    if (userType === 'pharmacy' && !pharmacyId) {
-      setError(t('register.selectPharmacy'));
       return;
     }
 
@@ -85,14 +63,8 @@ function RegisterPage() {
     setError(null);
 
     try {
-      // Préparer les données supplémentaires
-      const extraData = {};
-      if (userType === 'pharmacy' && pharmacyId) {
-        extraData.pharmacy_id = parseInt(pharmacyId);
-      }
-
-      // Appel API d'inscription
-      const data = await register(username, email, password, userType, extraData);
+      // Appel API d'inscription - toujours en tant que customer
+      const data = await register(username, email, password, 'customer', {});
       
       console.log('✅ Inscription réussie:', data);
       
@@ -167,54 +139,26 @@ function RegisterPage() {
         )}
 
         <form onSubmit={handleSubmit} className="register-form">
-          <div className="form-group">
-            <label htmlFor="userType">
-              <span className="label-icon">👥</span>
-              {t('register.accountType')}
-            </label>
-            <select
-              id="userType"
-              value={userType}
-              onChange={(e) => setUserType(e.target.value)}
-              className="select-input"
-              required
-            >
-              <option value="customer">👤 {t('register.customer')}</option>
-              <option value="pharmacy">💊 {t('register.pharmacy')}</option>
-            </select>
-            <small className="help-text">
-              {userType === 'customer' 
-                ? t('register.customerHelp')
-                : t('register.pharmacyHelp')}
-            </small>
+          {/* Bannière pour inscription pharmacie */}
+          <div className="pharmacy-register-banner">
+            <div className="banner-icon">🏥</div>
+            <div className="banner-content">
+              <h3>{t('register.pharmacyBannerTitle', 'Vous êtes une pharmacie ?')}</h3>
+              <p>{t('register.pharmacyBannerText', 'Inscrivez votre établissement sur FindPharma et augmentez votre visibilité.')}</p>
+            </div>
+            <Link to="/register-pharmacy" className="pharmacy-register-btn">
+              {t('register.registerPharmacy', 'Inscrire ma pharmacie')} →
+            </Link>
           </div>
 
-          {/* Sélecteur de pharmacie (visible uniquement si type = pharmacy) */}
-          {userType === 'pharmacy' && (
-            <div className="form-group">
-              <label htmlFor="pharmacyId">
-                <span className="label-icon">🏥</span>
-                {t('register.selectYourPharmacy')}
-              </label>
-              <select
-                id="pharmacyId"
-                value={pharmacyId}
-                onChange={(e) => setPharmacyId(e.target.value)}
-                className="select-input"
-                required
-              >
-                <option value="">-- {t('register.choosePharmacy')} --</option>
-                {pharmacies.map((pharmacy) => (
-                  <option key={pharmacy.id} value={pharmacy.id}>
-                    {pharmacy.name} - {pharmacy.address}
-                  </option>
-                ))}
-              </select>
-              <small className="help-text">
-                {t('register.pharmacySelectHelp')}
-              </small>
-            </div>
-          )}
+          <div className="separator">
+            <span>{t('common.or', 'ou')}</span>
+          </div>
+
+          <h3 className="customer-section-title">
+            <span className="label-icon">👤</span>
+            {t('register.customerSectionTitle', 'Inscription Client')}
+          </h3>
 
           <div className="form-group">
             <label htmlFor="username">

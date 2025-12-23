@@ -582,5 +582,131 @@
     "minutes": "minutos",
     "hours": "horas",
     "days": "días"
+  },
+  "registerPharmacy": {
+    "title": "Registre su Farmacia",
+    "subtitle": "Únase a la red FindPharma y aumente su visibilidad",
+    "steps": {
+      "pharmacyInfo": "Información de la Farmacia",
+      "location": "Ubicación",
+      "managerInfo": "Información del Gerente",
+      "review": "Resumen"
+    },
+    "pharmacy": {
+      "title": "Información de la Farmacia",
+      "name": "Nombre de la farmacia",
+      "namePlaceholder": "Farmacia Central",
+      "licenseNumber": "Número de licencia",
+      "licenseNumberPlaceholder": "LIC-XXX-XXXX",
+      "licenseHelp": "Número de licencia emitido por el Ministerio de Salud",
+      "phone": "Número de teléfono",
+      "phonePlaceholder": "+237 XXX XXX XXX",
+      "description": "Descripción (opcional)",
+      "descriptionPlaceholder": "Describa su farmacia...",
+      "openingHours": "Horario de atención"
+    },
+    "location": {
+      "title": "Ubicación de la Farmacia",
+      "instructions": "Posicione el marcador en la ubicación exacta de su farmacia",
+      "address": "Dirección",
+      "addressPlaceholder": "Calle, barrio, ciudad",
+      "useMyLocation": "Usar mi ubicación",
+      "searchAddress": "Buscar dirección",
+      "coordinates": "Coordenadas GPS",
+      "latitude": "Latitud",
+      "longitude": "Longitud"
+    },
+    "manager": {
+      "title": "Información del Gerente",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "email@ejemplo.com",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+237 XXX XXX XXX",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "passwordStrength": "Fortaleza de la contraseña",
+      "passwordRequirements": "La contraseña debe contener al menos 8 caracteres"
+    },
+    "review": {
+      "title": "Resumen de su Solicitud",
+      "pharmacySection": "Farmacia",
+      "locationSection": "Ubicación",
+      "managerSection": "Gerente",
+      "confirmSubmit": "Confirmo que la información proporcionada es correcta"
+    },
+    "buttons": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "submit": "Enviar solicitud",
+      "submitting": "Enviando..."
+    },
+    "success": {
+      "title": "¡Solicitud enviada con éxito!",
+      "message": "Su solicitud de registro ha sido enviada. Nuestro equipo la revisará pronto.",
+      "nextSteps": "Próximos pasos",
+      "step1": "Nuestro equipo revisa su solicitud (1-2 días hábiles)",
+      "step2": "Recibirá un correo de confirmación",
+      "step3": "Una vez aprobado, podrá iniciar sesión y gestionar su farmacia",
+      "backToHome": "Volver al inicio"
+    },
+    "errors": {
+      "required": "Este campo es requerido",
+      "invalidEmail": "Dirección de correo inválida",
+      "invalidPhone": "Número de teléfono inválido",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+      "invalidLicense": "Número de licencia inválido",
+      "locationRequired": "Por favor seleccione la ubicación de su farmacia",
+      "submitError": "Error al enviar. Por favor intente de nuevo."
+    }
+  },
+  "adminPendingPharmacies": {
+    "title": "Farmacias Pendientes de Aprobación",
+    "subtitle": "Gestione las solicitudes de registro de nuevas farmacias",
+    "stats": {
+      "pending": "Pendientes",
+      "approved": "Aprobadas",
+      "rejected": "Rechazadas",
+      "total": "Total"
+    },
+    "table": {
+      "pharmacy": "Farmacia",
+      "manager": "Gerente",
+      "license": "N° Licencia",
+      "submittedAt": "Enviado el",
+      "actions": "Acciones"
+    },
+    "actions": {
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "viewDetails": "Ver detalles"
+    },
+    "modal": {
+      "approveTitle": "Confirmar aprobación",
+      "approveMessage": "¿Está seguro de que desea aprobar esta farmacia? El gerente recibirá un correo de confirmación.",
+      "rejectTitle": "Rechazar solicitud",
+      "rejectMessage": "Por favor proporcione el motivo del rechazo:",
+      "rejectReasonPlaceholder": "Motivo del rechazo...",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    },
+    "details": {
+      "title": "Detalles de la Solicitud",
+      "pharmacyInfo": "Información de la Farmacia",
+      "locationInfo": "Ubicación",
+      "managerInfo": "Información del Gerente",
+      "submissionInfo": "Información de Envío"
+    },
+    "messages": {
+      "approveSuccess": "Farmacia aprobada con éxito",
+      "rejectSuccess": "Solicitud rechazada",
+      "error": "Ocurrió un error"
+    },
+    "empty": {
+      "title": "No hay solicitudes pendientes",
+      "message": "Todas las solicitudes han sido procesadas."
+    }
   }
 }

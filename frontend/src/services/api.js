@@ -997,3 +997,194 @@ export const getAdminActivity = async (token) => {
     throw error;
   }
 };
+
+// ============================================
+// PHARMACY REGISTRATION & APPROVAL ENDPOINTS
+// ============================================
+
+/**
+ * Enregistre une nouvelle pharmacie avec son gérant
+ * POST /api/auth/register-pharmacy/
+ * @param {Object} formData - Données du formulaire d'enregistrement
+ * @returns {Promise<Object>} Résultat de l'enregistrement
+ */
+export const registerPharmacy = async (formData) => {
+  try {
+    console.log('🏥 Enregistrement pharmacie:', formData.pharmacy?.name);
+    
+    const response = await fetch(`${API_URL}/api/auth/register-pharmacy/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      console.error('❌ Erreur enregistrement:', data);
+      throw { 
+        response: { data },
+        message: data.message || 'Erreur lors de l\'enregistrement'
+      };
+    }
+
+    console.log('✅ Pharmacie enregistrée avec succès:', data);
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur enregistrement pharmacie:', error);
+    throw error;
+  }
+};
+
+/**
+ * Récupère la liste des pharmacies en attente d'approbation
+ * GET /api/auth/admin/pharmacies/pending/
+ * @param {string} token - Token JWT admin
+ * @returns {Promise<Array>} Liste des pharmacies en attente
+ */
+export const getPendingPharmacies = async (token) => {
+  try {
+    console.log('📋 Récupération pharmacies en attente...');
+    
+    const response = await fetch(`${API_URL}/api/auth/admin/pharmacies/pending/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Accès refusé. Droits administrateur requis.');
+      }
+      if (response.status === 401) {
+        throw new Error('Non authentifié. Veuillez vous reconnecter.');
+      }
+      throw new Error('Erreur lors de la récupération des pharmacies en attente');
+    }
+
+    const data = await response.json();
+    console.log('📋 Pharmacies en attente:', data.length);
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur récupération pharmacies en attente:', error);
+    throw error;
+  }
+};
+
+/**
+ * Approuve une pharmacie en attente
+ * POST /api/auth/admin/pharmacies/{id}/approve/
+ * @param {string} token - Token JWT admin
+ * @param {number} pharmacyId - ID de la pharmacie
+ * @returns {Promise<Object>} Résultat de l'approbation
+ */
+export const approvePharmacy = async (token, pharmacyId) => {
+  try {
+    console.log('✅ Approbation pharmacie:', pharmacyId);
+    
+    const response = await fetch(`${API_URL}/api/auth/admin/pharmacies/${pharmacyId}/approve/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Accès refusé. Droits administrateur requis.');
+      }
+      if (response.status === 404) {
+        throw new Error('Pharmacie non trouvée.');
+      }
+      throw new Error(data.error || 'Erreur lors de l\'approbation');
+    }
+
+    console.log('✅ Pharmacie approuvée:', data);
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur approbation pharmacie:', error);
+    throw error;
+  }
+};
+
+/**
+ * Rejette une pharmacie en attente
+ * POST /api/auth/admin/pharmacies/{id}/reject/
+ * @param {string} token - Token JWT admin
+ * @param {number} pharmacyId - ID de la pharmacie
+ * @param {string} reason - Raison du rejet
+ * @returns {Promise<Object>} Résultat du rejet
+ */
+export const rejectPharmacy = async (token, pharmacyId, reason) => {
+  try {
+    console.log('❌ Rejet pharmacie:', pharmacyId, 'Raison:', reason);
+    
+    const response = await fetch(`${API_URL}/api/auth/admin/pharmacies/${pharmacyId}/reject/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ reason })
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Accès refusé. Droits administrateur requis.');
+      }
+      if (response.status === 404) {
+        throw new Error('Pharmacie non trouvée.');
+      }
+      throw new Error(data.error || 'Erreur lors du rejet');
+    }
+
+    console.log('✅ Pharmacie rejetée:', data);
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur rejet pharmacie:', error);
+    throw error;
+  }
+};
+
+/**
+ * Récupère les statistiques d'approbation des pharmacies
+ * GET /api/auth/admin/pharmacies/stats/
+ * @param {string} token - Token JWT admin
+ * @returns {Promise<Object>} Statistiques d'approbation
+ */
+export const getPharmacyRegistrationStats = async (token) => {
+  try {
+    console.log('📊 Récupération stats pharmacies...');
+    
+    const response = await fetch(`${API_URL}/api/auth/admin/pharmacies/stats/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Accès refusé. Droits administrateur requis.');
+      }
+      throw new Error('Erreur lors de la récupération des statistiques');
+    }
+
+    const data = await response.json();
+    console.log('📊 Stats pharmacies:', data);
+    return data;
+  } catch (error) {
+    console.error('❌ Erreur stats pharmacies:', error);
+    throw error;
+  }
+};

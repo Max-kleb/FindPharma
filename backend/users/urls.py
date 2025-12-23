@@ -22,6 +22,13 @@ from .user_management_views import (
     update_user,
     delete_user,
 )
+from .pharmacy_registration_views import (
+    RegisterPharmacyView,
+    PendingPharmaciesView,
+    ApprovePharmacyView,
+    RejectPharmacyView,
+    pharmacy_registration_stats,
+)
 
 app_name = 'users'
 
@@ -31,6 +38,9 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    # === PHARMACY REGISTRATION (NEW) ===
+    path('register-pharmacy/', RegisterPharmacyView.as_view(), name='register-pharmacy'),
     
     # Email verification endpoints
     path('send-verification-code/', send_verification_code, name='send-verification-code'),
@@ -51,4 +61,10 @@ urlpatterns = [
     path('admin/users/create/', create_user, name='admin-create-user'),
     path('admin/users/<int:user_id>/update/', update_user, name='admin-update-user'),
     path('admin/users/<int:user_id>/delete/', delete_user, name='admin-delete-user'),
+    
+    # === PHARMACY APPROVAL (Admin only) ===
+    path('admin/pharmacies/pending/', PendingPharmaciesView.as_view(), name='admin-pending-pharmacies'),
+    path('admin/pharmacies/<int:pharmacy_id>/approve/', ApprovePharmacyView.as_view(), name='admin-approve-pharmacy'),
+    path('admin/pharmacies/<int:pharmacy_id>/reject/', RejectPharmacyView.as_view(), name='admin-reject-pharmacy'),
+    path('admin/pharmacies/stats/', pharmacy_registration_stats, name='admin-pharmacy-stats'),
 ]

@@ -25,6 +25,8 @@ import StockManagementPage from './pages/StockManagementPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import RegisterPharmacyPage from './pages/RegisterPharmacyPage';
+import AdminPendingPharmacies from './pages/AdminPendingPharmacies';
 import MedicineManager from './MedicineManager';
 import FaqPage from './pages/FaqPage';
 import AboutPage from './pages/AboutPage';
@@ -278,6 +280,12 @@ function App() {
           {/* 💡 US 4: Pages d'authentification */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          
+          {/* 🏥 Inscription Pharmacie - Nouveau système d'enregistrement professionnel */}
+          <Route path="/register-pharmacy" element={<RegisterPharmacyPage />} />
+          
+          {/* 👨‍💼 Administration - Pharmacies en attente d'approbation */}
+          <Route path="/admin/pending-pharmacies" element={<AdminPendingPharmacies />} />
           
           {/* Dashboard Client - Recherche de médicaments */}
           <Route 

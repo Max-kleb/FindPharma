@@ -714,5 +714,131 @@
     "errorNetwork": "Connection error. Please check your internet connection.",
     "loginRequired": "You must be logged in to send a message.",
     "loginButton": "Log in"
+  },
+  "registerPharmacy": {
+    "title": "Register Your Pharmacy",
+    "subtitle": "Join the FindPharma network and increase your visibility",
+    "steps": {
+      "pharmacyInfo": "Pharmacy Information",
+      "location": "Location",
+      "managerInfo": "Manager Information",
+      "review": "Review"
+    },
+    "pharmacy": {
+      "title": "Pharmacy Information",
+      "name": "Pharmacy name",
+      "namePlaceholder": "Central Pharmacy",
+      "licenseNumber": "License number",
+      "licenseNumberPlaceholder": "LIC-XXX-XXXX",
+      "licenseHelp": "License number issued by the Ministry of Health",
+      "phone": "Phone number",
+      "phonePlaceholder": "+237 XXX XXX XXX",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "Describe your pharmacy...",
+      "openingHours": "Opening hours"
+    },
+    "location": {
+      "title": "Pharmacy Location",
+      "instructions": "Position the marker on the exact location of your pharmacy",
+      "address": "Address",
+      "addressPlaceholder": "Street, neighborhood, city",
+      "useMyLocation": "Use my location",
+      "searchAddress": "Search address",
+      "coordinates": "GPS Coordinates",
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    },
+    "manager": {
+      "title": "Manager Information",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+237 XXX XXX XXX",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "passwordStrength": "Password strength",
+      "passwordRequirements": "Password must contain at least 8 characters"
+    },
+    "review": {
+      "title": "Review Your Application",
+      "pharmacySection": "Pharmacy",
+      "locationSection": "Location",
+      "managerSection": "Manager",
+      "confirmSubmit": "I confirm that the information provided is accurate"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Submit application",
+      "submitting": "Submitting..."
+    },
+    "success": {
+      "title": "Application submitted successfully!",
+      "message": "Your registration request has been submitted. Our team will review it shortly.",
+      "nextSteps": "Next steps",
+      "step1": "Our team reviews your application (1-2 business days)",
+      "step2": "You will receive a confirmation email",
+      "step3": "Once approved, you can log in and manage your pharmacy",
+      "backToHome": "Back to home"
+    },
+    "errors": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "invalidPhone": "Invalid phone number",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "invalidLicense": "Invalid license number",
+      "locationRequired": "Please select your pharmacy location",
+      "submitError": "Error submitting. Please try again."
+    }
+  },
+  "adminPendingPharmacies": {
+    "title": "Pharmacies Pending Approval",
+    "subtitle": "Manage new pharmacy registration requests",
+    "stats": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "total": "Total"
+    },
+    "table": {
+      "pharmacy": "Pharmacy",
+      "manager": "Manager",
+      "license": "License #",
+      "submittedAt": "Submitted on",
+      "actions": "Actions"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "viewDetails": "View details"
+    },
+    "modal": {
+      "approveTitle": "Confirm approval",
+      "approveMessage": "Are you sure you want to approve this pharmacy? The manager will receive a confirmation email.",
+      "rejectTitle": "Reject request",
+      "rejectMessage": "Please provide the reason for rejection:",
+      "rejectReasonPlaceholder": "Reason for rejection...",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "details": {
+      "title": "Request Details",
+      "pharmacyInfo": "Pharmacy Information",
+      "locationInfo": "Location",
+      "managerInfo": "Manager Information",
+      "submissionInfo": "Submission Information"
+    },
+    "messages": {
+      "approveSuccess": "Pharmacy approved successfully",
+      "rejectSuccess": "Request rejected",
+      "error": "An error occurred"
+    },
+    "empty": {
+      "title": "No pending requests",
+      "message": "All requests have been processed."
+    }
   }
 }

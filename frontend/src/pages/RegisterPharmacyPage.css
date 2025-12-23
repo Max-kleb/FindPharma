@@ -1,0 +1,713 @@
+/* src/pages/RegisterPharmacyPage.css */
+/**
+ * Styles professionnels pour la page d'inscription des pharmacies
+ * Design moderne avec stepper et animations
+ */
+
+.register-pharmacy-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 50%, #f0f9ff 100%);
+  padding: 40px 20px;
+}
+
+.register-pharmacy-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header */
+.register-pharmacy-header {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: 40px;
+  text-align: center;
+  color: white;
+}
+
+.register-pharmacy-header .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.register-pharmacy-header .logo-icon {
+  font-size: 40px;
+}
+
+.register-pharmacy-header .logo-text {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.register-pharmacy-header .find {
+  color: white;
+}
+
+.register-pharmacy-header .pharma {
+  color: #d1fae5;
+}
+
+.register-pharmacy-header h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+.register-pharmacy-header p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+/* Stepper */
+.stepper {
+  display: flex;
+  justify-content: center;
+  padding: 30px 20px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  position: relative;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: calc(50% + 30px);
+  width: calc(100% - 30px);
+  height: 2px;
+  background: #e5e7eb;
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.step.active,
+.step.completed {
+  opacity: 1;
+}
+
+.step.completed::after {
+  background: #10b981;
+}
+
+.step-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e5e7eb;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.step.active .step-icon {
+  background: #10b981;
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.step.completed .step-icon {
+  background: #10b981;
+  color: white;
+}
+
+.step-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.step.active .step-label {
+  color: #10b981;
+}
+
+/* Error Banner */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #fef2f2;
+  border-bottom: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.error-banner .error-icon {
+  font-size: 20px;
+}
+
+/* Form */
+.register-pharmacy-form {
+  padding: 30px 40px;
+}
+
+.step-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.step-title span {
+  font-size: 28px;
+}
+
+.step-description {
+  color: #6b7280;
+  margin: -12px 0 24px;
+  line-height: 1.6;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.form-group label .required {
+  color: #ef4444;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-group input.error,
+.form-group textarea.error {
+  border-color: #ef4444;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+.field-error {
+  color: #ef4444;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.field-help {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* Form Divider */
+.form-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+.form-divider span {
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.form-divider::before,
+.form-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+/* Opening Hours */
+.opening-hours-section {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.opening-hours-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 16px;
+}
+
+.hours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.hours-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hours-row .day-label {
+  min-width: 80px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.hours-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* Review Sections */
+.review-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.review-section {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+}
+
+.review-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 16px;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.review-item .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.review-item .value {
+  font-size: 14px;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Review Notice */
+.review-notice {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 10px;
+  margin-top: 24px;
+}
+
+.review-notice .notice-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.review-notice p {
+  margin: 0;
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-previous,
+.btn-next,
+.btn-submit {
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-previous {
+  background: transparent;
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.btn-previous:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.btn-next {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: white;
+  margin-left: auto;
+  transition: all 0.3s ease;
+}
+
+.btn-next:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-next:disabled,
+.btn-next.btn-disabled {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-next:disabled:hover,
+.btn-next.btn-disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: white;
+  margin-left: auto;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-submit .spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Footer */
+.register-pharmacy-footer {
+  padding: 24px 40px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.register-pharmacy-footer p {
+  margin: 0 0 8px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.register-pharmacy-footer a {
+  color: #10b981;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-pharmacy-footer a:hover {
+  text-decoration: underline;
+}
+
+.register-pharmacy-footer .back-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* Success Container */
+.success-container {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.success-content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.success-icon {
+  font-size: 80px;
+  margin-bottom: 24px;
+  animation: bounceIn 0.6s ease;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.success-content h1 {
+  font-size: 28px;
+  color: #1f2937;
+  margin: 0 0 16px;
+}
+
+.success-message {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 32px;
+}
+
+.next-steps {
+  background: #f0fdf4;
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.next-steps h3 {
+  font-size: 16px;
+  color: #065f46;
+  margin: 0 0 16px;
+}
+
+.next-steps ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.next-steps li {
+  padding: 8px 0;
+  color: #047857;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.success-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn-home,
+.btn-login {
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-home {
+  background: transparent;
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.btn-home:hover {
+  background: #f3f4f6;
+}
+
+.btn-login {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .register-pharmacy-page {
+    padding: 20px 16px;
+  }
+
+  .register-pharmacy-container {
+    border-radius: 16px;
+  }
+
+  .register-pharmacy-header {
+    padding: 30px 20px;
+  }
+
+  .register-pharmacy-header h1 {
+    font-size: 22px;
+  }
+
+  .stepper {
+    padding: 20px 10px;
+    overflow-x: auto;
+  }
+
+  .step {
+    padding: 0 12px;
+  }
+
+  .step-label {
+    font-size: 10px;
+  }
+
+  .register-pharmacy-form {
+    padding: 24px 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: 1;
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-previous,
+  .btn-next,
+  .btn-submit {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-next,
+  .btn-submit {
+    margin-left: 0;
+  }
+
+  .success-actions {
+    flex-direction: column;
+  }
+
+  .btn-home,
+  .btn-login {
+    width: 100%;
+    text-align: center;
+  }
+}

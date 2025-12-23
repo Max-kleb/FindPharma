@@ -280,3 +280,70 @@ def send_welcome_email(user_email, username):
     except Exception as e:
         print(f"❌ Erreur envoi email de bienvenue: {str(e)}")
         return False
+
+
+class EmailService:
+    """
+    Service d'email professionnel pour l'envoi de notifications.
+    Utilisé notamment pour le workflow d'approbation des pharmacies.
+    """
+    
+    @staticmethod
+    def send_email(recipient, subject, html_content, plain_content=None):
+        """
+        Envoie un email avec contenu HTML et texte brut.
+        
+        Args:
+            recipient: Email du destinataire
+            subject: Sujet de l'email
+            html_content: Contenu HTML de l'email
+            plain_content: Contenu texte brut (optionnel, généré depuis HTML si absent)
+            
+        Returns:
+            bool: True si envoyé avec succès, False sinon
+        """
+        if plain_content is None:
+            plain_content = strip_tags(html_content)
+        
+        try:
+            send_mail(
+                subject=subject,
+                message=plain_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[recipient] if isinstance(recipient, str) else recipient,
+                html_message=html_content,
+                fail_silently=False,
+            )
+            print(f"✅ Email envoyé à {recipient}: {subject}")
+            return True
+        except Exception as e:
+            print(f"❌ Erreur envoi email à {recipient}: {str(e)}")
+            return False
+    
+    @staticmethod
+    def send_html_email(recipient, subject, template_name=None, context=None, html_content=None):
+        """
+        Envoie un email HTML utilisant un template ou du contenu direct.
+        
+        Args:
+            recipient: Email du destinataire
+            subject: Sujet de l'email
+            template_name: Nom du template (optionnel)
+            context: Contexte pour le template (optionnel)
+            html_content: Contenu HTML direct (utilisé si pas de template)
+            
+        Returns:
+            bool: True si envoyé avec succès, False sinon
+        """
+        if template_name and context:
+            try:
+                html_content = render_to_string(template_name, context)
+            except Exception as e:
+                print(f"❌ Erreur rendu template {template_name}: {str(e)}")
+                return False
+        
+        if not html_content:
+            print("❌ Pas de contenu HTML pour l'email")
+            return False
+        
+        return EmailService.send_email(recipient, subject, html_content)

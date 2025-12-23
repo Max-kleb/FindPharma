@@ -7,12 +7,18 @@ from datetime import timedelta
 class User(AbstractUser):
     """
     Modèle utilisateur personnalisé pour FindPharma.
-    Permet d'associer un utilisateur à une pharmacie.
+    Permet d'associer un utilisateur à une pharmacie avec système d'approbation.
     """
     USER_TYPE_CHOICES = [
         ('admin', 'Administrateur'),
         ('pharmacy', 'Pharmacie'),
         ('customer', 'Client'),
+    ]
+    
+    APPROVAL_STATUS_CHOICES = [
+        ('pending', 'En attente'),
+        ('approved', 'Approuvé'),
+        ('rejected', 'Refusé'),
     ]
     
     user_type = models.CharField(
@@ -32,14 +38,56 @@ class User(AbstractUser):
     
     phone = models.CharField(max_length=20, blank=True, null=True)
     
+    # Champs pour le système d'approbation des pharmacies
+    approval_status = models.CharField(
+        max_length=20,
+        choices=APPROVAL_STATUS_CHOICES,
+        default='approved',
+        help_text="Statut d'approbation du compte (pending pour les nouvelles pharmacies)"
+    )
+    
+    rejection_reason = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Motif de refus si le compte a été rejeté"
+    )
+    
+    approved_at = models.DateTimeField(
+        blank=True,
+        null=True,
+        help_text="Date d'approbation du compte"
+    )
+    
+    approved_by = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='approved_users',
+        help_text="Admin ayant approuvé le compte"
+    )
+    
     class Meta:
         verbose_name = 'Utilisateur'
         verbose_name_plural = 'Utilisateurs'
+        indexes = [
+            models.Index(fields=['approval_status', 'user_type']),
+        ]
     
     def __str__(self):
         if self.pharmacy:
             return f"{self.username} ({self.pharmacy.name})"
         return self.username
+    
+    @property
+    def is_approved(self):
+        """Vérifie si le compte est approuvé"""
+        return self.approval_status == 'approved'
+    
+    @property
+    def is_pending(self):
+        """Vérifie si le compte est en attente d'approbation"""
+        return self.approval_status == 'pending'
     
     def is_pharmacy_user(self):
         """Vérifie si l'utilisateur est associé à une pharmacie"""
@@ -49,7 +97,30 @@ class User(AbstractUser):
         """Vérifie si l'utilisateur peut gérer une pharmacie donnée"""
         if self.is_superuser:
             return True
-        return self.is_pharmacy_user() and self.pharmacy_id == pharmacy_id
+        return self.is_pharmacy_user() and self.pharmacy_id == pharmacy_id and self.is_approved
+    
+    def approve(self, admin_user):
+        """Approuve le compte utilisateur"""
+        self.approval_status = 'approved'
+        self.approved_at = timezone.now()
+        self.approved_by = admin_user
+        self.rejection_reason = None
+        self.save()
+        
+        # Activer aussi la pharmacie associée si elle existe
+        if self.pharmacy:
+            self.pharmacy.approve()
+    
+    def reject(self, admin_user, reason):
+        """Rejette le compte utilisateur avec un motif"""
+        self.approval_status = 'rejected'
+        self.rejection_reason = reason
+        self.approved_by = admin_user
+        self.save()
+        
+        # Rejeter aussi la pharmacie associée
+        if self.pharmacy:
+            self.pharmacy.reject(reason)
 
 
 class SearchHistory(models.Model):
