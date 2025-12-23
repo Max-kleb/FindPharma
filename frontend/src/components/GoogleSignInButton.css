@@ -1,0 +1,84 @@
+/* src/components/GoogleSignInButton.css */
+
+.google-signin-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 24px;
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+}
+
+.google-signin-button:hover {
+  background-color: #f8f9fa;
+  border-color: #dadce0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.google-signin-button:active {
+  background-color: #e8eaed;
+}
+
+.google-signin-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.3);
+}
+
+.google-icon {
+  flex-shrink: 0;
+}
+
+/* Divider with "ou" text */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #e0e0e0;
+}
+
+.auth-divider span {
+  padding: 0 16px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .google-signin-button {
+    background-color: #303134;
+    border-color: #5f6368;
+    color: #e8eaed;
+  }
+  
+  .google-signin-button:hover {
+    background-color: #3c4043;
+  }
+  
+  .auth-divider {
+    color: #9aa0a6;
+  }
+  
+  .auth-divider::before,
+  .auth-divider::after {
+    background-color: #5f6368;
+  }
+}

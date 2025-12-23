@@ -330,3 +330,9 @@ EMAIL_VERIFICATION_CODE_EXPIRY = 3
 
 # Nombre maximum de tentatives de vérification
 MAX_VERIFICATION_ATTEMPTS = 5
+
+# ============================================================
+# CONFIGURATION GOOGLE OAUTH2
+# ============================================================
+GOOGLE_OAUTH2_CLIENT_ID = config('GOOGLE_OAUTH2_CLIENT_ID', default='')
+GOOGLE_OAUTH2_CLIENT_SECRET = config('GOOGLE_OAUTH2_CLIENT_SECRET', default='')

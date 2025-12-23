@@ -38,6 +38,20 @@ class User(AbstractUser):
     
     phone = models.CharField(max_length=20, blank=True, null=True)
     
+    # Champs pour l'authentification Google OAuth2
+    google_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        unique=True,
+        help_text="Identifiant Google unique de l'utilisateur"
+    )
+    
+    is_email_verified = models.BooleanField(
+        default=False,
+        help_text="Indique si l'email a été vérifié"
+    )
+    
     # Champs pour le système d'approbation des pharmacies
     approval_status = models.CharField(
         max_length=20,

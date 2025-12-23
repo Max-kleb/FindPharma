@@ -29,6 +29,7 @@ from .pharmacy_registration_views import (
     RejectPharmacyView,
     pharmacy_registration_stats,
 )
+from .google_auth import google_auth
 
 app_name = 'users'
 
@@ -46,6 +47,9 @@ urlpatterns = [
     path('send-verification-code/', send_verification_code, name='send-verification-code'),
     path('verify-code/', verify_email_code, name='verify-code'),
     path('resend-verification-code/', resend_verification_code, name='resend-verification-code'),
+    
+    # Google OAuth2 authentication
+    path('google/', google_auth, name='google-auth'),
     
     # User profile endpoints
     path('profile/', UserProfileView.as_view(), name='profile'),

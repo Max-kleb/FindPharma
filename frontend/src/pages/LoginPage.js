@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../services/api';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 import { useTranslation } from 'react-i18next';
 import './LoginPage.css';
 
@@ -12,6 +13,31 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { t } = useTranslation();
+
+  // Callback pour Google Sign-In réussi
+  const handleGoogleSuccess = (data) => {
+    console.log('✅ Google login success:', data);
+    
+    // Sauvegarder les tokens
+    if (data.tokens) {
+      localStorage.setItem('token', data.tokens.access);
+      localStorage.setItem('refreshToken', data.tokens.refresh);
+    }
+    
+    // Sauvegarder les infos utilisateur
+    if (data.user) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+    }
+    
+    // Rediriger vers la page d'accueil et recharger
+    navigate('/');
+    window.location.reload();
+  };
+
+  const handleGoogleError = (error) => {
+    console.error('❌ Google login error:', error);
+    setError(error || 'Erreur de connexion avec Google');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,6 +129,17 @@ function LoginPage() {
         )}
 
         <form onSubmit={handleSubmit} className="login-form">
+          {/* Bouton Google Sign-In */}
+          <GoogleSignInButton 
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            buttonText={t('auth.continueWithGoogle', 'Continuer avec Google')}
+          />
+
+          <div className="auth-divider">
+            <span>{t('common.or', 'ou')}</span>
+          </div>
+
           <div className="form-group">
             <label htmlFor="username">
               <span className="label-icon">👤</span>

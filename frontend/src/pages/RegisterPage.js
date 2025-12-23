@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register, sendVerificationCode } from '../services/api';
 import EmailVerificationModal from '../EmailVerificationModal'; // Correct path
+import GoogleSignInButton from '../components/GoogleSignInButton';
 import { useTranslation } from 'react-i18next';
 import './RegisterPage.css';
 
@@ -21,6 +22,17 @@ function RegisterPage() {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [devCode, setDevCode] = useState(null); // Code de dev pour affichage direct
+
+  // Callback pour Google Sign-In réussi
+  const handleGoogleSuccess = (data) => {
+    console.log('✅ Google login success:', data);
+    navigate('/'); // Rediriger vers la page d'accueil
+  };
+
+  const handleGoogleError = (error) => {
+    console.error('❌ Google login error:', error);
+    setError(error || 'Erreur de connexion avec Google');
+  };
 
   // Étape 1 : Vérifier l'email d'abord
   const handleSubmit = async (e) => {
@@ -159,6 +171,17 @@ function RegisterPage() {
             <span className="label-icon">👤</span>
             {t('register.customerSectionTitle', 'Inscription Client')}
           </h3>
+
+          {/* Bouton Google Sign-In */}
+          <GoogleSignInButton 
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            buttonText={t('register.continueWithGoogle', 'Continuer avec Google')}
+          />
+
+          <div className="auth-divider">
+            <span>{t('common.or', 'ou')}</span>
+          </div>
 
           <div className="form-group">
             <label htmlFor="username">
